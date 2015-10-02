@@ -54,15 +54,7 @@
 	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-jdbc.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/tomcat-util.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 7.0/lib/websocket-api.jar"/>
-	<classpathentry kind="lib" path="C:/Users/bharadwaj/Downloads/jstl-1.2.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/bharadwaj/Downloads/com.mysql.jdbc_5.1.5.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/com.mysql.jdbc_5.1.5.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jstl-1.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
