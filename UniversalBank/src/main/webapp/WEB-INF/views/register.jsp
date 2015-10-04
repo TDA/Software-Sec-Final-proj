@@ -21,6 +21,10 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
+	
+	<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap-select.min.css"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link
@@ -126,8 +130,9 @@ body {
 										<br />
 										<br />
 										<b>Account Type:</b>
+										<FONT color="red"><form:errors path="accountType" /></FONT>
 										<br />
-										<select name="accountType">
+										<select class="selectpicker form-control" name="accountType">
 											<option value="">Select</option>
 											<option value="Individual">Individual</option>
 											<option value="Merchant">Merchant</option>
@@ -183,6 +188,9 @@ body {
 	<!-- Bootstrap Core JavaScript -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 
 </body>
 
