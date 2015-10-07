@@ -69,9 +69,15 @@
 			<br> 
 			<a href="register" class="btn btn-dark btn-lg">Sign Up</a>&nbsp;&nbsp;
 			<a href="#about" class="btn btn-dark btn-lg">&nbsp;&nbsp;Log in&nbsp;&nbsp; </a>
+			
+			<c:if test="${not empty error}">
+					<div class="error"><h2 style="color:red">${error}</h2></div>
+				</c:if>
 		</div>
 	</header>
 
+	
+	
 	<!-- About -->
 	<section id="about" class="about">
 		<div class="container">
@@ -96,9 +102,7 @@
 			<div class="row text-center">
 			<div class="col-lg-8 col-lg-offset-2">
 				<h2>Login</h2>
-				<c:if test="${not empty error}">
-					<div class="error">${error}</div>
-				</c:if>
+				
 				<c:if test="${not empty msg}">
 					<div class="msg">${msg}</div>
 				</c:if>

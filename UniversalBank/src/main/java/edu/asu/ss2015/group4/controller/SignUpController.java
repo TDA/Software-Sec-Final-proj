@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.service.MailingService;
 import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
@@ -53,9 +56,26 @@ public class SignUpController {
 				modelAndView.setViewName("register");
 			} else {
 				modelAndView.addObject("successMsg", error);
+
+				// Send email to user
+				sendEmailToUser(custInfo);
+
 				modelAndView.setViewName("register");
 			}
 			return modelAndView;
 		}
+	}
+
+	private void sendEmailToUser(UserInformation custInfo) {
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+
+		String message = "Dear " + custInfo.getFirstName() + " " + custInfo.getLastName()
+				+ ",\n\nThank you for registring with Universal Bank. Your account is currently pending approval. "
+				+ "You will be notified via email upon your account approval. \n\nOnce again Thank you for your business.\n\nUniversal Bank";
+
+		MailingService mm = (MailingService) context.getBean("mailingService");
+		mm.sendMail(mm.getFromAddress(), custInfo.getEmailAddress(), "Universal Bank - Registration Successful.",
+				message);
+
 	}
 }

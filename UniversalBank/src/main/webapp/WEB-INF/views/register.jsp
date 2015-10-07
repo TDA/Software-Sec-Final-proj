@@ -88,6 +88,12 @@ body {
 
 							<div class="panel-body">
 								<div id="morris-area-chart">
+								
+										<c:if test="${not empty successMsg}">
+											<h4>
+												${successMsg} <a href="index"> Click here to LogIn!</a>
+											</h4>
+										</c:if>
 									<form:form method="POST" action="register"
 										modelAttribute="registerForm" autocomplete="off">
 										<br />
@@ -160,11 +166,7 @@ body {
 												id="log_in" value="Register" />
 										</h4>
 
-										<c:if test="${not empty successMsg}">
-											<h4>
-												${successMsg} <a href="index"> Click here to LogIn!</a>
-											</h4>
-										</c:if>
+										
 									</form:form>
 								</div>
 							</div>

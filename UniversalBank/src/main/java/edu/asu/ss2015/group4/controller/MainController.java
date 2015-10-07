@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +29,7 @@ public class MainController {
 
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public ModelAndView indexPage(@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
+			HttpServletRequest request) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -53,9 +54,6 @@ public class MainController {
 			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
 
-		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
-		}
 		model.setViewName("index");
 
 		return model;
@@ -73,6 +71,8 @@ public class MainController {
 			error = exception.getMessage();
 		} else if (exception instanceof SessionAuthenticationException) {
 			error = exception.getMessage();
+		} else if (exception instanceof DisabledException) {
+			error = "Your account is in process of approval.";
 		} else {
 			error = "Invalid username and password!";
 		}
