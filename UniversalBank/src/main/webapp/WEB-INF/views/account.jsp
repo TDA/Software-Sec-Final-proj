@@ -31,7 +31,10 @@
 <body oncontextmenu="return false">
 	<sec:authorize access="hasRole('ROLE_USER')">
 		<h1>SUCCESSFUL LOGIN!!!</h1>
-	</sec:authorize>
+		</sec:authorize>
+		
+		<a href="${pageContext.request.contextPath}/transfer" >transfer</a>
+	
 </body>
 
 </html>

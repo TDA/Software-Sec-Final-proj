@@ -39,7 +39,7 @@ public class AccountController {
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
 			System.out.println(loggedInUser);
-
+			
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
