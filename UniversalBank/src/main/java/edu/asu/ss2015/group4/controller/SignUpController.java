@@ -58,6 +58,7 @@ public class SignUpController {
         	String invalidCaptcha = "Captcha Not Matched ,Please Try Again";
         	modelAndView.addObject("errorMsg", invalidCaptcha);
 			modelAndView.setViewName("register");
+			return modelAndView;
         }
 		
 		if (result.hasErrors()) {
