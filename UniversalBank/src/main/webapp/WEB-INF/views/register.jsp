@@ -14,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <title>Universal Bank Sign Up page</title>
 
@@ -161,10 +162,15 @@ body {
 										<br />
 
 										<br />
+										
+										<div class="g-recaptcha" data-sitekey="6LeEgw4TAAAAADc61x3-K3YTvtsq3ajLtstzmEMd">
+										</div>
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="login"
 												id="log_in" value="Register" />
 										</h4>
+										
+										
 
 										
 									</form:form>
