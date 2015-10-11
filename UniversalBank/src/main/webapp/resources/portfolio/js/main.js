@@ -11,8 +11,8 @@ $(document)
 						$("#sidebar-wrapper").toggleClass("active");
 					});
 
-					var elem = '&nbsp;<a href="register" class="customer btn btn-dark btn-lg">Customer</a>&nbsp;&nbsp;'
-							+ '<a href="register" class="employee btn btn-dark btn-lg">Employee</a>';
+					var elem = '&nbsp;<a href="register?customer" class="btn btn-dark btn-lg">Customer</a>&nbsp;&nbsp;'
+							+ '<a href="register?employee" class="btn btn-dark btn-lg">Employee</a>';
 
 					$('#meddelanden').popover({
 						animation : true,

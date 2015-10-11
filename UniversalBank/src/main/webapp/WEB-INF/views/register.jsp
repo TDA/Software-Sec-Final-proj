@@ -142,12 +142,10 @@ body {
 										<select class="selectpicker form-control" name="accountType">
 											<option value="">Select</option>
 
-											<c:forEach items="${databaseList}" var="databaseValue">
-												<option value="${databaseValue}">${databaseValue}</option>
-											</c:forEach>
 
-											<option value="Individual">Individual</option>
-											<option value="Merchant">Merchant</option>
+											<c:forEach var="listValue" items="${myList}">
+												<option value="">${listValue}</option>
+											</c:forEach>
 										</select>
 										<br />
 										<br />

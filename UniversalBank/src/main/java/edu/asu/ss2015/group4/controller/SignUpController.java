@@ -2,6 +2,7 @@ package edu.asu.ss2015.group4.controller;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,12 +30,31 @@ public class SignUpController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView registrationForm() {
+	public ModelAndView registrationForm(HttpServletRequest request) {
 		UserInformation custInfo = new UserInformation();
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("customer", custInfo);
 
-		modelAndView.setViewName("register");
+		String uri = request.getQueryString();
+
+		if (uri == null || uri.isEmpty()) {
+			modelAndView.setViewName("forward:/index");
+		} else {
+
+			ArrayList<String> databaseArrayList = new ArrayList<String>();
+			if (uri.toString().equals("customer")) {
+				databaseArrayList.add("Individual");
+				databaseArrayList.add("Merchant");
+			} else {
+				databaseArrayList.add("Clerk");
+				databaseArrayList.add("Manager");
+			}
+			modelAndView.addObject("myList", databaseArrayList);
+
+			System.out.println(uri.toString());
+			modelAndView.setViewName("register");
+
+		}
 		return modelAndView;
 	}
 
