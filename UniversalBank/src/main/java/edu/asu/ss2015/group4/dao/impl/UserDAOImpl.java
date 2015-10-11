@@ -61,9 +61,8 @@ public class UserDAOImpl implements UserDAO {
 			default:
 				user_role = "ROLE_INVALID";
 			}
-			if (userInfo.getAccountType().equals("Individual"))
-				jdbcTemplateForUserRoles.update(insertIntoUserRolesTable,
-						new Object[] { userInfo.getUserName(), user_role });
+			jdbcTemplateForUserRoles.update(insertIntoUserRolesTable,
+					new Object[] { userInfo.getUserName(), user_role });
 		}
 
 		return "Registration Completed! <br/> Please check you email for account approval notification!";
