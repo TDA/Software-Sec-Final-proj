@@ -53,7 +53,7 @@ public class UserDAOImpl implements UserDAO {
 				user_role = "ROLE_MERCHANT";
 				break;
 			case "Clerk":
-				user_role = "ROLE_EMPLOYEE";
+				user_role = "ROLE_CLERK";
 				break;
 			case "Manager":
 				user_role = "ROLE_MANAGER";
