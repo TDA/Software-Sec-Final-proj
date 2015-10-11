@@ -44,8 +44,26 @@ public class UserDAOImpl implements UserDAO {
 							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.getEmailAddress(),
 							userInfo.getSocialSecurityNumber() });
 
-			jdbcTemplateForUserRoles.update(insertIntoUserRolesTable,
-					new Object[] { userInfo.getUserName(), "ROLE_USER" });
+			String user_role = "";
+			switch (userInfo.getAccountType()) {
+			case "Individual":
+				user_role = "ROLE_CUSTOMER";
+				break;
+			case "Merchant":
+				user_role = "ROLE_MERCHANT";
+				break;
+			case "Clerk":
+				user_role = "ROLE_EMPLOYEE";
+				break;
+			case "Manager":
+				user_role = "ROLE_MANAGER";
+				break;
+			default:
+				user_role = "ROLE_INVALID";
+			}
+			if (userInfo.getAccountType().equals("Individual"))
+				jdbcTemplateForUserRoles.update(insertIntoUserRolesTable,
+						new Object[] { userInfo.getUserName(), user_role });
 		}
 
 		return "Registration Completed! <br/> Please check you email for account approval notification!";

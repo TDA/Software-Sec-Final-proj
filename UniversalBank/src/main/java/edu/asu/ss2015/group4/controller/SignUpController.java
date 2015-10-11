@@ -1,6 +1,5 @@
 package edu.asu.ss2015.group4.controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
@@ -47,20 +46,18 @@ public class SignUpController {
 		SignUpFormValidator.validateForm(custInfo, result);
 
 		System.out.println(result);
-		
-		
-		String gRecaptchaResponse = request
-                .getParameter("g-recaptcha-response");
-        System.out.println(gRecaptchaResponse);
-        boolean verify = ValidateCaptcha.validateCaptchaResponse(gRecaptchaResponse);
-		
-        if(!verify) {
-        	String invalidCaptcha = "Captcha Not Matched ,Please Try Again";
-        	modelAndView.addObject("errorMsg", invalidCaptcha);
+
+		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+		System.out.println(gRecaptchaResponse);
+		boolean verify = ValidateCaptcha.validateCaptchaResponse(gRecaptchaResponse);
+
+		if (!verify) {
+			String invalidCaptcha = "Captcha Not Matched ,Please Try Again";
+			modelAndView.addObject("errorMsg", invalidCaptcha);
 			modelAndView.setViewName("register");
 			return modelAndView;
-        }
-		
+		}
+
 		if (result.hasErrors()) {
 			modelAndView.setViewName("register"); // This prints errors
 			return modelAndView;

@@ -29,7 +29,7 @@
 
 </head>
 <body oncontextmenu="return false">
-	<sec:authorize access="hasRole('ROLE_USER')">
+	<sec:authorize access="hasRole('ROLE_CUSTOMER')">
 		<h1>SUCCESSFUL LOGIN!!!</h1>
 		</sec:authorize>
 		

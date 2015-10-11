@@ -69,7 +69,9 @@
 			<h1>Universal Bank</h1>
 			<h3>Software Security Group 4</h3>
 			<br> 
-			<a href="register" class="btn btn-dark btn-lg">Sign Up</a>&nbsp;&nbsp;
+			
+			<a href="#" class="btn btn-dark btn-lg" id="meddelanden" data-title="As a" data-toggle="clickover" data-placement="bottom">Sign Up</a> &nbsp;&nbsp;
+			
 			<a href="#login" class="btn btn-dark btn-lg">&nbsp;&nbsp;Log in&nbsp;&nbsp; </a>
 
 			<c:if test="${not empty error}">
