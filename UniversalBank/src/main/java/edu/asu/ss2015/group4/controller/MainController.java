@@ -36,7 +36,7 @@ public class MainController {
 
 			Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 			for (GrantedAuthority grantedAuthority : authorities) {
-				if (grantedAuthority.getAuthority().equals("ROLE_CUSTOMER")) {
+				if (grantedAuthority.getAuthority().equals("ROLE_INDIVIDUAL")) {
 					return new ModelAndView("forward:/account");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
 					return new ModelAndView("forward:/admin");

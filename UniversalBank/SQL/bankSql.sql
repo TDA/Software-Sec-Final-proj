@@ -31,5 +31,5 @@ INSERT INTO users
   VALUES ('kenilabc', '$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm', 'Kenil', 'Bhatt', 'Individual', 'fake@fake.com', '123456789', false);
 
 INSERT INTO user_roles (username, role)
-VALUES ('kenilabc', 'ROLE_CUSTOMER');
+VALUES ('kenilabc', 'ROLE_INDIVIDUAL');
   

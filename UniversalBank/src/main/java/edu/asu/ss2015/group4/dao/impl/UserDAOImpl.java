@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO {
 			String user_role = "";
 			switch (userInfo.getAccountType()) {
 			case "Individual":
-				user_role = "ROLE_CUSTOMER";
+				user_role = "ROLE_INDIVIDUAL";
 				break;
 			case "Merchant":
 				user_role = "ROLE_MERCHANT";
