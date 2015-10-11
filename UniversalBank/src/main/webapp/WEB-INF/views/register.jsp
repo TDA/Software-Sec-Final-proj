@@ -144,7 +144,7 @@ body {
 
 
 											<c:forEach var="listValue" items="${myList}">
-												<option value="">${listValue}</option>
+												<option value="${listValue}">${listValue}</option>
 											</c:forEach>
 										</select>
 										<br />
