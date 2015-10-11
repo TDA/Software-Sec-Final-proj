@@ -40,7 +40,6 @@ public class SuccessfulLoginHandler implements AuthenticationSuccessHandler {
 	 * Javadoc.
 	 */
 	protected String determineTargetUrl(Authentication auth) {
-		// usertype 1 : customer, 2 : Admin, 3 : Employee.
 		int usertype = 0;
 		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities) {
@@ -48,9 +47,8 @@ public class SuccessfulLoginHandler implements AuthenticationSuccessHandler {
 				usertype = 1;
 			} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
 				usertype = 2;
-			} else if (grantedAuthority.getAuthority().equals("ROLE_EMPLOYEE")) {
+			} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
 				usertype = 3;
-
 			}
 		}
 
@@ -59,7 +57,7 @@ public class SuccessfulLoginHandler implements AuthenticationSuccessHandler {
 		} else if (usertype == 2) {
 			return "/admin";
 		} else if (usertype == 3) {
-			return "/employee";
+			return "/manager";
 		} else {
 			throw new IllegalStateException();
 		}

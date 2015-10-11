@@ -26,11 +26,4 @@ CREATE TABLE user_roles (
   KEY fk_username_idx (username),
   CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
   
-
-INSERT INTO users 
-  VALUES ('kenilabc', '$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm', 'Kenil', 'Bhatt', 'Individual', 'fake@fake.com', '123456789', false);
-  
-
-INSERT INTO user_roles (username, role)
-VALUES ('kenilabc', 'ROLE_INDIVIDUAL');
   

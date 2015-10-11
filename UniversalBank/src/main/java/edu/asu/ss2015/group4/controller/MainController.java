@@ -40,8 +40,8 @@ public class MainController {
 					return new ModelAndView("forward:/account");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
 					return new ModelAndView("forward:/admin");
-				} else if (grantedAuthority.getAuthority().equals("ROLE_EMPLOYEE")) {
-					return new ModelAndView("forward:/employee");
+				} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
+					return new ModelAndView("forward:/manager");
 
 				}
 			}
@@ -95,6 +95,15 @@ public class MainController {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("welcomeAdmin");
+
+		return model;
+	}
+
+	@RequestMapping(value = "/manager", method = RequestMethod.GET)
+	public ModelAndView managerPage() {
+
+		ModelAndView model = new ModelAndView();
+		model.setViewName("welcomeManager");
 
 		return model;
 	}
