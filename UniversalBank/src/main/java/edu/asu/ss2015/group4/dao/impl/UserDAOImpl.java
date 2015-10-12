@@ -89,4 +89,24 @@ public class UserDAOImpl implements UserDAO {
 		return customerInformationToDisplay;
 	}
 
+	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email "
+				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') AND users.enabled=false";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+
+	public boolean enableExternalUserAccount(String username) {
+		String sql = "UPDATE users set enabled = true where enabled = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -174,10 +174,6 @@ body {
 											<input type="submit" style="margin-right: 5%" name="login"
 												id="log_in" value="Register" />
 										</h4>
-
-
-
-
 									</form:form>
 								</div>
 							</div>

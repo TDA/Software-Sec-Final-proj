@@ -13,4 +13,7 @@ public interface UserService {
 
 	public List<UserInformationDTO> fetchUserDetails(String usernameSearch);
 
+	public List<UserInformationDTO> fetchDisabledExternalUserDetails();
+
+	public boolean activateExternalUserAccount(String username);
 }

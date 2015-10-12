@@ -99,24 +99,6 @@ public class MainController {
 		return model;
 	}
 
-	@RequestMapping(value = "/manager", method = RequestMethod.GET)
-	public ModelAndView managerPage() {
-
-		ModelAndView model = new ModelAndView();
-		model.setViewName("welcomeManager");
-
-		return model;
-	}
-
-	@RequestMapping(value = "/employee", method = RequestMethod.GET)
-	public ModelAndView employeePage() {
-
-		ModelAndView model = new ModelAndView();
-		model.setViewName("welcomeInternal");
-
-		return model;
-	}
-
 	// for 403 access denied page
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accessDenied() {
@@ -133,13 +115,6 @@ public class MainController {
 		}
 		model.setViewName("permission-denied");
 		return model;
-	}
-
-	@RequestMapping(value = "/addUser", method = RequestMethod.GET)
-	public ModelAndView returnAddUserPage() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("addUser");
-		return modelAndView;
 	}
 
 }

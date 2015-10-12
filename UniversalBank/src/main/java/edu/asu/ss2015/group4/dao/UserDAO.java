@@ -13,4 +13,8 @@ public interface UserDAO {
 
 	public List<UserInformationDTO> retrieveUserDetails(String username);
 
+	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts();
+
+	public boolean enableExternalUserAccount(String username);
+
 }
