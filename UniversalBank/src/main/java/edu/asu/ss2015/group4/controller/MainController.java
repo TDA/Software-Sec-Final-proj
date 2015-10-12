@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -73,7 +74,10 @@ public class MainController {
 			error = exception.getMessage();
 		} else if (exception instanceof DisabledException) {
 			error = "Your account is in process of approval.";
+		} else if (exception instanceof AccountExpiredException) {
+			error = "Your account is locked. <a href=\"unlockAccount\">Plese click here to unlock.</a>";
 		} else {
+
 			error = "Invalid username and password!";
 		}
 
@@ -87,6 +91,14 @@ public class MainController {
 		model.addObject("title", "You should not be landing here");
 		model.addObject("message", "This is default page!");
 		model.setViewName("customer-home");
+		return model;
+	}
+
+	@RequestMapping(value = "/unlockAccount", method = RequestMethod.GET)
+	public ModelAndView unlockAccount() {
+
+		ModelAndView model = new ModelAndView();
+		model.setViewName("unlockAccount");
 		return model;
 	}
 

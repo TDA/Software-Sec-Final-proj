@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
 		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
-				+ " lastname, AccountType, enabled, email, SSN) VALUES (?,?,?,?,?,?,?,?)";
+				+ " lastname, AccountType, enabled, userLocked,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?)";
 		String insertIntoUserRolesTable = "INSERT into user_roles (username, role) " + "VALUES (?,?)";
 
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
@@ -41,8 +41,8 @@ public class UserDAOImpl implements UserDAO {
 		} else {
 			jdbcTemplateForExternalUser.update(registerUserQuery,
 					new Object[] { userInfo.getUserName(), hash, userInfo.getFirstName(), userInfo.getLastName(),
-							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.getEmailAddress(),
-							userInfo.getSocialSecurityNumber() });
+							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.isUserLocked(),
+							userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
 
 			String user_role = "";
 			switch (userInfo.getAccountType()) {

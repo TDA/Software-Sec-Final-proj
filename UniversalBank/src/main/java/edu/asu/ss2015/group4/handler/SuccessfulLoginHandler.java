@@ -40,27 +40,25 @@ public class SuccessfulLoginHandler implements AuthenticationSuccessHandler {
 	 * Javadoc.
 	 */
 	protected String determineTargetUrl(Authentication auth) {
-		int usertype = 0;
 		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities) {
-			if (grantedAuthority.getAuthority().equals("ROLE_INDIVIDUAL")) {
-				usertype = 1;
-			} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-				usertype = 2;
-			} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
-				usertype = 3;
+
+			switch (grantedAuthority.getAuthority()) {
+			case "ROLE_INDIVIDUAL":
+				return "/account";
+			case "ROLE_MERCHANT":
+				return "/account";
+			case "ROLE_MANAGER":
+				return "/manager";
+			case "ROLE_CLERK":
+				return "/clerk";
+			case "ROLE_ADMIN":
+				return "/admin";
+			default:
+				throw new IllegalStateException();
 			}
 		}
-
-		if (usertype == 1) {
-			return "/account";
-		} else if (usertype == 2) {
-			return "/admin";
-		} else if (usertype == 3) {
-			return "/manager";
-		} else {
-			throw new IllegalStateException();
-		}
+		throw new IllegalStateException();
 	}
 
 	protected void clearAuthenticationAttributesFromMemory(HttpServletRequest request) {

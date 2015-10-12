@@ -25,6 +25,15 @@ public class UserInformation {
 	@Size(min = 9, max = 9, message = "Enter a valid SSN Number")
 	private String socialSecurityNumber;
 	private boolean enabled;
+	private boolean userLocked;
+
+	public boolean isUserLocked() {
+		return userLocked;
+	}
+
+	public void setUserLocked(boolean userLocked) {
+		this.userLocked = userLocked;
+	}
 
 	public String getUserName() {
 		return userName;
