@@ -109,4 +109,14 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 	}
 
+	public boolean unlockExternalUserAccount(String username) {
+		String sql = "UPDATE users set userLocked = true where userLocked = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+
 }

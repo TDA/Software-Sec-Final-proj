@@ -83,7 +83,8 @@ public class ManagerController {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 
 		String message = "Congratulations " + custInfo.getFirstName() + " " + custInfo.getLastName()
-				+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. "
+				+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
+				+ "http://localhost:8083/UniversalBankingSystem/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 
 		MailingService mm = (MailingService) context.getBean("mailingService");

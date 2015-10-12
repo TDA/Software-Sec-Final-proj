@@ -17,4 +17,6 @@ public interface UserDAO {
 
 	public boolean enableExternalUserAccount(String username);
 
+	public boolean unlockExternalUserAccount(String username);
+
 }

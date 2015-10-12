@@ -31,4 +31,8 @@ public class UserServiceImpl implements UserService {
 	public boolean activateExternalUserAccount(String username) {
 		return userDAO.enableExternalUserAccount(username);
 	}
+
+	public boolean unlockExternalUserAccount(String username) {
+		return userDAO.unlockExternalUserAccount(username);
+	}
 }

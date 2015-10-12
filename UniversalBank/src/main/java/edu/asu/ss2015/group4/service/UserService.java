@@ -16,4 +16,6 @@ public interface UserService {
 	public List<UserInformationDTO> fetchDisabledExternalUserDetails();
 
 	public boolean activateExternalUserAccount(String username);
+
+	public boolean unlockExternalUserAccount(String username);
 }
