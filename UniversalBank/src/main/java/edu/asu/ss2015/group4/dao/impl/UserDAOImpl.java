@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
 		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
-				+ " lastname, AccountType, enabled, email, SSN) VALUES (?,?,?,?,?,?,?,?)";
+				+ " lastname, AccountType, enabled, userLocked,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?)";
 		String insertIntoUserRolesTable = "INSERT into user_roles (username, role) " + "VALUES (?,?)";
 
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
@@ -41,11 +41,28 @@ public class UserDAOImpl implements UserDAO {
 		} else {
 			jdbcTemplateForExternalUser.update(registerUserQuery,
 					new Object[] { userInfo.getUserName(), hash, userInfo.getFirstName(), userInfo.getLastName(),
-							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.getEmailAddress(),
-							userInfo.getSocialSecurityNumber() });
+							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.isUserLocked(),
+							userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
 
+			String user_role = "";
+			switch (userInfo.getAccountType()) {
+			case "Individual":
+				user_role = "ROLE_INDIVIDUAL";
+				break;
+			case "Merchant":
+				user_role = "ROLE_MERCHANT";
+				break;
+			case "Clerk":
+				user_role = "ROLE_CLERK";
+				break;
+			case "Manager":
+				user_role = "ROLE_MANAGER";
+				break;
+			default:
+				user_role = "ROLE_INVALID";
+			}
 			jdbcTemplateForUserRoles.update(insertIntoUserRolesTable,
-					new Object[] { userInfo.getUserName(), "ROLE_USER" });
+					new Object[] { userInfo.getUserName(), user_role });
 		}
 
 		return "Registration Completed! <br/> Please check you email for account approval notification!";
@@ -70,6 +87,36 @@ public class UserDAOImpl implements UserDAO {
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username },
 				new UserTableRows());
 		return customerInformationToDisplay;
+	}
+
+	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email "
+				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') AND users.enabled=false";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+
+	public boolean enableExternalUserAccount(String username) {
+		String sql = "UPDATE users set enabled = true where enabled = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean unlockExternalUserAccount(String username) {
+		String sql = "UPDATE users set userLocked = true where userLocked = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
 	}
 
 }

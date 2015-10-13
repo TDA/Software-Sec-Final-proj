@@ -17,10 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.service.UserService;
 
-/*
- * ExternalUserController: accountSummary.jsp
- */
-
 @Controller
 @SessionAttributes("userName")
 public class AccountController {
@@ -39,7 +35,7 @@ public class AccountController {
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
 			System.out.println(loggedInUser);
-			
+
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
