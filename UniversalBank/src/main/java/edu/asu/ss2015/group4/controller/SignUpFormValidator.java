@@ -74,11 +74,11 @@ public class SignUpFormValidator {
 		Pattern p = Pattern.compile("[!@#${},%^&*+_.-]");
 		Matcher match = p.matcher(pass.subSequence(0, pass.length()));
 		Matcher match_1 = p.matcher(userName.subSequence(0, userName.length()));
-		if (pass.length() < 6 || pass.length() > 15 || number <= 0 || count <= 0 || match.find() == false
-				|| userName.length() > 10 || userName.length() == 0 || match_1.find() == true) {
-			errors.rejectValue("userName", "matchingPassword.UserInformation.username",
-					"User Name or Password is invalid!");
-		}
+//		if (pass.length() < 6 || pass.length() > 15 || number <= 0 || count <= 0 || match.find() == false
+//				|| userName.length() > 10 || userName.length() == 0 || match_1.find() == true) {
+//			errors.rejectValue("userName", "matchingPassword.UserInformation.username",
+//					"User Name or Password is invalid!");
+//		}
 
 		if (!(cinfo.getPassword()).equals(cinfo.getConfirmPassword())) {
 			errors.rejectValue("password", "matchingPassword.UserInformation.password",

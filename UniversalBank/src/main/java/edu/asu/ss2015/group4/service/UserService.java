@@ -13,4 +13,5 @@ public interface UserService {
 
 	public List<UserInformationDTO> fetchUserDetails(String usernameSearch);
 
+	public String EditInformation(UserInformation addInfo) throws NoSuchAlgorithmException, FileNotFoundException;
 }

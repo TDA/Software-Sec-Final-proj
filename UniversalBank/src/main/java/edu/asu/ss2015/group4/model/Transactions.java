@@ -5,54 +5,78 @@ import java.security.Timestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class Transactions {
-@NotEmpty(message = "id cannot be empty")
-private int customer_id;
-@NotEmpty(message = "id cannot be empty")
-private int merchant_id;
-@NotEmpty(message = "Amount cant be zero or negative ")
+
+private int transactionId;
+private String transactionType;
 private float amount;
-@NotEmpty(message = "id cannot be empty")
-private int transaction_id;
-@NotEmpty(message = "id cannot be empty")
-private String transaction_type;
-private Timestamp timestamp;
+private String transactionStartUser;
+private String transactionStartAccountID;
+private String transactionEndUser;
+private String transactionEndAccountID;
+private String authorizedManagerID;
+private Timestamp transactionTime;
+private boolean approved;
 
 
-public int getCustomer_id() {
-	return customer_id;
+public int getTransactionId() {
+	return transactionId;
 }
-public void setCustomer_id(int customer_id) {
-	this.customer_id = customer_id;
+public void setTransactionId(int transactionId) {
+	this.transactionId = transactionId;
 }
-public int getMerchant_id() {
-	return merchant_id;
+public String getTransactionType() {
+	return transactionType;
 }
-public void setMerchant_id(int merchant_id) {
-	this.merchant_id = merchant_id;
+public void setTransactionType(String transactionType) {
+	this.transactionType = transactionType;
 }
 public float getAmount() {
 	return amount;
 }
-public void setAmount(int amount) {
+public void setAmount(float amount) {
 	this.amount = amount;
 }
-public int getTransaction_id() {
-	return transaction_id;
+public String getTransactionStartUser() {
+	return transactionStartUser;
 }
-public void setTransaction_id(int transaction_id) {
-	this.transaction_id = transaction_id;
+public void setTransactionStartUser(String transactionStartUser) {
+	this.transactionStartUser = transactionStartUser;
 }
-public String getTransaction_type() {
-	return transaction_type;
+public String getTransactionStartAccountID() {
+	return transactionStartAccountID;
 }
-public void setTransaction_type(String transaction_type) {
-	this.transaction_type = transaction_type;
+public void setTransactionStartAccountID(String transactionStartAccountID) {
+	this.transactionStartAccountID = transactionStartAccountID;
 }
-public Timestamp getTimestamp() {
-	return timestamp;
+public String getTransactionEndUser() {
+	return transactionEndUser;
 }
-public void setTimestamp(Timestamp timestamp) {
-	this.timestamp = timestamp;
+public void setTransactionEndUser(String transactionEndUser) {
+	this.transactionEndUser = transactionEndUser;
+}
+public String getTransactionEndAccountID() {
+	return transactionEndAccountID;
+}
+public void setTransactionEndAccountID(String transactionEndAccountID) {
+	this.transactionEndAccountID = transactionEndAccountID;
+}
+public String getAuthorizedManagerID() {
+	return authorizedManagerID;
+}
+public void setAuthorizedManagerID(String authorizedManagerID) {
+	this.authorizedManagerID = authorizedManagerID;
+}
+public Timestamp getTransactionTime() {
+	return transactionTime;
+}
+public void setTransactionTime(Timestamp transactionTime) {
+	this.transactionTime = transactionTime;
+}
+public boolean isApproved() {
+	return approved;
+}
+public void setApproved(boolean approved) {
+	this.approved = approved;
 }
 
 }

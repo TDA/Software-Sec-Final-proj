@@ -16,11 +16,16 @@ public class Transactioninsert implements ResultSetExtractor<TransactionDTO> {
 
 		TransactionDTO transacDTO = new TransactionDTO();
 
-		transacDTO.setAmount(resultSet.getFloat(4));
-		transacDTO.setCustomer_id(resultSet.getInt(2));
-		transacDTO.setMerchant_id(resultSet.getInt(3));
-		transacDTO.setTransaction_id(resultSet.getInt(1));
-		transacDTO.setTimestamp(resultSet.getTimestamp(5));
+		transacDTO.setTransactionID(resultSet.getInt(1));
+		transacDTO.setTransactionType(resultSet.getString(2));
+		transacDTO.setAmount(resultSet.getFloat(3));
+		transacDTO.setTransactionStartUser(resultSet.getString(4));
+		transacDTO.setTransactionStartAccountID(resultSet.getString(5));
+		transacDTO.setTransactionEndUser(resultSet.getString(6));
+		transacDTO.setTransactionEndAccountID(resultSet.getString(7));
+		transacDTO.setAuthorizedManagerID(resultSet.getString(8));
+		transacDTO.setTransactionTime(resultSet.getTimestamp(9));
+		transacDTO.setApproved(false);
 		return transacDTO;
 
 		

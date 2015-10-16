@@ -23,4 +23,9 @@ public class UserServiceImpl implements UserService {
 	public List<UserInformationDTO> fetchUserDetails(String usernameSearch) {
 		return userDAO.retrieveUserDetails(usernameSearch);
 	}
+	
+	public String EditInformation(UserInformation addInfo)
+			throws NoSuchAlgorithmException, FileNotFoundException {
+		return userDAO.EditUser(addInfo);
+	}
 }

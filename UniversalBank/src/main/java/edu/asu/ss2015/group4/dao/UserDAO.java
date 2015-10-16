@@ -10,7 +10,7 @@ import edu.asu.ss2015.group4.model.UserInformation;
 public interface UserDAO {
 
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException, NoSuchAlgorithmException;
-
 	public List<UserInformationDTO> retrieveUserDetails(String username);
+	public String EditUser(UserInformation userInfo) throws FileNotFoundException, NoSuchAlgorithmException;
 
 }
