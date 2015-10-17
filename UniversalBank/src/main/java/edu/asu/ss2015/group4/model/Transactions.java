@@ -1,21 +1,20 @@
 package edu.asu.ss2015.group4.model;
 
-import java.security.Timestamp;
-
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class Transactions {
-@NotEmpty(message = "id cannot be empty")
+
+
 private int customer_id;
-@NotEmpty(message = "id cannot be empty")
-private int merchant_id;
-@NotEmpty(message = "Amount cant be zero or negative ")
+private String merchant_id;
+@NotNull(message="enter a number")
 private float amount;
-@NotEmpty(message = "id cannot be empty")
-private int transaction_id;
-@NotEmpty(message = "id cannot be empty")
+private float balance;
 private String transaction_type;
-private Timestamp timestamp;
+
 
 
 public int getCustomer_id() {
@@ -24,10 +23,10 @@ public int getCustomer_id() {
 public void setCustomer_id(int customer_id) {
 	this.customer_id = customer_id;
 }
-public int getMerchant_id() {
+public String getMerchant_id() {
 	return merchant_id;
 }
-public void setMerchant_id(int merchant_id) {
+public void setMerchant_id(String merchant_id) {
 	this.merchant_id = merchant_id;
 }
 public float getAmount() {
@@ -36,11 +35,11 @@ public float getAmount() {
 public void setAmount(int amount) {
 	this.amount = amount;
 }
-public int getTransaction_id() {
-	return transaction_id;
+public float getBalance() {
+	return balance;
 }
-public void setTransaction_id(int transaction_id) {
-	this.transaction_id = transaction_id;
+public void setBalance(float balance) {
+	this.balance = balance;
 }
 public String getTransaction_type() {
 	return transaction_type;
@@ -48,11 +47,6 @@ public String getTransaction_type() {
 public void setTransaction_type(String transaction_type) {
 	this.transaction_type = transaction_type;
 }
-public Timestamp getTimestamp() {
-	return timestamp;
-}
-public void setTimestamp(Timestamp timestamp) {
-	this.timestamp = timestamp;
-}
+
 
 }

@@ -2,10 +2,12 @@ package edu.asu.ss2015.group4.service.impl;
 
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.asu.ss2015.group4.dao.TransactionDAO;
+import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.service.TransactionService;
 
@@ -15,9 +17,23 @@ public class TransactionServiceImpl
 	@Autowired
 	TransactionDAO transac ;
 
-	public String insertUserTransaction(Transactions transaction)
-			throws NoSuchAlgorithmException, FileNotFoundException {
+	public String insertUserTransaction(Transactions transaction) {
 		// TODO Auto-generated method stub
-		return null;
+		transac.insert(transaction);
+		return "Successininsert";
+	}
+	public List<TransactionDTO> ViewUserInfo(String Username) {
+		// TODO Auto-generated method stub
+		return transac.view(Username);
+	}
+	public String DebitUser(Transactions transaction) {
+		// TODO Auto-generated method stub
+		transac.Debit(transaction);
+		return "successful";
+	}
+	public String CreditUser(Transactions transaction) {
+		// TODO Auto-generated method stub
+		transac.Credit(transaction);
+		return "successful";
 	}
 }

@@ -5,8 +5,7 @@
 <%@ page import="net.tanesha.recaptcha.ReCaptchaFactory"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en"> 
 <head>
 
 <meta charset="utf-8">
@@ -18,18 +17,12 @@
 <title>Universal Bank Transfer page</title>
 
 <!-- Bootstrap Core CSS -->
-<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 	
-	<link
-	href="${pageContext.request.contextPath}/resources/css/bootstrap-select.min.css"
-	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/bootstrap-select.min.css"rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link
-	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"rel="stylesheet" type="text/css">
 <style>
 body {
 	padding-top: 70px;
@@ -85,39 +78,43 @@ body {
 												${successMsg} <a href="index"> Click here to LogIn!</a>
 											</h4>
 										</c:if>
-									<form:form method="POST" action="register"
-										modelAttribute="registerForm" autocomplete="off">
+									<form:form method="POST" action="transfer"
+										modelAttribute="transferForm" autocomplete="off">
 										<br />
 										<br />
 										<c:if test="${not empty errorMsg}">
 											<h3>${errorMsg}</h3>
 										</c:if>
-										<b>Transaction Id</b>
-										<FONT color="red"><form:errors path="transactionid" /></FONT>
-										<br />
-										<input type="text" name="transactionid" size="10" class="form-control" id="tran_id"
-											style="color: #999;" />
-										<br />
 										<br />
 										<b>Customer Id</b>
-										<FONT color="red"><form:errors path="Customerid" /></FONT>
+										<FONT color="red"></FONT>
 										<br />
-										<input type="text" name="customerid" size="10" class="form-control" id="cust_id"
+										<input type="text" name="customer_id" size="10" class="form-control" id="Customer_id"
 											style="color: #999;" />
 										<br />
 										<br />
 										<b>Merchant Id</b>
-										<FONT color="red"><form:errors path="merchantid" /></FONT>
+										<FONT color="red"></FONT>
 										<br />
-										<input type="text" name="merchantid" size="10" class="form-control" id="merchant"
+										<input type="text" name="merchant_id" size="10" class="form-control" id="merchant_id"
 											style="color: #999;" />
 										<br />
-										<br />
 										<b>Amount</b>
-										<FONT color="red"><form:errors path="amount" /></FONT>
+										<FONT color="red"></FONT>
 										<br />
 										<input type="text" name="amount" size="10" class="form-control" id="amount"
 											style="color: #999;" />
+										<br />
+										
+										<br />
+										<b>TransactionType</b>
+										<FONT color="red"></FONT>
+										<br />
+										<input type="radio" name="Transaction_type" value="Credit" size="10" class="form-control" id="Transaction_type"
+											style="color: #999;" />Credit
+						
+										<input type="radio" name="Transaction_type" value="Debit" size="10" class="form-control" id="Transaction_type"
+											style="color: #999;" />Debit
 										<br />
 										<br />
 										<b>Confirm Password:</b>
@@ -129,8 +126,8 @@ body {
 										
 										<br />
 										<h4>
-											<input type="submit" style="margin-right: 5%" name="login"
-												id="log_in" value="Register" />
+											<input type="submit" style="margin-right: 5%" name="Transfer"
+												id="transfer" value="Transfer" />
 										</h4>
 
 										

@@ -29,12 +29,15 @@
 
 </head>
 <body oncontextmenu="return false">
-	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
+	<sec:authorize access="hasRole('ROLE_USER')">
 		<h1>SUCCESSFUL LOGIN!!!</h1>
 		</sec:authorize>
 		
 		<a href="${pageContext.request.contextPath}/transfer" >transfer</a>
-	
+		<a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a>
+		<a href="${pageContext.request.contextPath}/Debit" >Debit</a>
+		<a href="${pageContext.request.contextPath}/Credit" >Credit</a>
+		<a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a>
 </body>
 
 </html>
