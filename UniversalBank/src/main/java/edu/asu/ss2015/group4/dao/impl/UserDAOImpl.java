@@ -1,7 +1,6 @@
 package edu.asu.ss2015.group4.dao.impl;
 
 import java.io.FileNotFoundException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +23,10 @@ public class UserDAOImpl implements UserDAO {
 
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
-		String registerUserQuery = "INSERT into users " + "(FirstName, LastName, userName, password,  email, SSN, Enabled) VALUES (?,?,?,?,?,?,?)";
-		String insertIntoUserRolesTable = "INSERT into user_roles (userName, role) " + "VALUES (?,?)";
-		System.out.println(registerUserQuery);
+		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
+				+ " lastname, AccountType, enabled, userLocked,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?)";
+		String insertIntoUserRolesTable = "INSERT into user_roles (username, role) " + "VALUES (?,?)";
+
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		JdbcTemplate jdbcTemplateForUserRoles = new JdbcTemplate(dataSource);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -40,11 +40,29 @@ public class UserDAOImpl implements UserDAO {
 			return "UserName, Email or SSN is already used!";
 		} else {
 			jdbcTemplateForExternalUser.update(registerUserQuery,
-					new Object[] {   userInfo.getFirstName(), userInfo.getLastName(),userInfo.getUserName(),hash,
-							 userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber(),userInfo.isEnabled() });
+					new Object[] { userInfo.getUserName(), hash, userInfo.getFirstName(), userInfo.getLastName(),
+							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.isUserLocked(),
+							userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
 
+			String user_role = "";
+			switch (userInfo.getAccountType()) {
+			case "Individual":
+				user_role = "ROLE_INDIVIDUAL";
+				break;
+			case "Merchant":
+				user_role = "ROLE_MERCHANT";
+				break;
+			case "Clerk":
+				user_role = "ROLE_CLERK";
+				break;
+			case "Manager":
+				user_role = "ROLE_MANAGER";
+				break;
+			default:
+				user_role = "ROLE_INVALID";
+			}
 			jdbcTemplateForUserRoles.update(insertIntoUserRolesTable,
-					new Object[] { userInfo.getUserName(), "ROLE_USER" });
+					new Object[] { userInfo.getUserName(), user_role });
 		}
 
 		return "Registration Completed! <br/> Please check you email for account approval notification!";
@@ -53,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
 	// Method for checking duplicate details
 	public List<CheckDuplicationDTO> checkDuplicateExternalUser(String username, String email, String SSN) {
 		List<CheckDuplicationDTO> duplicateCheckDetails = new ArrayList<CheckDuplicationDTO>();
-		String getDuplicateDetailsQuery = "SELECT users.UserName, users.Email, users.SSN from users where users.UserName=? OR users.Email=? OR users.SSN=?";
+		String getDuplicateDetailsQuery = "SELECT users.username, users.email, users.SSN from users where users.username=? OR users.email=? OR users.SSN=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		duplicateCheckDetails = jdbcTemplate.query(getDuplicateDetailsQuery, new Object[] { username, email, SSN },
 				new CheckDuplicationMapper());
@@ -71,23 +89,47 @@ public class UserDAOImpl implements UserDAO {
 		return customerInformationToDisplay;
 	}
 
+	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email "
+				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') AND users.enabled=false";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+
+	public boolean enableExternalUserAccount(String username) {
+		String sql = "UPDATE users set enabled = true where enabled = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean unlockExternalUserAccount(String username) {
+		String sql = "UPDATE users set userLocked = true where userLocked = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+
 	public String EditUser(UserInformation userInfo) throws FileNotFoundException {
-
-		String registerUserQuery = "Update users" + "SET username=?, firstname=?,"
-				+ " lastname=?,enabled=?, email=? where SSN=?";
+		System.out.println(userInfo.getUserName()+userInfo.getPassword()+  userInfo.getEmailAddress()+userInfo.getSocialSecurityNumber());
+		String registerUserQuery = "INSERT into user_requests (username,password,emailID,SSN) VALUES (?,?,?,?)";
 		//String insertIntoUserRolesTable = "Update user_roles SET username=? ";
-
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		//JdbcTemplate jdbcTemplateForUserRoles = new JdbcTemplate(dataSource);
-	
-		
-			jdbcTemplateForExternalUser.update(registerUserQuery,new Object[] { userInfo.getUserName(), userInfo.getFirstName(), userInfo.getLastName(),
-						userInfo.isEnabled(), userInfo.getEmailAddress(),userInfo.getSocialSecurityNumber()});
+		jdbcTemplateForExternalUser.update(registerUserQuery,new Object[] { userInfo.getUserName(),userInfo.getPassword(),  userInfo.getEmailAddress(),userInfo.getSocialSecurityNumber()});
 
 		
 
 		return "Registration Completed! <br/> Please check you email for account approval notification!";
-	}
 
-
+}
 }

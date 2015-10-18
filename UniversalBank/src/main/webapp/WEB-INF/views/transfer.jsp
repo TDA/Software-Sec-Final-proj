@@ -64,7 +64,7 @@ body {
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">
+									<h3 class="panel-title">
 									<i class="fa fa-bar-chart-o fa-fw"></i> Enter your information
 									or <a href="index"><b>Log In</b></a>
 								</h3>
@@ -86,18 +86,12 @@ body {
 											<h3>${errorMsg}</h3>
 										</c:if>
 										<br />
-										<b>Customer Id</b>
+										<b>AccountId</b>
 										<FONT color="red"></FONT>
 										<br />
-										<input type="text" name="customer_id" size="10" class="form-control" id="Customer_id"
+										<input type="text" name="transactionAccountID" size="10" class="form-control" id="Customer_id"
 											style="color: #999;" />
 										<br />
-										<br />
-										<b>Merchant Id</b>
-										<FONT color="red"></FONT>
-										<br />
-										<input type="text" name="merchant_id" size="10" class="form-control" id="merchant_id"
-											style="color: #999;" />
 										<br />
 										<b>Amount</b>
 										<FONT color="red"></FONT>
@@ -107,23 +101,6 @@ body {
 										<br />
 										
 										<br />
-										<b>TransactionType</b>
-										<FONT color="red"></FONT>
-										<br />
-										<input type="radio" name="Transaction_type" value="Credit" size="10" class="form-control" id="Transaction_type"
-											style="color: #999;" />Credit
-						
-										<input type="radio" name="Transaction_type" value="Debit" size="10" class="form-control" id="Transaction_type"
-											style="color: #999;" />Debit
-										<br />
-										<br />
-										<b>Confirm Password:</b>
-										<br />
-										<input type="password" name="confirmPassword" size="10" class="form-control" id="cfrm_pwd"
-											style="color: #999;" />
-										<br />
-										<br />
-										
 										<br />
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Transfer"

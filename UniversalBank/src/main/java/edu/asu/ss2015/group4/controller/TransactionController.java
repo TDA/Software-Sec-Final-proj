@@ -44,16 +44,11 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-
 		modelAndView.addObject("transaction", transac);
-		System.out.println("to transfer");
-
 		modelAndView.setViewName("transfer");
-
 		return modelAndView;
 	}
-
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/transfer", method = RequestMethod.POST)
 	public ModelAndView transfer(@Valid @ModelAttribute("transferForm") Transactions transac, BindingResult result,
 			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
 		ModelAndView modelAndView = new ModelAndView();
@@ -63,7 +58,7 @@ public class TransactionController {
 			return modelAndView;
 		} else {
 			System.out.println("successtransac");
-			trans.insertUserTransaction(transac);
+			trans.TransferUser(transac);
 		}
 		modelAndView.setViewName("success");
 		return modelAndView;
@@ -87,9 +82,7 @@ public class TransactionController {
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-
 			System.out.println("to view");
-
 			modelAndView.setViewName("ViewTransactions");
 		}
 

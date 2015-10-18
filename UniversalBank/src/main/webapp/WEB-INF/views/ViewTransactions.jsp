@@ -34,19 +34,17 @@ th, td {
 </style>
     <table style="width:80%">
   			<tr>
-    			<th>Account Number</th>
-    			<th>Transferred to</th>		
-   				 <th>Amount Transferred($)</th>
-   				 <th>balance($)</th>
-   				 <th>Transaction Type</th>
-  </tr>
-        <c:forEach items="${userInformation}" var="employee">
+  				<th>Transaction ID</th>
+    			<th>Transaction Type</th>
+    			<th>Account ID</th>
+    			<th>Amount($)</th>		
+   				  </tr>
+        <c:forEach items="${userInformation}" var="transaction">
             <tr>
-                <td><c:out value="${employee.customer_id}" /></td>
-                <td><c:out value="${employee.merchant_id}" /></td>
-                <td><c:out value="${employee.amount}" /></td>
-                <td><c:out value="${employee.balance}" /></td>
-                <td><c:out value="${employee.transaction_type}" /></td>
+                <td><c:out value="${transaction.transactionID}" /></td>
+                <td><c:out value="${transaction.transactionType}" /></td>
+                <td><c:out value="${transaction.transactionAccountID}" /></td>
+                <td><c:out value="${transaction.amount}" /></td>
             </tr>
         </c:forEach>
 

@@ -94,32 +94,17 @@ body {
 												${successMsg} <a href="index"> Click here to LogIn!</a>
 											</h4>
 										</c:if>
-									<form:form method="POST" action="edit"
+									<form:form method="POST" action="DisplaySignUp"
 										modelAttribute="editForm" autocomplete="off">
 										<br />
 										<br />
 										<c:if test="${not empty errorMsg}">
 											<h3>${errorMsg}</h3>
 										</c:if>
-										<c:forEach items="${userInformation}" var="employee">
-										<b>First Name:</b>
-										<FONT color="red"><form:errors path="firstName" /></FONT>
-										<br />
-										<input type="text" name="firstName" value="${employee.firstName}" size="10" class="form-control" id="f_name"
-											style="color: #999;" />
-										<br />
-										<br />
-										<b>Last Name:</b>
-										<FONT color="red"><form:errors path="lastName" /></FONT>
-										<br />
-										<input type="text" name="lastName" value="${employee.lastName}" size="10" class="form-control" id="l_name"
-											style="color: #999;" />
-										<br />
-										<br />
 										<b>User Name:</b>
 										<FONT color="red"><form:errors path="userName" /></FONT>
 										<br />
-										<input type="text" name="userName" value="${employee.userName}" size="10" class="form-control" id="username"
+										<input type="text" name="userName"  size="10" class="form-control" id="username"
 											style="color: #999;" />
 										<br />
 										<br />
@@ -130,30 +115,24 @@ body {
 											style="color: #999;" />
 										<br />
 										<br />
-										<b>Confirm Password:</b>
-										<br />
-										<input type="password" name="confirmPassword" size="10" class="form-control" id="cfrm_pwd"
-											style="color: #999;" />
-										<br />
-										<br />
 										<b>Email Address:</b>
 										<br />
-										<input type="email" name="emailAddress" value="${employee.emailAddress}" size="10" class="form-control" id="email"
+										<input type="text" name="emailAddress"  size="10" class="form-control" id="email"
 											style="color: #999;" />
 										<br />
 										<br />
-										<b>Enter Your Original SSN for Confirmation</b>
-										<input type="socialSecurityNumber" name="socialSecurityNumber"  size="10" class="form-control"
+										<b>SSN</b>
+										<input type="text" name="socialSecurityNumber"  size="10" class="form-control"
 										 id="socialSecurityNumber"
 											style="color: #999;" />
 										<br />
 										
 										<br />
 										<h4>
-											<input type="submit" style="margin-right: 5%" name="Edit"
-												id="Edit" value="Edit" />
+											<input type="submit" style="margin-right: 5%" name="edit"
+												id="edit" value="edit" />
 										</h4>
-											</c:forEach>
+											
 									</form:form>
 								</div>
 							</div>

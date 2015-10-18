@@ -47,4 +47,10 @@ public class TransactionServiceImpl
 		return "successful";
 	}
 	
+	public String TransferUser(Transactions transaction) {
+		// TODO Auto-generated method stub
+		transac.Transfer(transaction);
+		return "successful";
+	}
+	
 }

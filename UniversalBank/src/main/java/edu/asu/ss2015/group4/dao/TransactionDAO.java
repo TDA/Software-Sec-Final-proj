@@ -11,4 +11,5 @@ public interface TransactionDAO {
 		public void Debit(Transactions transaction);
 		public void Credit(Transactions transaction);
 		public void MerchantPayment(Transactions transaction);
+		public void Transfer(Transactions transaction);
 }

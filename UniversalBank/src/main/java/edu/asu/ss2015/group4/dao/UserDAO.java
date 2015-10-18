@@ -11,6 +11,9 @@ public interface UserDAO {
 
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException, NoSuchAlgorithmException;
 	public List<UserInformationDTO> retrieveUserDetails(String username);
+	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts();
+	public boolean enableExternalUserAccount(String username);
+	public boolean unlockExternalUserAccount(String username);
 	public String EditUser(UserInformation userInfo) throws FileNotFoundException, NoSuchAlgorithmException;
 
 }

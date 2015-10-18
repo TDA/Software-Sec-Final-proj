@@ -33,6 +33,10 @@
 		<h1>SUCCESSFUL </h1>
 		</sec:authorize>
 		
+		
+		<br><a href="${pageContext.request.contextPath}/account" >return</a></br>
+		
+		
 	
 </body>
 

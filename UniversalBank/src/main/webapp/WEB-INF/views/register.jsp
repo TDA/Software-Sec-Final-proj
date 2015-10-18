@@ -22,8 +22,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
-	
-	<link
+
+<link
 	href="${pageContext.request.contextPath}/resources/css/bootstrap-select.min.css"
 	rel="stylesheet">
 
@@ -89,12 +89,12 @@ body {
 
 							<div class="panel-body">
 								<div id="morris-area-chart">
-								
-										<c:if test="${not empty successMsg}">
-											<h4>
-												${successMsg} <a href="index"> Click here to LogIn!</a>
-											</h4>
-										</c:if>
+
+									<c:if test="${not empty successMsg}">
+										<h4>
+											${successMsg} <a href="index"> Click here to LogIn!</a>
+										</h4>
+									</c:if>
 									<form:form method="POST" action="register"
 										modelAttribute="registerForm" autocomplete="off">
 										<br />
@@ -105,35 +105,35 @@ body {
 										<b>First Name:</b>
 										<FONT color="red"><form:errors path="firstName" /></FONT>
 										<br />
-										<input type="text" name="firstName" size="10" class="form-control" id="f_name"
-											style="color: #999;" />
+										<input type="text" name="firstName" size="10"
+											class="form-control" id="f_name" style="color: #999;" />
 										<br />
 										<br />
 										<b>Last Name:</b>
 										<FONT color="red"><form:errors path="lastName" /></FONT>
 										<br />
-										<input type="text" name="lastName"size="10" class="form-control" id="l_name"
-											style="color: #999;" />
+										<input type="text" name="lastName" size="10"
+											class="form-control" id="l_name" style="color: #999;" />
 										<br />
 										<br />
 										<b>User Name:</b>
 										<FONT color="red"><form:errors path="userName" /></FONT>
 										<br />
-										<input type="text" name="userName" size="10" class="form-control" id="username"
-											style="color: #999;" />
+										<input type="text" name="userName" size="10"
+											class="form-control" id="username" style="color: #999;" />
 										<br />
 										<br />
 										<b>Password:</b>
 										<FONT color="red"><form:errors path="password" /></FONT>
 										<br />
-										<input type="password" name="password" size="10" class="form-control" id="password"
-											style="color: #999;" />
+										<input type="password" name="password" size="10"
+											class="form-control" id="password" style="color: #999;" />
 										<br />
 										<br />
 										<b>Confirm Password:</b>
 										<br />
-										<input type="password" name="confirmPassword" size="10" class="form-control" id="cfrm_pwd"
-											style="color: #999;" />
+										<input type="password" name="confirmPassword" size="10"
+											class="form-control" id="cfrm_pwd" style="color: #999;" />
 										<br />
 										<br />
 										<b>Account Type:</b>
@@ -141,38 +141,39 @@ body {
 										<br />
 										<select class="selectpicker form-control" name="accountType">
 											<option value="">Select</option>
-											<option value="Individual">Individual</option>
-											<option value="Merchant">Merchant</option>
+
+
+											<c:forEach var="listValue" items="${myList}">
+												<option value="${listValue}">${listValue}</option>
+											</c:forEach>
 										</select>
 										<br />
 										<br />
 										<b>Email Address:</b>
 										<br />
-										<input type="email" name="emailAddress" size="10" class="form-control" id="email"
-											style="color: #999;" />
+										<input type="email" name="emailAddress" size="10"
+											class="form-control" id="email" style="color: #999;" />
 										<br />
 										<br />
 										<b>Social Security Number:</b>
 										<FONT color="red"><form:errors
 												path="socialSecurityNumber" /> </FONT>
 										<br />
-										<input type="text" value="" name="socialSecurityNumber" size="10" class="form-control"
-											id="socialSecurityNumber" style="color: #999;" />
+										<input type="text" value="" name="socialSecurityNumber"
+											size="10" class="form-control" id="socialSecurityNumber"
+											style="color: #999;" />
 										<br />
 										<br />
 
 										<br />
-										
-										<div class="g-recaptcha" data-sitekey="6LeEgw4TAAAAADc61x3-K3YTvtsq3ajLtstzmEMd">
+
+										<div class="g-recaptcha"
+											data-sitekey="6LeEgw4TAAAAADc61x3-K3YTvtsq3ajLtstzmEMd">
 										</div>
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="login"
 												id="log_in" value="Register" />
 										</h4>
-										
-										
-
-										
 									</form:form>
 								</div>
 							</div>
@@ -196,7 +197,7 @@ body {
 	<!-- Bootstrap Core JavaScript -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-		
+
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 

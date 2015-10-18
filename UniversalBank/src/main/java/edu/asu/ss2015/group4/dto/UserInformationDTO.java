@@ -7,7 +7,6 @@ public class UserInformationDTO {
 	private String accountType;
 	private String emailAddress;
 	private String socialSecurityNumber;
-	private boolean Enabled;
 
 	public String getUserName() {
 		return userName;
@@ -55,13 +54,5 @@ public class UserInformationDTO {
 
 	public void setSocialSecurityNumber(String socialSecurityNumber) {
 		this.socialSecurityNumber = socialSecurityNumber;
-	}
-
-	public boolean isEnabled() {
-		return Enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		Enabled = enabled;
 	}
 }

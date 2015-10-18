@@ -23,9 +23,22 @@ public class UserServiceImpl implements UserService {
 	public List<UserInformationDTO> fetchUserDetails(String usernameSearch) {
 		return userDAO.retrieveUserDetails(usernameSearch);
 	}
+
+	public List<UserInformationDTO> fetchDisabledExternalUserDetails() {
+		return userDAO.retrieveDisabledExternalUserAccounts();
+	}
+
+	public boolean activateExternalUserAccount(String username) {
+		return userDAO.enableExternalUserAccount(username);
+	}
+
+	public boolean unlockExternalUserAccount(String username) {
+		return userDAO.unlockExternalUserAccount(username);
+	}
 	
 	public String EditInformation(UserInformation addInfo)
 			throws NoSuchAlgorithmException, FileNotFoundException {
 		return userDAO.EditUser(addInfo);
 	}
+	
 }

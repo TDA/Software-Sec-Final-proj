@@ -15,6 +15,7 @@ public interface TransactionService {
 	public String DebitUser(Transactions transaction) ;
 	public String CreditUser(Transactions transaction) ;
 	public String MerchantPaymentUser(Transactions transaction);
+	public String TransferUser(Transactions transaction);
 
 
 }

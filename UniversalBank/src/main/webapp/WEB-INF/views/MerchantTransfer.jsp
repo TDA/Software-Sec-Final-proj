@@ -92,9 +92,9 @@ body {
 											<h3>${errorMsg}</h3>
 										</c:if>
 										<b>Customer UserID</b>
-										<FONT color="red"><form:errors path="transactionStartAccountID" /></FONT>
+										<FONT color="red"><form:errors path="transactionAccountID" /></FONT>
 										<br />
-										<input type="text" name="transactionStartAccountID" size="10" class="form-control" id="tran_id"
+										<input type="text" name="transactionAccountID" size="10" class="form-control" id="tran_id"
 											style="color: #999;" />
 										<br />
 										<br />

@@ -9,13 +9,12 @@ public class Transactions {
 private int transactionId;
 private String transactionType;
 private float amount;
-private String transactionStartUser;
-private String transactionStartAccountID;
-private String transactionEndUser;
-private String transactionEndAccountID;
+private String transactionAccountID;
 private String authorizedManagerID;
 private Timestamp transactionTime;
 private boolean approved;
+private Timestamp ApprovedTime;
+private String comments;
 
 
 public int getTransactionId() {
@@ -36,30 +35,6 @@ public float getAmount() {
 public void setAmount(float amount) {
 	this.amount = amount;
 }
-public String getTransactionStartUser() {
-	return transactionStartUser;
-}
-public void setTransactionStartUser(String transactionStartUser) {
-	this.transactionStartUser = transactionStartUser;
-}
-public String getTransactionStartAccountID() {
-	return transactionStartAccountID;
-}
-public void setTransactionStartAccountID(String transactionStartAccountID) {
-	this.transactionStartAccountID = transactionStartAccountID;
-}
-public String getTransactionEndUser() {
-	return transactionEndUser;
-}
-public void setTransactionEndUser(String transactionEndUser) {
-	this.transactionEndUser = transactionEndUser;
-}
-public String getTransactionEndAccountID() {
-	return transactionEndAccountID;
-}
-public void setTransactionEndAccountID(String transactionEndAccountID) {
-	this.transactionEndAccountID = transactionEndAccountID;
-}
 public String getAuthorizedManagerID() {
 	return authorizedManagerID;
 }
@@ -77,6 +52,24 @@ public boolean isApproved() {
 }
 public void setApproved(boolean approved) {
 	this.approved = approved;
+}
+public Timestamp getApprovedTime() {
+	return ApprovedTime;
+}
+public void setApprovedTime(Timestamp approvedTime) {
+	ApprovedTime = approvedTime;
+}
+public String getComments() {
+	return comments;
+}
+public void setComments(String comments) {
+	this.comments = comments;
+}
+public String getTransactionAccountID() {
+	return transactionAccountID;
+}
+public void setTransactionAccountID(String transactionAccountID) {
+	this.transactionAccountID = transactionAccountID;
 }
 
 }
