@@ -18,4 +18,6 @@ public interface UserService {
 	public boolean activateExternalUserAccount(String username);
 
 	public boolean unlockExternalUserAccount(String username);
+	
+	public void insertOTP(String otp,String otpValidity, String username);
 }

@@ -19,6 +19,8 @@ public class UserGenerator implements ResultSetExtractor<UserInformationDTO> {
 		userInfoDTO.setLastName(resultSet.getString(3));
 		userInfoDTO.setAccountType(resultSet.getString(4));
 		userInfoDTO.setEmailAddress(resultSet.getString(5));
+		userInfoDTO.setOTP(resultSet.getString(6));
+		userInfoDTO.setOtpValidity(resultSet.getString(7));
 
 		return userInfoDTO;
 	}

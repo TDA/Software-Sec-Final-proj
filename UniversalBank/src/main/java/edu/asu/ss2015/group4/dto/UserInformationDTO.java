@@ -7,7 +7,17 @@ public class UserInformationDTO {
 	private String accountType;
 	private String emailAddress;
 	private String socialSecurityNumber;
+	private String otp;
+	private String otpValidity;
 
+	public String getOTP() {
+		return otp;
+	}
+
+	public void setOTP(String otp) {
+		this.otp = otp;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -54,5 +64,13 @@ public class UserInformationDTO {
 
 	public void setSocialSecurityNumber(String socialSecurityNumber) {
 		this.socialSecurityNumber = socialSecurityNumber;
+	}
+
+	public String getOtpValidity() {
+		return otpValidity;
+	}
+
+	public void setOtpValidity(String otpValidity) {
+		this.otpValidity = otpValidity;
 	}
 }

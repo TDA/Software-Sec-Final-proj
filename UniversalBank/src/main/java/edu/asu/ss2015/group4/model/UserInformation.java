@@ -26,6 +26,8 @@ public class UserInformation {
 	private String socialSecurityNumber;
 	private boolean enabled;
 	private boolean userLocked;
+	private String otp="0";
+	private String otpValidity="0";
 
 	public boolean isUserLocked() {
 		return userLocked;
@@ -105,6 +107,22 @@ public class UserInformation {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getOTP() {
+		return otp;
+	}
+
+	public void setOTP(String otp) {
+		this.otp = otp;
+	}
+
+	public String getOtpValidity() {
+		return otpValidity;
+	}
+
+	public void setOtpValidity(String otpValidity) {
+		this.otpValidity = otpValidity;
 	}
 
 }

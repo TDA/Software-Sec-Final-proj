@@ -16,6 +16,7 @@ import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.jdbc.CheckDuplicationMapper;
 import edu.asu.ss2015.group4.jdbc.UserTableRows;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.controller.OTPGenerator;
 
 public class UserDAOImpl implements UserDAO {
 	@Autowired
@@ -24,9 +25,10 @@ public class UserDAOImpl implements UserDAO {
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
 		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
-				+ " lastname, AccountType, enabled, userLocked,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?)";
+				+ " lastname, AccountType, enabled, userLocked,  email, SSN, otp, otpValidity) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 		String insertIntoUserRolesTable = "INSERT into user_roles (username, role) " + "VALUES (?,?)";
-
+		System.out.println(userInfo.getOTP());
+		System.out.println(userInfo.getOtpValidity());
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		JdbcTemplate jdbcTemplateForUserRoles = new JdbcTemplate(dataSource);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -42,7 +44,7 @@ public class UserDAOImpl implements UserDAO {
 			jdbcTemplateForExternalUser.update(registerUserQuery,
 					new Object[] { userInfo.getUserName(), hash, userInfo.getFirstName(), userInfo.getLastName(),
 							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.isUserLocked(),
-							userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
+							userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber(), userInfo.getOTP(), userInfo.getOtpValidity() });
 
 			String user_role = "";
 			switch (userInfo.getAccountType()) {
@@ -67,6 +69,22 @@ public class UserDAOImpl implements UserDAO {
 
 		return "Registration Completed! <br/> Please check you email for account approval notification!";
 	}
+	
+	public void insertOTP(String otp, String otpValidity, String username){
+		String insertQuery = "UPDATE users SET otp = ?, otpValidity = ? WHERE username = ?";
+		JdbcTemplate jdbcTemplateForOTP = new JdbcTemplate(dataSource);
+		List<CheckDuplicationDTO> list1 = new ArrayList<CheckDuplicationDTO>();
+		list1 = checkDuplicateOTP(otp);
+		OTPGenerator OTP = new OTPGenerator();
+		while (list1.size() != 0){
+			int pwd = OTP.generateOTP();
+			list1 = new ArrayList<CheckDuplicationDTO>();
+			list1 = checkDuplicateOTP(Integer.toString(pwd));
+		}
+		
+		jdbcTemplateForOTP.update(insertQuery, new Object[] { otp , otpValidity, username});
+
+	}
 
 	// Method for checking duplicate details
 	public List<CheckDuplicationDTO> checkDuplicateExternalUser(String username, String email, String SSN) {
@@ -78,11 +96,21 @@ public class UserDAOImpl implements UserDAO {
 
 		return duplicateCheckDetails;
 	}
+	
+	public List<CheckDuplicationDTO> checkDuplicateOTP(String otp) {
+		List<CheckDuplicationDTO> duplicateCheckDetails = new ArrayList<CheckDuplicationDTO>();
+		String getDuplicateDetailsQuery = "SELECT users.otp from users where users.otp=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		duplicateCheckDetails = jdbcTemplate.query(getDuplicateDetailsQuery, new Object[] { otp },
+				new CheckDuplicationMapper());
+
+		return duplicateCheckDetails;
+	}
 
 	public List<UserInformationDTO> retrieveUserDetails(String username) {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email " + "from users where users.username=?";
+				+ "users.AccountType, users.email, users.otp, users.otpValidity " + "from users where users.username=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username },
 				new UserTableRows());
@@ -92,7 +120,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email "
+				+ "users.AccountType, users.email, users.otp, users.otpValidity "
 				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') AND users.enabled=false";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());

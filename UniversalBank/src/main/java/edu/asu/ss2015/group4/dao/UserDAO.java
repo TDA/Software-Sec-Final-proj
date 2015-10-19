@@ -18,5 +18,7 @@ public interface UserDAO {
 	public boolean enableExternalUserAccount(String username);
 
 	public boolean unlockExternalUserAccount(String username);
+	
+	public void insertOTP(String otp, String otpValidity, String username);
 
 }

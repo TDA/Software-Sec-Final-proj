@@ -1,7 +1,9 @@
 package edu.asu.ss2015.group4.controller;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -70,7 +72,15 @@ public class ManagerController {
 			if (split[0].equals("approveVal")) {
 				System.out.println("=============> Account Approved <=================");
 				userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
-				sendEmailToUser(custInfoFromDTO.get(0));
+				OTPGenerator otp = new OTPGenerator();
+				Date date = new Date();
+				long otpTime = date.getTime() + 600000;
+				String otpValidity = Long.toString(otpTime);
+				int OTP = otp.generateOTP();
+				userService.insertOTP(Integer.toString(OTP), otpValidity, custInfoFromDTO.get(0).getUserName());
+				List<UserInformationDTO> custInfoFromDTO1 = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
+				sendEmailToUser(custInfoFromDTO.get(0),custInfoFromDTO1.get(0).getOTP(), custInfoFromDTO1.get(0).getOtpValidity());
 			}
 		} else {
 			return modelAndView;
@@ -79,12 +89,17 @@ public class ManagerController {
 		return managerPage();
 	}
 
-	private void sendEmailToUser(UserInformationDTO custInfo) {
+	private void sendEmailToUser(UserInformationDTO custInfo, String otp, String otpValidity) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-
+		System.out.println(otp);
+		Date date = new Date();
+		long otpValid = Long.parseLong(otpValidity);
+		Date validDate = new Date(otpValid);
+		//System.out.println("current date: "+date);
+		//System.out.println("validity date: "+validDate);
 		String message = "Congratulations " + custInfo.getFirstName() + " " + custInfo.getLastName()
 				+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
-				+ "http://localhost:8083/UniversalBankingSystem/unlockAccount"
+				+"\n OTP: "+otp+" which is valid till: "+validDate+"\n http://localhost:8083/UniversalBankingSystem/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 
 		MailingService mm = (MailingService) context.getBean("mailingService");
