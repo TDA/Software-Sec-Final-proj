@@ -119,4 +119,17 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 	}
 
+	public String EditUser(UserInformation userInfo) throws FileNotFoundException {
+		System.out.println(userInfo.getUserName()+userInfo.getPassword()+  userInfo.getEmailAddress()+userInfo.getSocialSecurityNumber());
+		String registerUserQuery = "INSERT into user_requests (username,password,emailID,SSN) VALUES (?,?,?,?)";
+		//String insertIntoUserRolesTable = "Update user_roles SET username=? ";
+		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
+		//JdbcTemplate jdbcTemplateForUserRoles = new JdbcTemplate(dataSource);
+		jdbcTemplateForExternalUser.update(registerUserQuery,new Object[] { userInfo.getUserName(),userInfo.getPassword(),  userInfo.getEmailAddress(),userInfo.getSocialSecurityNumber()});
+
+		
+
+		return "Registration Completed! <br/> Please check you email for account approval notification!";
+
+}
 }

@@ -64,9 +64,22 @@ body {
 					<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">
-									<i class="fa fa-bar-chart-o fa-fw"></i> Enter your information
-									or <a href="index"><b>Log In</b></a>
+									<h3 class="panel-title">
+									<i class="fa fa-bar-chart-o fa-fw"></i><div class="panel-body">
+								<div id="morris-area-chart">
+
+									
+	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
+		</sec:authorize>
+		<div class="container">
+		<ul class="nav nav-tabs">
+			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
+			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
+			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
+			<li><a href="${pageContext.request.contextPath}/Debit" >Debit</a></li>
+			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>
+			<li><a href="${pageContext.request.contextPath}/UserRequest" >pendingRequests</a></li>
+		</ul></div>
 								</h3>
 							</div>
 
@@ -86,44 +99,24 @@ body {
 											<h3>${errorMsg}</h3>
 										</c:if>
 										<br />
-										<b>Customer Id</b>
-										<FONT color="red"></FONT>
+										<b>AccountId</b>
+										<FONT color="red"><form:errors path="transactionAccountID" /></FONT>
+										
 										<br />
-										<input type="text" name="customer_id" size="10" class="form-control" id="Customer_id"
+										<input type="text" name="transactionAccountID" size="10" class="form-control" id="transactionAccountID"
 											style="color: #999;" />
 										<br />
 										<br />
-										<b>Merchant Id</b>
-										<FONT color="red"></FONT>
 										<br />
-										<input type="text" name="merchant_id" size="10" class="form-control" id="merchant_id"
-											style="color: #999;" />
-										<br />
+										
 										<b>Amount</b>
-										<FONT color="red"></FONT>
+										<FONT color="red"><form:errors path="amount" /></FONT>
 										<br />
 										<input type="text" name="amount" size="10" class="form-control" id="amount"
 											style="color: #999;" />
 										<br />
 										
 										<br />
-										<b>TransactionType</b>
-										<FONT color="red"></FONT>
-										<br />
-										<input type="radio" name="Transaction_type" value="Credit" size="10" class="form-control" id="Transaction_type"
-											style="color: #999;" />Credit
-						
-										<input type="radio" name="Transaction_type" value="Debit" size="10" class="form-control" id="Transaction_type"
-											style="color: #999;" />Debit
-										<br />
-										<br />
-										<b>Confirm Password:</b>
-										<br />
-										<input type="password" name="confirmPassword" size="10" class="form-control" id="cfrm_pwd"
-											style="color: #999;" />
-										<br />
-										<br />
-										
 										<br />
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Transfer"

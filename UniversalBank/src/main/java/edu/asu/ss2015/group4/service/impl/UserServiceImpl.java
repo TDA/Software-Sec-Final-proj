@@ -35,4 +35,10 @@ public class UserServiceImpl implements UserService {
 	public boolean unlockExternalUserAccount(String username) {
 		return userDAO.unlockExternalUserAccount(username);
 	}
+	
+	public String EditInformation(UserInformation addInfo)
+			throws NoSuchAlgorithmException, FileNotFoundException {
+		return userDAO.EditUser(addInfo);
+	}
+	
 }

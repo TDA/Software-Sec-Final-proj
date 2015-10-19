@@ -15,7 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Universal Bank Sign Up page</title>
+<title>Universal Bank Transfer page</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -37,15 +37,6 @@ body {
 }
 </style>
 
-<script>
-    	function check() {
-    		 document.getElementById("male").checked = true;
-    	}
-    	
-    	function uncheck() {
-   		 document.getElementById("female").checked = false;
-   		}
-    </script>
 
 </head>
 <body oncontextmenu="return false">
@@ -55,7 +46,7 @@ body {
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Edit Profile</a>
+				<a class="navbar-brand" href="#">Merchant transfer portal</a>
 			</div>
 		</div>
 		<!-- /.container -->
@@ -71,7 +62,7 @@ body {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Edit Profile</h1>
+						<h1 class="page-header">Transfer</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -81,8 +72,7 @@ body {
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-bar-chart-o fa-fw"></i> Enter your information
-									or <a href="index"><b>Log In</b></a>
+									<i class="fa fa-bar-chart-o fa-fw"></i> Merchant name : ABC
 								</h3>
 							</div>
 
@@ -94,45 +84,39 @@ body {
 												${successMsg} <a href="index"> Click here to LogIn!</a>
 											</h4>
 										</c:if>
-									<form:form method="POST" action="DisplaySignUp"
-										modelAttribute="editForm" autocomplete="off">
+									<form:form method="POST" action="MerchantTransfer"
+										modelAttribute="MerchantTransferForm" autocomplete="off">
 										<br />
 										<br />
 										<c:if test="${not empty errorMsg}">
 											<h3>${errorMsg}</h3>
 										</c:if>
-										<b>User Name:</b>
-										<FONT color="red"><form:errors path="userName" /></FONT>
+										<b>Customer UserID</b>
+										<FONT color="red"><form:errors path="transactionAccountID" /></FONT>
 										<br />
-										<input type="text" name="userName"  size="10" class="form-control" id="username"
+										<input type="text" name="transactionAccountID" size="10" class="form-control" id="tran_id"
 											style="color: #999;" />
 										<br />
 										<br />
-										<b>Password:</b>
-										<FONT color="red"><form:errors path="password" /></FONT>
+										<%-- <b>Customer PIN</b> 
+										<FONT color="red"><form:errors path="PIN" /></FONT>
+									<br /> 
+									<input type="text" name="PIN" size="10" class="form-control" id="cust_id" 
+											style="color: #999;" /> 
+										<br /> 
+										<br />  --%>
+										<b>Amount</b>
+										<FONT color="red"><form:errors path="amount" /></FONT>
 										<br />
-										<input type="password" name="password" size="10" class="form-control" id="password"
+										<input type="text" name="amount" size="10" class="form-control" id="amount"
 											style="color: #999;" />
-										<br />
-										<br />
-										<b>Email Address:</b>
-										<br />
-										<input type="text" name="emailAddress"  size="10" class="form-control" id="email"
-											style="color: #999;" />
-										<br />
-										<br />
-										<b>SSN</b>
-										<input type="text" name="socialSecurityNumber"  size="10" class="form-control"
-										 id="socialSecurityNumber"
-											style="color: #999;" />
-										<br />
-										
 										<br />
 										<h4>
-											<input type="submit" style="margin-right: 5%" name="edit"
-												id="edit" value="edit" />
+											<input type="submit" style="margin-right: 5%" name="login"
+												id="MerchantTransferSubmit" value="Initiate Transfer" />
 										</h4>
-											
+
+										
 									</form:form>
 								</div>
 							</div>
