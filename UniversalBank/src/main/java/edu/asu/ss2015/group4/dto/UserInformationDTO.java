@@ -8,7 +8,17 @@ public class UserInformationDTO {
 	private String emailAddress;
 	private String socialSecurityNumber;
 	private String supervisorName;
+	private String otp;
+	private String otpValidity;
 
+	public String getOTP() {
+		return otp;
+	}
+
+	public void setOTP(String otp) {
+		this.otp = otp;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -63,5 +73,12 @@ public class UserInformationDTO {
 
 	public void setSupervisorName(String supervisorName) {
 		this.supervisorName = supervisorName;
+	}
+	public String getOtpValidity() {
+		return otpValidity;
+	}
+
+	public void setOtpValidity(String otpValidity) {
+		this.otpValidity = otpValidity;
 	}
 }

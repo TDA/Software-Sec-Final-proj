@@ -5,7 +5,16 @@ public class CheckDuplicationDTO {
 	private String username;
 	private String email;
 	private String ssn;
+	private String otp;
 
+	public String getOTP() {
+		return otp;
+	}
+
+	public void setOTP(String otp) {
+		this.otp = otp;
+	}
+	
 	public String getUsername() {
 		return username;
 	}

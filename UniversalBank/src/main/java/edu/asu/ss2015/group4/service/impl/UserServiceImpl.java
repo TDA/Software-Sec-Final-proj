@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserInformationDTO> fetchUserDetails(String usernameSearch) {
 		return userDAO.retrieveUserDetails(usernameSearch);
 	}
-
+	
 	public List<UserInformationDTO> fetchDisabledExternalUserDetails() {
 		return userDAO.retrieveDisabledExternalUserAccounts();
 	}
@@ -65,6 +65,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean deleteAccount(String username) {
 		return userDAO.deleteAccount(username);
+	}
+
+
+	@Override
+	public void insertOTP(String otp, String otpValidity, String username) {
+		userDAO.insertOTP(otp, otpValidity, username);
+		
 	}
 
 }

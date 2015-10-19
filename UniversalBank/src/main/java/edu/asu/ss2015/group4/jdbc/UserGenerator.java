@@ -18,6 +18,8 @@ public class UserGenerator implements ResultSetExtractor<UserInformationDTO> {
 		userInfoDTO.setAccountType(resultSet.getString(4));
 		userInfoDTO.setEmailAddress(resultSet.getString(5));
 		userInfoDTO.setSupervisorName(resultSet.getString(6));
+		userInfoDTO.setOTP(resultSet.getString(6));
+		userInfoDTO.setOtpValidity(resultSet.getString(7));
 		return userInfoDTO;
 	}
 }

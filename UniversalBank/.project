@@ -21,12 +21,16 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+<<<<<<< HEAD
 			<name>org.eclipse.wst.jsdt.core.javascriptValidator</name>
+=======
+			<name>org.eclipse.wst.validation.validationbuilder</name>
+>>>>>>> Universal bank with OTP
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.wst.validation.validationbuilder</name>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>

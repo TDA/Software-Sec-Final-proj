@@ -27,6 +27,8 @@ public class UserInformation {
 	private boolean enabled;
 	private boolean userLocked;
 	private boolean userAccountExpired;
+	private String otp="0";
+	private String otpValidity="0";
 
 	public boolean isUserLocked() {
 		return userLocked;
@@ -114,6 +116,21 @@ public class UserInformation {
 
 	public void setUserAccountExpired(boolean userAccountExpired) {
 		this.userAccountExpired = userAccountExpired;
+	}
+	public String getOTP() {
+		return otp;
+	}
+
+	public void setOTP(String otp) {
+		this.otp = otp;
+	}
+
+	public String getOtpValidity() {
+		return otpValidity;
+	}
+
+	public void setOtpValidity(String otpValidity) {
+		this.otpValidity = otpValidity;
 	}
 
 }
