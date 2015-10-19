@@ -33,8 +33,10 @@ public class CustomUserDetailService extends JdbcDaoImpl {
 					public UserDetails mapRow(ResultSet rs, int rowNum) throws SQLException {
 						String username = rs.getString("userName");
 						String password = rs.getString("password");
-
-						return new User(username, password, AuthorityUtils.NO_AUTHORITIES);
+						boolean enabled = rs.getBoolean("enabled");
+						boolean userLocked = rs.getBoolean("userLocked");
+						return new User(username, password, enabled, userLocked, true, true,
+								AuthorityUtils.NO_AUTHORITIES);
 					}
 
 				});

@@ -50,13 +50,15 @@
 			<a id="menu-close" href="#"
 				class="btn btn-light btn-lg pull-right toggle"><i
 				class="fa fa-times"></i></a>
-			<li class="sidebar-brand"><a href="#top" onclick=$("#menu-close").click(); >Universal Bank</a></li>
-			<li><a href="#top" onclick=$("#menu-close").click(); >Home</a></li>
-			<li><a href="#about" onclick=$("#menu-close").click(); >About</a>
+			<li class="sidebar-brand">
+				<a href="#top" onclick='$("#menu-close").click();' >Universal Bank</a>
 			</li>
-			<li><a href="#services" onclick=$("#menu-close").click(); >Log in</a>
+			<li><a href="#top" onclick='$("#menu-close").click();' >Home</a></li>
+			<li><a href="#about" onclick='$("#menu-close").click();' >About</a>
 			</li>
-			<li><a href="#contact" onclick=$("#menu-close").click(); >Contact</a>
+			<li><a href="#login" onclick='$("#menu-close").click();' >Log in</a>
+			</li>
+			<li><a href="#contact" onclick='$("#menu-close").click();' >Contact</a>
 			</li>
 		</ul>
 	</nav>
@@ -67,11 +69,19 @@
 			<h1>Universal Bank</h1>
 			<h3>Software Security Group 4</h3>
 			<br> 
-			<a href="register" class="btn btn-dark btn-lg">Sign Up</a>&nbsp;&nbsp;
-			<a href="#about" class="btn btn-dark btn-lg">&nbsp;&nbsp;Log in&nbsp;&nbsp; </a>
+			
+			<a href="#" class="btn btn-dark btn-lg" id="meddelanden" data-title="As a" data-toggle="clickover" data-placement="bottom">Sign Up</a> &nbsp;&nbsp;
+			
+			<a href="#login" class="btn btn-dark btn-lg">&nbsp;&nbsp;Log in&nbsp;&nbsp; </a>
+
+			<c:if test="${not empty error}">
+				<div class="error"><h2 style="color:red">${error}</h2></div>
+			</c:if>
 		</div>
 	</header>
 
+	
+	
 	<!-- About -->
 	<section id="about" class="about">
 		<div class="container">
@@ -89,16 +99,14 @@
 		<!-- /.container -->
 	</section>
 
-	<!-- Services -->
+	<!-- login -->
 	<!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
-	<section id="services" class="services bg-primary">
+	<section id="login" class="login bg-primary">
 		<div class="container">
 			<div class="row text-center">
 			<div class="col-lg-8 col-lg-offset-2">
 				<h2>Login</h2>
-				<c:if test="${not empty error}">
-					<div class="error">${error}</div>
-				</c:if>
+				
 				<c:if test="${not empty msg}">
 					<div class="msg">${msg}</div>
 				</c:if>
@@ -107,9 +115,9 @@
 					action="<c:url value='/j_spring_security_check' />" method='POST'
 					autocomplete="off">
 
-					<input type="text" name="userName" size="10" class="form-control"
-						placeholder="Username" required> <input
-						type="password" name="password" id="password" size="10"
+					<input type="text" name="userName" id="userName" size="20" class="form-control"
+						placeholder="Username" required> 
+					<input type="password" name="password" id="password" size="20"
 						class="form-control keyboardInput" placeholder="Password" required>
 					
 					<button class="btn btn-lg btn-info btn-block" type="submit">Sign
@@ -150,49 +158,13 @@
 		</div>
 	</section>
 
-	<!-- jQuery -->
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
-
-	<!-- jQuery Version 1.11.0 -->
-	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
-	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-
-	<!-- Custom Theme JavaScript -->
-	<script>
-    // Closes the sidebar menu
-    $("#menu-close").click(function(e) {
-        e.preventDefault();
-        $("#sidebar-wrapper").toggleClass("active");
-    });
-
-    // Opens the sidebar menu
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#sidebar-wrapper").toggleClass("active");
-    });
-
-    // Scrolls to the selected menu item on the page
-    $(function() {
-        $('a[href*=#]:not([href=#])').click(function() {
-            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
-
-                var target = $(this.hash);
-                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-                if (target.length) {
-                    $('html,body').animate({
-                        scrollTop: target.offset().top
-                    }, 1000);
-                    return false;
-                }
-            }
-        });
-    });
-    </script>
-
+	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>	
+	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+	
+    
 </body>
 
 </html>

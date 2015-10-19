@@ -28,7 +28,10 @@
 	<bean id="UserServiceImpl" class="edu.asu.ss2015.group4.service.impl.UserServiceImpl" />
 	<bean id="UserInformation" class="edu.asu.ss2015.group4.model.UserInformation" />
 	<bean id="UserInformationDTO" class="edu.asu.ss2015.group4.dto.UserInformationDTO" />
-	
+	<bean id="TransactionDAOimpl" class="edu.asu.ss2015.group4.dao.impl.TransactionDAOImpl" />
+	<bean id="TransactionServiceImpl" class="edu.asu.ss2015.group4.service.impl.TransactionServiceImpl" />
+	<bean id="Transactions" class="edu.asu.ss2015.group4.model.Transactions" />
+	<bean id="TransaactionDTO" class="edu.asu.ss2015.group4.dto.TransactionDTO" />
 	<mvc:resources mapping="/resources/**" location="/resources/portfolio/" />
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler/>

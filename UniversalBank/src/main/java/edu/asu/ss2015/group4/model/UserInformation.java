@@ -24,6 +24,16 @@ public class UserInformation {
 	private String emailAddress;
 	@Size(min = 9, max = 9, message = "Enter a valid SSN Number")
 	private String socialSecurityNumber;
+	private boolean enabled;
+	private boolean userLocked;
+
+	public boolean isUserLocked() {
+		return userLocked;
+	}
+
+	public void setUserLocked(boolean userLocked) {
+		this.userLocked = userLocked;
+	}
 
 	public String getUserName() {
 		return userName;
@@ -87,6 +97,14 @@ public class UserInformation {
 
 	public void setSocialSecurityNumber(String socialSecurityNumber) {
 		this.socialSecurityNumber = socialSecurityNumber;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

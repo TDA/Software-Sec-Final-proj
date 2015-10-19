@@ -17,20 +17,14 @@ import edu.asu.ss2015.group4.jdbc.CheckDuplicationMapper;
 import edu.asu.ss2015.group4.jdbc.UserTableRows;
 import edu.asu.ss2015.group4.model.UserInformation;
 
-/*Using Spring JDBC Template
- Reasons: Better connection management, no writing XML files
- Cleans up resources by releasing DB connection
- Better error detection 
- */
-
 public class UserDAOImpl implements UserDAO {
 	@Autowired
 	DataSource dataSource;
 
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
-		String registerUserQuery = "INSERT into users" + "(username, password, confirmpassword," + "firstname,"
-				+ "lastname, AccountType," + "email, SSN) VALUES (?,?,?,?,?,?,?,?)";
+		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
+				+ " lastname, AccountType, enabled, userLocked,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?)";
 		String insertIntoUserRolesTable = "INSERT into user_roles (username, role) " + "VALUES (?,?)";
 
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
@@ -38,7 +32,6 @@ public class UserDAOImpl implements UserDAO {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String hash = encoder.encode(userInfo.getPassword());
 
-		// CALL THE DTO FUNCTION---
 		List<CheckDuplicationDTO> list1 = new ArrayList<CheckDuplicationDTO>();
 		list1 = checkDuplicateExternalUser(userInfo.getUserName(), userInfo.getEmailAddress(),
 				userInfo.getSocialSecurityNumber());
@@ -47,15 +40,32 @@ public class UserDAOImpl implements UserDAO {
 			return "UserName, Email or SSN is already used!";
 		} else {
 			jdbcTemplateForExternalUser.update(registerUserQuery,
-					new Object[] { userInfo.getUserName(), hash, hash, userInfo.getFirstName(), userInfo.getLastName(),
-							userInfo.getAccountType(), userInfo.getEmailAddress(),
-							userInfo.getSocialSecurityNumber() });
+					new Object[] { userInfo.getUserName(), hash, userInfo.getFirstName(), userInfo.getLastName(),
+							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.isUserLocked(),
+							userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
 
+			String user_role = "";
+			switch (userInfo.getAccountType()) {
+			case "Individual":
+				user_role = "ROLE_INDIVIDUAL";
+				break;
+			case "Merchant":
+				user_role = "ROLE_MERCHANT";
+				break;
+			case "Clerk":
+				user_role = "ROLE_CLERK";
+				break;
+			case "Manager":
+				user_role = "ROLE_MANAGER";
+				break;
+			default:
+				user_role = "ROLE_INVALID";
+			}
 			jdbcTemplateForUserRoles.update(insertIntoUserRolesTable,
-					new Object[] { userInfo.getUserName(), "ROLE_USER" });
+					new Object[] { userInfo.getUserName(), user_role });
 		}
 
-		return "Registration Successful!!";
+		return "Registration Completed! <br/> Please check you email for account approval notification!";
 	}
 
 	// Method for checking duplicate details
@@ -79,4 +89,47 @@ public class UserDAOImpl implements UserDAO {
 		return customerInformationToDisplay;
 	}
 
+	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email "
+				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') AND users.enabled=false";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+
+	public boolean enableExternalUserAccount(String username) {
+		String sql = "UPDATE users set enabled = true where enabled = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean unlockExternalUserAccount(String username) {
+		String sql = "UPDATE users set userLocked = true where userLocked = false and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public String EditUser(UserInformation userInfo) throws FileNotFoundException {
+		System.out.println(userInfo.getUserName()+userInfo.getPassword()+  userInfo.getEmailAddress()+userInfo.getSocialSecurityNumber());
+		String registerUserQuery = "INSERT into user_requests (username,password,emailID,SSN) VALUES (?,?,?,?)";
+		//String insertIntoUserRolesTable = "Update user_roles SET username=? ";
+		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
+		//JdbcTemplate jdbcTemplateForUserRoles = new JdbcTemplate(dataSource);
+		jdbcTemplateForExternalUser.update(registerUserQuery,new Object[] { userInfo.getUserName(),userInfo.getPassword(),  userInfo.getEmailAddress(),userInfo.getSocialSecurityNumber()});
+
+		
+
+		return "Registration Completed! <br/> Please check you email for account approval notification!";
+
+}
 }
