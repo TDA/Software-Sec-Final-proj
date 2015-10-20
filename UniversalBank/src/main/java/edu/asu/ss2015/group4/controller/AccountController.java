@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
-import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.model.UserInformation;
 import edu.asu.ss2015.group4.service.UserService;
 
@@ -57,6 +56,7 @@ public class AccountController {
 		}
 		return modelAndView;
 	}
+
 	@RequestMapping(value = "/DisplaySignUp", method = RequestMethod.GET)
 	public ModelAndView EditPage() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -68,8 +68,8 @@ public class AccountController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			//System.out.println(loggedInUser);
-			
+			// System.out.println(loggedInUser);
+
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
@@ -81,16 +81,16 @@ public class AccountController {
 		}
 		return modelAndView;
 	}
+
 	@RequestMapping(value = "/DisplaySignUp", method = RequestMethod.POST)
-	public ModelAndView EditPageUpdate(@Valid @ModelAttribute("editForm") UserInformation custInfo,BindingResult result,
-		 HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
-		
-		
+	public ModelAndView EditPageUpdate(@Valid @ModelAttribute("editForm") UserInformation custInfo,
+			BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
+
 		ModelAndView modelAndView = new ModelAndView();
-			//SignUpFormValidator.validateForm(custInfo, result);
-			userService.EditInformation(custInfo);
-			modelAndView.setViewName("success");
-			return modelAndView;
-			}
+		// SignUpFormValidator.validateForm(custInfo, result);
+		userService.EditInformation(custInfo);
+		modelAndView.setViewName("success");
+		return modelAndView;
+	}
 
 }
