@@ -15,6 +15,8 @@ CREATE  TABLE users (
   SSN VARCHAR(45) NOT NULL,
   enabled boolean not null,
   userLocked boolean not null,
+  otp varchar(10) not null,
+  otpValidity varchar(25) not null,
   PRIMARY KEY (username));
   
 
@@ -28,7 +30,7 @@ CREATE TABLE user_roles (
   CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username));
   
 INSERT INTO users 
-  VALUES ('kenilabc', '$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm', 'Kenil', 'Bhatt', 'Individual', 'fake@fake.com', '123456789', true, true);
+  VALUES ('kenilabc', '$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm', 'Kenil', 'Bhatt', 'Individual', 'fake@fake.com', '123456789', true, true,'0','0');
 
 INSERT INTO user_roles (username, role)
 VALUES ('kenilabc', 'ROLE_MANAGER');
