@@ -65,8 +65,22 @@ body {
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-bar-chart-o fa-fw"></i> Enter your information
+									<div id="morris-area-chart">
+
+	<div id="morris-area-chart">
+
 									
+	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
+		</sec:authorize>
+		<div class="container">
+		<ul class="nav nav-tabs">
+			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
+			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
+			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
+			<li><a href="${pageContext.request.contextPath}/Debit" >Debit</a></li>
+			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>
+			<li><a href="${pageContext.request.contextPath}/UserRequest" >pendingRequests</a></li>
+		</ul></div>
 								</h3>
 							</div>
 
@@ -75,7 +89,7 @@ body {
 								
 										<c:if test="${not empty successMsg}">
 											<h4>
-												${successMsg} <a href="index"> Click here to LogIn!</a>
+												${successMsg} 
 											</h4>
 										</c:if>
 									<form:form method="POST" action="Credit"
@@ -86,28 +100,21 @@ body {
 											<h3>${errorMsg}</h3>
 										</c:if>
 										<br />
-										<b>Customer Id</b>
-										<FONT color="red"></FONT>
+										<b>Account Id</b>
+										<FONT color="red"><form:errors path="transactionAccountID" /></FONT>
 										<br />
-										<input type="text" name="customer_id" size="10" class="form-control" id="Customer_id"
+										<input type="text" name="transactionAccountID" size="10" class="form-control" id="transactionAccountID"
 											style="color: #999;" />
 										<br />
 										<br />
 										<b>Amount</b>
-										<FONT color="red"></FONT>
+										<FONT color="red"><form:errors path="amount" /></FONT>
 										<br />
 										<input type="text" name="amount" size="10" class="form-control" id="amount"
 											style="color: #999;" />
 										<br />				
 										<br />
-										<b>Confirm Password:</b>
-										<br />
-										<input type="password" name="confirmPassword" size="10" class="form-control" id="cfrm_pwd"
-											style="color: #999;" />
-										<br />
-										<br />
 										
-										<br />
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Credit"
 												id="Credit" value="Credit" />

@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.UserInformation;
 
 public interface UserDAO {
@@ -21,4 +22,11 @@ public interface UserDAO {
 	
 	public void insertOTP(String otp, String otpValidity, String username);
 
+	public String EditUser(UserInformation userInfo) throws FileNotFoundException, NoSuchAlgorithmException;
+
+	void updateFailAttempts(String username);
+
+	void resetFailAttempts(String username);
+
+	AccountLoginAttempts getUserAttempts(String username);
 }

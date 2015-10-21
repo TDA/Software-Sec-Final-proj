@@ -119,6 +119,8 @@
 						placeholder="Username" required> 
 					<input type="password" name="password" id="password" size="20"
 						class="form-control keyboardInput" placeholder="Password" required>
+						
+					<p>Forgot Password? <a href="${pageContext.request.contextPath}/forgotPassword" style="color: rgb(0,0,0)">Click here!</a></p>
 					
 					<button class="btn btn-lg btn-info btn-block" type="submit">Sign
 						in</button>

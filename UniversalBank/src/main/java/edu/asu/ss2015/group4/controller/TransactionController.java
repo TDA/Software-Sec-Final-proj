@@ -1,5 +1,7 @@
 package edu.asu.ss2015.group4.controller;
 
+import java.io.FileNotFoundException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,28 +45,35 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-
 		modelAndView.addObject("transaction", transac);
-		System.out.println("to transfer");
-
 		modelAndView.setViewName("transfer");
-
 		return modelAndView;
 	}
-
 	@RequestMapping(value="/transfer",method = RequestMethod.POST)
 	public ModelAndView transfer(@Valid @ModelAttribute("transferForm") Transactions transac, BindingResult result,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
 		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		
+		TransferValidator.validateForm(transac, result);
+		System.out.println("here"+result);
 		if (result.hasErrors()) {
-			modelAndView.addObject("errormsg", "enter a value");
+			System.out.println("error");
 			modelAndView.setViewName("transfer"); // This prints errors
-			return modelAndView;
-		} else {
+			
+		}  
+		else {
+			
+			String a=trans.TransferUser(transac);
 			System.out.println("successtransac11");
-			trans.insertUserTransaction(transac);
-		}
-		modelAndView.setViewName("success");
+			modelAndView.setViewName("success");	
+			
+				}
+		
+	}
+		
 		return modelAndView;
 	}
 
@@ -85,9 +95,7 @@ public class TransactionController {
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-
-			System.out.println("to view");
-
+			System.out.println(custInfoFromDTO);
 			modelAndView.setViewName("ViewTransactions");
 		}
 
@@ -107,18 +115,29 @@ public class TransactionController {
 		return modelAndView;
 	}
 	@RequestMapping(value="/Debit", method= RequestMethod.POST)
-	public ModelAndView Debit(@Valid @ModelAttribute("debitForm") Transactions transac, BindingResult result,
+	public ModelAndView Debit(@Valid @ModelAttribute("DebitForm") Transactions transac, BindingResult result,
 			HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
+		System.out.println("debit");
+		
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			TransferValidator.validateForm(transac, result);
+			System.out.println("here"+result);
+			
 		if (result.hasErrors()) {
-			modelAndView.addObject("errormsg", "enter a value");
-			modelAndView.setViewName("debit"); // This prints errors
-			return modelAndView;
+			System.out.println(":in debet");
+			modelAndView.setViewName("Debit"); // This prints errors
+			
 		} else {
-			System.out.println("successtransac");
 			trans.DebitUser(transac);
+			System.out.println("successtransac");
+			modelAndView.setViewName("success");
+		
 		}
-		modelAndView.setViewName("success");
+		}	
 		return modelAndView;
 	}
 	@RequestMapping(value = "/Credit", method = RequestMethod.GET)
@@ -135,18 +154,100 @@ public class TransactionController {
 		return modelAndView;
 	}
 	@RequestMapping(value="/Credit", method= RequestMethod.POST)
-	public ModelAndView Credit(@Valid @ModelAttribute("creditForm") Transactions transac, BindingResult result,
+	public ModelAndView Credit(@Valid @ModelAttribute("CreditForm") Transactions transac, BindingResult result,
 			HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			TransferValidator.validateForm(transac, result);
+			System.out.println("here"+result);
+			
 		if (result.hasErrors()) {
-			modelAndView.addObject("errormsg", "enter a value");
-			modelAndView.setViewName("credit"); // This prints errors
-			return modelAndView;
+			System.out.println(":in credit");
+			modelAndView.setViewName("Credit"); // This prints errors
+			
 		} else {
-			System.out.println("successtransac");
 			trans.CreditUser(transac);
+			System.out.println("successtransac");
+			modelAndView.setViewName("success");
+		
 		}
-		modelAndView.setViewName("success");
+		}	
 		return modelAndView;
+	}
+	@RequestMapping(value = "/MerchantTransfer", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView MerchantTransferPage() throws NoSuchAlgorithmException, FileNotFoundException {
+			Transactions mtransac = new Transactions();
+			ModelAndView modelAndView=new ModelAndView();
+			modelAndView.addObject("transaction", mtransac);
+			modelAndView.setViewName("MerchantTransfer");
+			
+		
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/MerchantTransfer", method = RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView MerchantTransfer(@Valid @ModelAttribute("MerchantTransferForm") Transactions transac, BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException{
+			System.out.println(transac.toString());
+			ModelAndView modelAndView=new ModelAndView();
+			modelAndView.addObject("transaction", transac);
+			modelAndView.setViewName("MerchantTransfer");
+			trans.MerchantPaymentUser(transac);
+			return modelAndView;
+	}
+	
+	@RequestMapping(value = "/UserRequest", method = RequestMethod.GET)
+	public ModelAndView RequestPage() {
+
+		System.out.println("enteredtransac");
+		Transactions transac = new Transactions();
+		ModelAndView modelAndView = new ModelAndView();
+		List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			modelAndView.addObject("userName", loggedInUser);
+			System.out.println(loggedInUser);
+
+			// Call the DAOImpl layer
+			custInfoFromDTO = trans.ViewUserInfoApprove(loggedInUser);
+
+			// Add it to the model
+			modelAndView.addObject("userInformation", custInfoFromDTO);
+			System.out.println(transac.getTransactionId());
+			modelAndView.setViewName("UserRequest");
+		}
+		else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
+		
+	}
+	@RequestMapping(value = "/UserRequest", method = RequestMethod.POST)
+	public ModelAndView userApproval(@RequestParam("approveParam") String approveOrDeny) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("permission-denied");
+		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+			String[] split = approveOrDeny.split("_");
+			String x = split[0];
+			String y = split[1];
+			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+			custInfoFromDTO = trans.ViewUserInfo(split[1]);
+			
+			if (split[0].equals("approve")) {
+				int x1=Integer.parseInt(y);
+				System.out.println("xhere"+x1);
+				String approve = trans.Approve(x1);
+			}
+		} else {
+			return modelAndView;
+		}
+		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
+		return RequestPage();
 	}
 }

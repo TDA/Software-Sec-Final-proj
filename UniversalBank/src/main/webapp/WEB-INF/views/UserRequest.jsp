@@ -16,7 +16,7 @@
 <meta name="author" content="">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<title>Universal Bank HomePage-User</title>
+<title>Universal Bank PendingTransactions-User</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -56,7 +56,7 @@ body {
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Account HomePage</a>
+				<a class="navbar-brand" href="#">Pending transactions for Authorisation</a>
 			</div>
 		</div>
 		<!-- /.container -->
@@ -72,7 +72,7 @@ body {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Home</h1>
+						<h1 class="page-header">Pending Transactions</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -115,6 +115,8 @@ th, td {
     padding: 5px;
 }
 </style>
+<form:form method="POST" action="UserRequest"
+ modelAttribute="ApproveForm" autocomplete="off">
     <table style="width:80%">
   			<tr>
   				<th>Transaction ID</th>
@@ -126,10 +128,13 @@ th, td {
                 <td><c:out value="${transaction.transactionID}" /></td>
                 <td><c:out value="${transaction.transactionType}" /></td>
                 <td><c:out value="${transaction.amount}" /></td>
+                <td><button type="submit" name="approveParam" value="approve_${transaction.transactionID}"/>Approve </button></td>
+                <td><button type="submit"  name="approveParam" value="Deny" />Deny </button></td>
             </tr>
         </c:forEach>
 
     </table>
+    </form:form>
    </div>
 
 </body>
