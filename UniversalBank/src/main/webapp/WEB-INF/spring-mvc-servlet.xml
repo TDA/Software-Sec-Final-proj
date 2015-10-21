@@ -32,6 +32,9 @@
 	<bean id="TransactionServiceImpl" class="edu.asu.ss2015.group4.service.impl.TransactionServiceImpl" />
 	<bean id="Transactions" class="edu.asu.ss2015.group4.model.Transactions" />
 	<bean id="TransaactionDTO" class="edu.asu.ss2015.group4.dto.TransactionDTO" />
+	<bean id="BankAccountDAOImpl" class="edu.asu.ss2015.group4.dao.impl.BankAccountDAOImpl" />
+	<bean id="BankAccountServiceImpl" class="edu.asu.ss2015.group4.service.impl.BankAccountServiceImpl" />
+	<bean id="BankAccount" class="edu.asu.ss2015.group4.model.BankAccount" />
 	<mvc:resources mapping="/resources/**" location="/resources/portfolio/" />
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler/>

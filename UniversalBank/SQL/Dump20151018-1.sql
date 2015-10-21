@@ -29,7 +29,7 @@ CREATE TABLE `accounts` (
   `username` varchar(20) NOT NULL,
   `AccountType` varchar(10) NOT NULL DEFAULT 'Checking',
   `Balance` float NOT NULL DEFAULT '0',
-  `PIN` varchar(6) NOT NULL,
+  `CreationTime` timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
   `OTP` varchar(6) NOT NULL,
   `OTPExpiry` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   PRIMARY KEY (`AccountID`),

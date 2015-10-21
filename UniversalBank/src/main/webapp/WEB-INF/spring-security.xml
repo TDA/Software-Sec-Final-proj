@@ -8,8 +8,13 @@
 
 	<!-- enable use-expressions -->
 	<http auto-config="true" use-expressions="true">
-		<!-- These are external user specific -->
+		<!-- Permit all -->
         <intercept-url pattern="/index*" access="permitAll" />
+
+		<!-- Permit Manager -->
+		<intercept-url pattern="/manager*" access="hasRole('ROLE_MANAGER')" />
+		
+		<!-- Permit Reg. Employee -->
 
 		<access-denied-handler error-page="/403" />
 		<form-login login-page="/index"

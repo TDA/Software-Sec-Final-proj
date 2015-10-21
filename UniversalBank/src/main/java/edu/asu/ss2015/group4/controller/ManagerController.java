@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.model.BankAccount;
+import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.MailingService;
 import edu.asu.ss2015.group4.service.UserService;
 
@@ -27,6 +29,9 @@ public class ManagerController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	BankAccountService accountService;
 
 	@RequestMapping(value = "/manager", method = RequestMethod.GET)
 	public ModelAndView managerPage() {
@@ -68,15 +73,34 @@ public class ManagerController {
 			custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
 			if (split[0].equals("approveVal")) {
-				System.out.println("=============> Account Approved <=================");
 				userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
+				// generateAccountInformatin(custInfoFromDTO.get(0));
 				sendEmailToUser(custInfoFromDTO.get(0));
 			}
 		} else {
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return managerPage();
+	}
+
+	private void generateAccountInformatin(UserInformationDTO userInformationDTO) {
+		long timeSeed = System.nanoTime(); // to get the current date time value
+
+		double randSeed = Math.random() * 1000; // random number generation
+
+		long midSeed = (long) (timeSeed * randSeed); // mixing up the time and
+														// rand number.
+		String s = midSeed + "";
+		String subStr = s.substring(5, 9);
+
+		String checkingAccountNum = subStr + "-101";
+		String savingsAccountNum = subStr + "-102";
+
+		BankAccount chkAccount = new BankAccount(checkingAccountNum);
+		BankAccount svgAccount = new BankAccount(savingsAccountNum);
+
+		accountService.createAccount(chkAccount);
+		accountService.createAccount(svgAccount);
 	}
 
 	private void sendEmailToUser(UserInformationDTO custInfo) {
