@@ -74,7 +74,7 @@ public class ManagerController {
 
 			if (split[0].equals("approveVal")) {
 				userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
-				// generateAccountInformatin(custInfoFromDTO.get(0));
+				generateAccountInformation(custInfoFromDTO.get(0));
 				sendEmailToUser(custInfoFromDTO.get(0));
 			}
 		} else {
@@ -83,7 +83,7 @@ public class ManagerController {
 		return managerPage();
 	}
 
-	private void generateAccountInformatin(UserInformationDTO userInformationDTO) {
+	private void generateAccountInformation(UserInformationDTO userInformationDTO) {
 		long timeSeed = System.nanoTime(); // to get the current date time value
 
 		double randSeed = Math.random() * 1000; // random number generation
@@ -91,14 +91,21 @@ public class ManagerController {
 		long midSeed = (long) (timeSeed * randSeed); // mixing up the time and
 														// rand number.
 		String s = midSeed + "";
-		String subStr = s.substring(5, 9);
+		String subStr = s.substring(3, 9);
 
 		String checkingAccountNum = subStr + "-101";
 		String savingsAccountNum = subStr + "-102";
 
+		// Checking account
 		BankAccount chkAccount = new BankAccount(checkingAccountNum);
-		BankAccount svgAccount = new BankAccount(savingsAccountNum);
+		chkAccount.setUserName(userInformationDTO.getUserName());
+		chkAccount.setAccountType("Checking");
 
+		// Savings Account
+		BankAccount svgAccount = new BankAccount(savingsAccountNum);
+		svgAccount.setUserName(userInformationDTO.getUserName());
+		svgAccount.setAccountType("Savings");
+		svgAccount.setBalance(250.00);
 		accountService.createAccount(chkAccount);
 		accountService.createAccount(svgAccount);
 	}
@@ -107,7 +114,7 @@ public class ManagerController {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 
 		String message = "Congratulations " + custInfo.getFirstName() + " " + custInfo.getLastName()
-				+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
+				+ ",\n\nYour bank account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
 				+ "http://localhost:8083/UniversalBankingSystem/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 

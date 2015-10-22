@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `unibank` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `unibank`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: unibank
 -- ------------------------------------------------------
--- Server version	5.6.27-log
+-- Server version	5.6.26-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,9 +27,8 @@ CREATE TABLE `accounts` (
   `username` varchar(20) NOT NULL,
   `AccountType` varchar(10) NOT NULL DEFAULT 'Checking',
   `Balance` float NOT NULL DEFAULT '0',
-  `CreationTime` timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
-  `OTP` varchar(6) NOT NULL,
-  `OTPExpiry` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  `PIN` varchar(6) DEFAULT NULL,
+  `CreationTime` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`AccountID`),
   UNIQUE KEY `AccountID_UNIQUE` (`AccountID`),
   KEY `username_idx` (`username`),
@@ -45,7 +42,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES ('1','kenilabc','Individual',0,'1234','','2015-10-18 16:51:32.531261');
+INSERT INTO `accounts` VALUES ('0784-101','kenilabc','Checking',0,NULL,'2015-10-22 05:23:09'),('0784-102','kenilabc','Savings',250,NULL,'2015-10-22 05:23:10'),('1','kenilabc','Individual',0,'1234',NULL);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,6 +78,31 @@ LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
 INSERT INTO `transactions` VALUES (11,'Debit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.921589','User transfer Debit',1),(12,'Credit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.940579','User transfer Credit',1),(13,'Debit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.861229','User transfer Debit',1),(14,'Credit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.887576','User transfer Credit',0),(15,'Debit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.164122','User transfer Debit',0),(16,'Credit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.193142','User transfer Credit',0),(17,'Debit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.314909','User transfer Debit',0),(18,'Credit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.335922','User transfer Credit',0),(21,'Debit',12,'1',NULL,'2015-10-18 19:00:20',0,'2015-10-18 19:00:20.262256','Withdraw from ATM',0),(23,'Debit',12,'1',NULL,'2015-10-18 19:14:20',0,'2015-10-18 19:14:20.473394','Withdraw from ATM',0),(24,'Credit',12,'1',NULL,'2015-10-18 19:15:33',0,'2015-10-18 19:15:33.580737','Deposit at branch',0);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_attempts`
+--
+
+DROP TABLE IF EXISTS `user_attempts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_attempts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
+  `attempts` varchar(45) NOT NULL,
+  `lastModified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_attempts`
+--
+
+LOCK TABLES `user_attempts` WRITE;
+/*!40000 ALTER TABLE `user_attempts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_attempts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -127,7 +149,7 @@ CREATE TABLE `user_roles` (
   UNIQUE KEY `uni_username_role` (`role`,`username`),
   KEY `fk_username_idx` (`username`),
   CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +158,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (1,'kenilabc','ROLE_INDIVIDUAL');
+INSERT INTO `user_roles` VALUES (1,'kenilabc','ROLE_INDIVIDUAL'),(2,'cborde','ROLE_MANAGER');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,21 +183,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE user_attempts (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  username varchar(45) NOT NULL,
-  attempts varchar(45) NOT NULL,
-  lastModified datetime NOT NULL,
-  PRIMARY KEY (id)
-);
-
 --
 -- Dumping data for table `users`
 --
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Individual','fake@fake.com','123456780',1,1),('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','fake@fake.com','123456789',1,1);
+INSERT INTO `users` VALUES ('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Individual','fake@fake.com','123456780',1,1),('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1),('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -188,4 +202,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-18 17:15:11
+-- Dump completed on 2015-10-21 22:26:49

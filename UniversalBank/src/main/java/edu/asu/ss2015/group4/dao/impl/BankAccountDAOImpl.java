@@ -16,7 +16,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
 	@Override
 	public void insert(BankAccount account) {
-		String registerUserQuery = "INSERT into account" + "(AccountID, username, AccountType,"
+		String registerUserQuery = "INSERT into accounts" + "(AccountID, username, AccountType,"
 				+ " Balance, CreationTime) VALUES (?,?,?,?,?)";
 
 		JdbcTemplate jdbcTemplateForAccount = new JdbcTemplate(dataSource);

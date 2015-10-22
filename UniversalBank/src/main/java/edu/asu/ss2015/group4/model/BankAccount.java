@@ -5,7 +5,6 @@ import java.util.Date;
 
 /**
  * @author schandramouli
- *
  */
 public class BankAccount {
 	private String id;
@@ -14,10 +13,13 @@ public class BankAccount {
 	private double balance = 0.0;
 	private Timestamp creationTime;
 
-	public BankAccount(String accountType) {
+	public BankAccount() {
+	}
+
+	public BankAccount(String id) {
 		Date date = new Date();
 		this.creationTime = new Timestamp(date.getTime());
-		this.accountType = accountType;
+		this.id = id;
 	}
 
 	public String getId() {
