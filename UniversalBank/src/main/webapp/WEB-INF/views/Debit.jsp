@@ -115,6 +115,9 @@ body {
 										<br />
 										
 										<br />
+										 <Font Color="red">I authroise the bank to modify ,delete and access my transactions</Font>
+										<br />
+										<br />
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Debit"
 												id="Debit" value="Debit" />

@@ -22,8 +22,8 @@ public class TransactionServiceImpl
 	public String insertUserTransaction(Transactions transaction)
 			throws NoSuchAlgorithmException, FileNotFoundException {
 		// TODO Auto-generated method stub
-		transac.insert(transaction);
-		return "Successininsert";
+		
+		return "null";
 	}
 	
 	public List<TransactionDTO> ViewUserInfo(String Username) {

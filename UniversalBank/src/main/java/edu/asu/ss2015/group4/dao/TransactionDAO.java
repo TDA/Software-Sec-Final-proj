@@ -6,7 +6,6 @@ import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.model.*;
 public interface TransactionDAO {
 
-		public void insert(Transactions transaction);
 		public List <TransactionDTO>view (String Username);
 		public List <TransactionDTO>viewCondition (String Username);
 		public void MerchantPayment(Transactions transaction);

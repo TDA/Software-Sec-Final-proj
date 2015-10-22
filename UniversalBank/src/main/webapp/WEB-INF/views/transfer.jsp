@@ -99,7 +99,7 @@ body {
 											<h3>${errorMsg}</h3>
 										</c:if>
 										<br />
-										<b>AccountId</b>
+										<b>Enter Your AccountId</b>
 										<FONT color="red"><form:errors path="transactionAccountID" /></FONT>
 										
 										<br />
@@ -108,7 +108,15 @@ body {
 										<br />
 										<br />
 										<br />
+										<b> Enter to AccountId</b>
+										<FONT color="red"><form:errors path="transactiontoAccountID" /></FONT>
 										
+										<br />
+										<input type="text" name="transactiontoAccountID" size="10" class="form-control" id="transactiontoAccountID"
+											style="color: #999;" />
+										<br />
+										<br />
+										<br />
 										<b>Amount</b>
 										<FONT color="red"><form:errors path="amount" /></FONT>
 										<br />
@@ -118,6 +126,10 @@ body {
 										
 										<br />
 										<br />
+										
+										 <Font Color="red">By performing the Transfer you  authroise the bank to modify,delete and access your transactions</Font>
+										<br />
+										<br />
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Transfer"
 												id="transfer" value="Transfer" />
@@ -125,6 +137,7 @@ body {
 
 										
 									</form:form>
+				
 								</div>
 							</div>
 						</div>

@@ -24,20 +24,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Autowired
 	DataSource dataSource;
 
-	public void insert(Transactions transac) {
-
-		String registerUserQuery = "INSERT into transactions"
-				+ "(TransactionID,TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments) "
-				+ "VALUES (?,?,?,?,?,?,?,?,?)";
-		System.out.println(transac.getTransactionType());
-		JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
-		jdbcTemplateForTransaction.update(registerUserQuery,
-				new Object[] { transac.getTransactionId(), "Inserting", transac.getAmount(),
-						transac.getTransactionAccountID(), transac.getAuthorizedManagerID(),
-						transac.getTransactionTime(), transac.isApproved(), transac.getApprovedTime(),
-						transac.getComments() });
-
-	}
+	
 
 	public List<TransactionDTO> view(String username) {
 		System.out.println("view:"+username);
@@ -58,16 +45,30 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
 			System.out.println(loggedInUser);
-
+			
+		if(Float.parseFloat(transac.getAmount())>=10000.0){	
 			String registerUserQuery = "INSERT into transactions"
-					+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments) "
-					+ "VALUES (?,?,?,?,?,?,?,?)";
+					+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved"
+					+ ",ApprovalTime,Comments,critical_transactions) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
 					new Object[] {"Debit", transac.getAmount(),transac.getTransactionAccountID(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Withdraw from ATM" });
+							transac.getApprovedTime(), "Withdraw from ATM" ,1});
 		}
+		if(Float.parseFloat(transac.getAmount())<=10000.0){	
+			String registerUserQuery = "INSERT into transactions"
+					+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,"
+					+ "ApprovalTime,Comments,critical_transactions) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?)";
+			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
+			jdbcTemplateForTransaction.update(registerUserQuery,
+					new Object[] {"Debit", transac.getAmount(),transac.getTransactionAccountID(),
+							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
+							transac.getApprovedTime(), "Withdraw from ATM" ,0});
+		}
+	}
 	}
 
 	public void Credit(Transactions transac) {
@@ -80,15 +81,27 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
 			System.out.println(loggedInUser);
-
+			if(Float.parseFloat(transac.getAmount())>=10000.0){	
 			String registerUserQuery = "INSERT into transactions"
-					+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments) "
-					+ "VALUES (?,?,?,?,?,?,?,?)";
+					+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,"
+					+ "ApprovalTime,Comments,critical_transactions) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
 					new Object[] { "Credit", transac.getAmount(), transac.getTransactionAccountID(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Deposit at branch" });
+							transac.getApprovedTime(), "Deposit at branch" ,1});
+		}
+			else if(Float.parseFloat(transac.getAmount())<=10000.0){	
+				String registerUserQuery = "INSERT into transactions"
+						+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments,critical_transactions) "
+						+ "VALUES (?,?,?,?,?,?,?,?,?)";
+				JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
+				jdbcTemplateForTransaction.update(registerUserQuery,
+						new Object[] { "Credit", transac.getAmount(), transac.getTransactionAccountID(),
+								transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
+								transac.getApprovedTime(), "Deposit at branch",0 });
+			}
 		}
 	}
 
@@ -103,7 +116,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 			System.out.println(loggedInUser);
 
 			String registerUserQuery = "INSERT into transactions"
-					+ "(TransactionID,TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments) "
+					+ "(TransactionID,TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments,critical_transactions) "
 					+ "VALUES (?,?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
@@ -121,7 +134,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 	}
 
-	@Override
+	
 	public void Transfer(Transactions transac) {
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -130,25 +143,44 @@ public class TransactionDAOImpl implements TransactionDAO {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			System.out.println(loggedInUser);
-
+			System.out.println(loggedInUser+"in transfer");
+			System.out.println(transac.getAmount());
+			if(Float.parseFloat(transac.getAmount())>=10000.0){
 			String registerUserQuery = "INSERT into transactions"
-					+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments) "
-					+ "VALUES (?,?,?,?,?,?,?,?)";
+					+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
+					+ ",Comments,critical_transactions) "
+					+ "VALUES (?,?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
 					new Object[] {  "Debit", transac.getAmount(),transac.getTransactionAccountID(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(),"User transfer Debit" });
+							transac.getApprovedTime(),"User transfer Debit" ,1});
 			jdbcTemplateForTransaction.update(registerUserQuery,
 					new Object[] {"Credit", transac.getAmount(),
-							transac.getTransactionAccountID(), transac.getAuthorizedManagerID(),
+							transac.getTransactiontoAccountID(), transac.getAuthorizedManagerID(),
 							transac.getTransactionTime(), transac.isApproved(), transac.getApprovedTime(),
-							"User transfer Credit" });
+							"User transfer Credit" ,1});
+			}
+			else if (Float.parseFloat(transac.getAmount())<=10000.0){
+				String registerUserQuery = "INSERT into transactions"
+						+ "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,"
+						+ "ApprovalTime,Comments,critical_transactions) "
+						+ "VALUES (?,?,?,?,?,?,?,?,?)";
+				JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
+				jdbcTemplateForTransaction.update(registerUserQuery,
+						new Object[] {  "Debit", transac.getAmount(),transac.getTransactionAccountID(),
+								transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
+								transac.getApprovedTime(),"User transfer Debit" ,0});
+				jdbcTemplateForTransaction.update(registerUserQuery,
+						new Object[] {"Credit", transac.getAmount(),
+								transac.getTransactiontoAccountID(), transac.getAuthorizedManagerID(),
+								transac.getTransactionTime(), transac.isApproved(), transac.getApprovedTime(),
+								"User transfer Credit",0 });
+				}
 			
 		}
 	}
-	@Override
+	
 	public void approval(int a ) {
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -166,7 +198,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 				}
 			}
 
-	@Override
 	public List<TransactionDTO> viewCondition(String Username) {
 			System.out.println("view:"+Username);
 			List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();

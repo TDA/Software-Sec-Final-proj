@@ -18,6 +18,7 @@ public class TransactionDTO {
 	private Timestamp ApprovedTime;
 	private String Comments;
 	private int AuthoriseBank;
+	private int criticalTransactions;
 
 	public int getTransactionID() {
 		return transactionID;
@@ -79,6 +80,12 @@ public class TransactionDTO {
 	}
 	public void setAuthoriseBank(int authoriseBank) {
 		AuthoriseBank = authoriseBank;
+	}
+	public int getCriticalTransactions() {
+		return criticalTransactions;
+	}
+	public void setCriticalTransactions(int criticalTransactions) {
+		this.criticalTransactions = criticalTransactions;
 	}
 	
 

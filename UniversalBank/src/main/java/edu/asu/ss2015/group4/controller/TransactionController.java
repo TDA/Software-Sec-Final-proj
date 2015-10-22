@@ -57,7 +57,7 @@ public class TransactionController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		
-		TransferValidator.validateForm(transac, result);
+		transfervalidator1.validateForm(transac, result);
 		System.out.println("here"+result);
 		if (result.hasErrors()) {
 			System.out.println("error");
