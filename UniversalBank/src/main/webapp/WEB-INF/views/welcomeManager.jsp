@@ -23,7 +23,7 @@
 			<li class="active"><a data-toggle="tab" href="#home">Account
 					Approvals</a></li>
 			<li><a data-toggle="tab" href="#menu1">Critical Transactions</a></li>
-			<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+			<li><a data-toggle="tab" href="#menu2">Pending Requests</a></li>
 			<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
 		</ul>
 
@@ -91,8 +91,34 @@
 				</div>
 			</div>
 			<div id="menu2" class="tab-pane fade">
-				<h3>Delete Accounts</h3>
-				
+				<h3>Process Requests</h3>
+				<div class="table-responsive">
+					<form:form method="POST" action="manager/process_requests">
+						<table id="mytable2" class="table table-bordred table-striped">
+							<thead>
+								<tr>
+									<th>Request By</th>
+									<th>Request Type</th>
+									<th>Approved By</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="requestFromUser" items="${requestFromUser}">
+									<tr>
+										<td>${requestFromUser.requesterName}</td>
+										<td>${requestFromUser.requestType}</td>
+										<td>${requestFromUser.approverName}</td>
+										<td><button type="submit" class="btn btn-success"
+												name="approveParam2"
+												value="approveVal_${requestFromUser.requestByUserName}_${requestFromUser.requestType}">Approve</button></td>
+										<td><button type="submit" class="btn btn-danger"
+												name="approveParam2" value="denyVal_${requestFromUser.requestByUserName}_${requestFromUser.requestType}">Deny</button></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</form:form>
+				</div>
 			</div>
 			<div id="menu3" class="tab-pane fade">
 				<h3>Menu 3</h3>

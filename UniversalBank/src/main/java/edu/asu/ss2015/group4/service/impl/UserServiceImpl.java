@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.asu.ss2015.group4.dao.UserDAO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.UserInformation;
 import edu.asu.ss2015.group4.service.UserService;
 
@@ -53,6 +54,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addEditInfoRequest(String requestType, String requestBy, String approveBy) {
 		userDAO.addEditInfoRequest(requestType, requestBy, approveBy);
+	}
+
+	@Override
+	public List<UserRequestsDTO> getAllRequests() {
+		return userDAO.getAllRequests();
 	}
 
 }

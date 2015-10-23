@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.UserInformation;
 
 public interface UserService {
@@ -26,5 +27,7 @@ public interface UserService {
 	public void assignSupervisor(String userName, String employeeName);
 
 	public void addEditInfoRequest(String requestType, String requestBy, String approveBy);
+
+	public List<UserRequestsDTO> getAllRequests();
 
 }

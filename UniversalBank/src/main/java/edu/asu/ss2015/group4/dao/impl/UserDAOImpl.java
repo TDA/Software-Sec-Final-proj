@@ -19,7 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import edu.asu.ss2015.group4.dao.UserDAO;
 import edu.asu.ss2015.group4.dto.CheckDuplicationDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.jdbc.CheckDuplicationMapper;
+import edu.asu.ss2015.group4.jdbc.RequestTableRow;
 import edu.asu.ss2015.group4.jdbc.UserTableRows;
 import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.UserInformation;
@@ -35,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
 	private static final String SQL_USER_ATTEMPTS_GET = "SELECT * FROM USER_ATTEMPTS WHERE username = ?";
 	private static final String SQL_USER_ATTEMPTS_INSERT = "INSERT INTO USER_ATTEMPTS (USERNAME, ATTEMPTS, LASTMODIFIED) VALUES(?,?,?)";
 	private static final String SQL_USER_ATTEMPTS_UPDATE_ATTEMPTS = "UPDATE USER_ATTEMPTS SET attempts = attempts + 1, lastmodified = ? WHERE username = ?";
-	private static final String SQL_USER_ATTEMPTS_RESET_ATTEMPTS = "UPDATE USER_ATTEMPTS SET attempts = 0, lastmodified = null WHERE username = ?";
+	private static final String SQL_USER_ATTEMPTS_RESET_ATTEMPTS = "UPDATE USER_ATTEMPTS SET attempts = 0, lastmodified = now() WHERE username = ?";
 
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
@@ -240,6 +242,15 @@ public class UserDAOImpl implements UserDAO {
 		String sql = "UPDATE users set SupervisorName = ? where and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.update(sql, new Object[] { employeeName, userName });
+	}
+
+	@Override
+	public List<UserRequestsDTO> getAllRequests() {
+		List<UserRequestsDTO> requests = new ArrayList<UserRequestsDTO>();
+		String retrieveDetailsQuery = "SELECT * from user_requests where user_requests.Approved=1";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		requests = jdbcTemplate.query(retrieveDetailsQuery, new RequestTableRow());
+		return requests;
 	}
 
 }

@@ -20,7 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.BankAccount;
+import edu.asu.ss2015.group4.model.UserRequest;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.MailingService;
 import edu.asu.ss2015.group4.service.TransactionService;
@@ -46,6 +48,7 @@ public class ManagerController {
 		List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
 		List<UserInformationDTO> disabledCustInfoFromDTO = new ArrayList<UserInformationDTO>();
 		List<TransactionDTO> userTransactionsDTO = new ArrayList<TransactionDTO>();
+		List<UserRequestsDTO> requests = new ArrayList<UserRequestsDTO>();
 
 		// check if user is login
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -58,17 +61,75 @@ public class ManagerController {
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 			disabledCustInfoFromDTO = userService.fetchDisabledExternalUserDetails();
 			userTransactionsDTO = transactionService.fetchCriticalTransactions();
+			requests = userService.getAllRequests();
+
+			List<UserRequest> listrequests = createRequestList(requests);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
 			modelAndView.addObject("disabledCustInfoFromDTO", disabledCustInfoFromDTO);
 			modelAndView.addObject("userTransactions", userTransactionsDTO);
+			modelAndView.addObject("requestFromUser", listrequests);
 
 			modelAndView.setViewName("welcomeManager");
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
 		return modelAndView;
+	}
+
+	private List<UserRequest> createRequestList(List<UserRequestsDTO> requests) {
+		List<UserRequest> listrequests = new ArrayList<UserRequest>();
+
+		for (UserRequestsDTO request : requests) {
+			UserRequest ur = new UserRequest();
+			List<UserInformationDTO> requester = new ArrayList<UserInformationDTO>();
+			requester = userService.fetchUserDetails(request.getRequestBy());
+
+			List<UserInformationDTO> approver = new ArrayList<UserInformationDTO>();
+			approver = userService.fetchUserDetails(request.getApprovedBy());
+
+			ur.setApproverName(approver.get(0).getLastName() + ", " + approver.get(0).getFirstName());
+			ur.setRequesterName(requester.get(0).getLastName() + ", " + requester.get(0).getFirstName());
+			ur.setRequestByUserName(requester.get(0).getUserName());
+			ur.setRequestType(request.getRequestType());
+
+			listrequests.add(ur);
+		}
+
+		return listrequests;
+	}
+
+	@RequestMapping(value = "/manager/process_requests", method = RequestMethod.POST)
+	public ModelAndView processRequests(@RequestParam("approveParam2") String approveOrDeny) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("permission-denied");
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String loggedInUser = userDetail.getUsername();
+
+		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+			String[] split = approveOrDeny.split("_");
+			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+
+			if (split[0].equals("approveVal")) {
+				switch (split[2]) {
+				case "DELETE_ACCOUNT":
+					break;
+				case "EDIT_PROFILE":
+					break;
+				case "REOPEN_ACCOUNT":
+					break;
+				default:
+					break;
+				}
+			}
+
+		} else {
+			return modelAndView;
+		}
+		return managerPage();
 	}
 
 	@RequestMapping(value = "/manager/critical_transaction", method = RequestMethod.POST)
@@ -149,7 +210,6 @@ public class ManagerController {
 		List<UserInformationDTO> regEmployees = new ArrayList<UserInformationDTO>();
 		regEmployees = userService.fetchRegularEmployees();
 		int random = randInt(0, regEmployees.size());
-
 		return regEmployees.get(random).getUserName();
 	}
 
