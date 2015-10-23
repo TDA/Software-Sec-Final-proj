@@ -166,7 +166,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			String registerUserQuery = "Update transactions  SET AuthoriseBank=? where transactionID=?";
+			String registerUserQuery = "Update transactions  SET Authorise_bank=? where transactionID=?";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { 1, a });
 		}
@@ -176,7 +176,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 	public List<TransactionDTO> viewCondition(String Username) {
 
 		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where TransactionAccountID=(Select AccountID from accounts where username=?) and AuthoriseBank=?";
+		String retrieveDetailsQuery = "SELECT * from transactions where TransactionAccountID=(Select AccountID from accounts where username=?) and Authorise_bank=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { Username, 0 },
 				new TransactionTableRows());
@@ -192,21 +192,22 @@ public class TransactionDAOImpl implements TransactionDAO {
 		return criticalTransactions;
 	}
 
-	//added by Gaurav
+	// added by Gaurav
 	@Override
 	public List<TransactionDTO> viewTransactionForDeletion(String Username) {
-		System.out.println("view:"+Username);
+		System.out.println("view:" + Username);
 		System.out.println("called from transaction deletion");
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where AuthoriseBank=? and IsDeleted=?" ;
+		String retrieveDetailsQuery = "SELECT * from transactions where Authorise_bank=? and IsDeleted=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] {0,0},new TransactionTableRows());
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0 },
+				new TransactionTableRows());
 		return transactionToDisplay;
 	}
-	
-	//added by Gaurav
+
+	// added by Gaurav
 	@Override
-	public void deleteTransaction(int a ) {
+	public void deleteTransaction(int a) {
 		System.out.println("GOING TO UPDATE TRANS TABLE AFTER DELETION" + a);
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -215,15 +216,13 @@ public class TransactionDAOImpl implements TransactionDAO {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-				System.out.println("transactionid" + a);
+			System.out.println("transactionid" + a);
 			String registerUserQuery = "Update transactions SET IsDeleted=? , Amount=? where transactionID=?";
-			System.out.println("updatedapprove"+a);
+			System.out.println("updatedapprove" + a);
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
-			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] {1,0.0,a});
-				}
-			}
-	
+			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { 1, 0.0, a });
+		}
+	}
 
 	@Override
 	public void updateTransaction(TransactionDTO transaction, String managerId) {
