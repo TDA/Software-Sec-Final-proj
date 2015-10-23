@@ -7,6 +7,7 @@ import java.util.List;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.model.editProfile;
 
 public interface UserDAO {
 
@@ -20,7 +21,7 @@ public interface UserDAO {
 
 	public boolean unlockExternalUserAccount(String username);
 
-	public String EditUser(UserInformation userInfo) throws FileNotFoundException, NoSuchAlgorithmException;
+	public String EditUser(editProfile addInfo) throws FileNotFoundException, NoSuchAlgorithmException;
 
 	void updateFailAttempts(String username);
 

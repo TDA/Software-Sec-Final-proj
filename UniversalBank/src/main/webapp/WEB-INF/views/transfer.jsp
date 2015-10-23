@@ -99,15 +99,17 @@ body {
 											<h3>${errorMsg}</h3>
 										</c:if>
 										<br />
-										<b>Enter Your AccountId</b>
-										<FONT color="red"><form:errors path="transactionAccountID" /></FONT>
+										<b>Account Type:</b>
+										<FONT color="red"><form:errors path="accountType" /></FONT>
+										<br />
+										<select class="selectpicker form-control" name="accountType">
+											<option value="">Select</option>
+											<c:forEach var="bankval" items="${mylist}">
+												<option value="${bankval}">${bankval}</option>
+											</c:forEach>
+										</select>
+										<br />
 										
-										<br />
-										<input type="text" name="transactionAccountID" size="10" class="form-control" id="transactionAccountID"
-											style="color: #999;" />
-										<br />
-										<br />
-										<br />
 										<b> Enter to AccountId</b>
 										<FONT color="red"><form:errors path="transactiontoAccountID" /></FONT>
 										

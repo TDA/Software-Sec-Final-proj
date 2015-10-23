@@ -23,6 +23,7 @@ import edu.asu.ss2015.group4.jdbc.CheckDuplicationMapper;
 import edu.asu.ss2015.group4.jdbc.UserTableRows;
 import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.model.editProfile;
 
 public class UserDAOImpl implements UserDAO {
 	@Autowired
@@ -135,7 +136,7 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 	}
 
-	public String EditUser(UserInformation userInfo) throws FileNotFoundException {
+	public String EditUser(editProfile userInfo) throws FileNotFoundException {
 		System.out.println(userInfo.getUserName() + userInfo.getPassword() + userInfo.getEmailAddress()
 				+ userInfo.getSocialSecurityNumber());
 		String registerUserQuery = "INSERT into user_requests (username,password,emailID,SSN) VALUES (?,?,?,?)";

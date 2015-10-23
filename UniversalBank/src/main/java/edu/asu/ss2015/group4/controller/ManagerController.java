@@ -93,8 +93,8 @@ public class ManagerController {
 		String s = midSeed + "";
 		String subStr = s.substring(3, 9);
 
-		String checkingAccountNum = subStr + "-101";
-		String savingsAccountNum = subStr + "-102";
+		String checkingAccountNum = subStr + "101";
+		String savingsAccountNum = subStr + "102";
 
 		// Checking account
 		BankAccount chkAccount = new BankAccount(checkingAccountNum);

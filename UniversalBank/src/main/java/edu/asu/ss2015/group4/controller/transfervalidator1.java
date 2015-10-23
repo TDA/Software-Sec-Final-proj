@@ -27,15 +27,14 @@ public class transfervalidator1 {
 
 		Transactions cinfo = (Transactions) info;
 		
-		 String transactionAccountID = cinfo.getTransactionAccountID();
-		 System.out.println("in validator"+transactionAccountID);
-		Pattern p1 = Pattern.compile("[^0-9]");
-		Matcher match_fn = p1.matcher(transactionAccountID.subSequence(0, transactionAccountID.length()));
-		if ((transactionAccountID.length()) > 10 || match_fn.find() == true) {
-			System.out.println("herein validate");
-			errors.rejectValue("transactionAccountID", "NotEmpty.Transactions.transactionAccountID", " is invalid");
-		}
 		
+		Pattern p1 = Pattern.compile("[^0-9]");
+		
+		String accountType = cinfo.getAccountType();
+		if (accountType.isEmpty()) {
+			errors.rejectValue("accountType", "NotEmpty.Transactions.accountType", "Select at least one option");
+		}
+
 		 String transactiontoAccountID = cinfo.getTransactiontoAccountID();
 		 System.out.println("in validator"+transactiontoAccountID);
 		

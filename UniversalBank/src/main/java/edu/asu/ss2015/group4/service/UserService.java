@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.model.editProfile;
 
 public interface UserService {
 
@@ -19,5 +20,5 @@ public interface UserService {
 
 	public boolean unlockExternalUserAccount(String username);
 
-	public String EditInformation(UserInformation addInfo) throws NoSuchAlgorithmException, FileNotFoundException;
+	public String EditInformation(editProfile addInfo) throws NoSuchAlgorithmException, FileNotFoundException;
 }

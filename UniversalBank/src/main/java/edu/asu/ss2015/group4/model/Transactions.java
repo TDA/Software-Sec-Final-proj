@@ -8,10 +8,10 @@ public class Transactions {
 
 private int transactionId;
 private String transactionType;
-
+@NotEmpty(message = "Please select a value")
+private String AccountType;
 @NotEmpty(message = "Please enter some amount")
 private String amount;
-@NotEmpty(message = "Please enter your AccountId")
 private String transactionAccountID;
 private String transactiontoAccountID;
 private String authorizedManagerID;
@@ -28,6 +28,12 @@ public int getTransactionId() {
 }
 public void setTransactionId(int transactionId) {
 	this.transactionId = transactionId;
+}
+public String getAccountType() {
+	return AccountType;
+}
+public void setAccountType(String AccountType) {
+	this.AccountType = AccountType;
 }
 public String getTransactionType() {
 	return transactionType;

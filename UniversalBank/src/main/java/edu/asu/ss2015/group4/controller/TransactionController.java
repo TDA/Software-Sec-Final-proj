@@ -36,6 +36,9 @@ import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
 public class TransactionController {
+	
+	
+	
 	@Autowired
 	TransactionService trans;
 
@@ -45,7 +48,11 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("transaction", transac);
+		ArrayList<String> arrayList = new ArrayList<String>();
+				arrayList.add("checking");
+				arrayList.add("savings");
+		modelAndView.addObject("mylist",arrayList);
+		System.out.println(arrayList.get(0));
 		modelAndView.setViewName("transfer");
 		return modelAndView;
 	}
@@ -56,7 +63,7 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		
+		System.out.println("checking"+transac.getAccountType());
 		transfervalidator1.validateForm(transac, result);
 		System.out.println("here"+result);
 		if (result.hasErrors()) {
@@ -76,7 +83,6 @@ public class TransactionController {
 		
 		return modelAndView;
 	}
-
 	@RequestMapping(value = "/ViewTransactions", method = RequestMethod.GET)
 	public ModelAndView ViewPage() {
 		System.out.println("enteredtransac");
@@ -106,7 +112,11 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-
+		ArrayList<String> arrayList = new ArrayList<String>();
+		arrayList.add("checking");
+		arrayList.add("savings");
+		modelAndView.addObject("mylist",arrayList);
+		System.out.println(arrayList.get(0));
 		modelAndView.addObject("transaction", transac);
 		System.out.println("to transfer");
 
@@ -145,7 +155,11 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-
+		ArrayList<String> arrayList = new ArrayList<String>();
+		arrayList.add("checking");
+		arrayList.add("savings");
+		modelAndView.addObject("mylist",arrayList);
+		System.out.println(arrayList.get(0));
 		modelAndView.addObject("transaction", transac);
 		System.out.println("to transfer");
 
