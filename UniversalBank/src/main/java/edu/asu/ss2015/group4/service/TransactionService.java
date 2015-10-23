@@ -27,6 +27,9 @@ public interface TransactionService {
 	public String TransferUser(Transactions transaction);
 
 	public String Approve(int i);
+	//added by gaurav
+	public List<TransactionDTO> DisplayTransactionInfo(String Username);
+	public String Delete(int i);
 
 	public List<TransactionDTO> fetchCriticalTransactions();
 
