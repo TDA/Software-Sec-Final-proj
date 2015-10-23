@@ -76,4 +76,17 @@ public class TransactionServiceImpl implements TransactionService {
 		return transac.viewTransactionByTransactionID(id);
 	}
 
+	//added by gaurav
+	@Override
+	public List<TransactionDTO> DisplayTransactionInfo(String Username) {
+		// TODO Auto-generated method stub
+		return transac.viewTransactionForDeletion(Username);
+	}
+	
+//	///added by gaurav
+	@Override
+	public String Delete(int i) {
+	transac.deleteTransaction(i);
+	return "deleted";
+	}
 }

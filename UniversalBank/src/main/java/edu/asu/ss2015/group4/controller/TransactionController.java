@@ -250,4 +250,56 @@ public class TransactionController {
 		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return RequestPage();
 	}
+	
+	//Added By Gaurav
+	@RequestMapping(value = "/DeleteTransaction", method = RequestMethod.GET)
+	public ModelAndView DeleteTransactionPage() {
+
+		Transactions transac = new Transactions();
+		ModelAndView modelAndView = new ModelAndView();
+		List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			modelAndView.addObject("userName", loggedInUser);
+			System.out.println(loggedInUser);
+
+			// Call the DAOImpl layer
+			custInfoFromDTO = trans.DisplayTransactionInfo(loggedInUser);
+
+			// Add it to the model
+			modelAndView.addObject("userInformation", custInfoFromDTO);
+			System.out.println(transac.getTransactionId());
+			modelAndView.setViewName("DeleteTransaction");
+		}
+		else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
+		
+	}
+	
+	//Added By Gaurav
+	@RequestMapping(value = "/DeleteTransaction", method = RequestMethod.POST)
+	public ModelAndView deleteTransaction(@RequestParam("deleteParam") String strDelete) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("permission-denied");
+		if (strDelete != null && !strDelete.isEmpty()) {
+			String[] split = strDelete.split("_");
+			String x = split[0];
+			String y = split[1];
+			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+			if (split[0].equals("delete")) {
+				int x1=Integer.parseInt(y);
+				String approve = trans.Delete(x1);
+			}
+		} else {
+			return modelAndView;
+		}
+		return DeleteTransactionPage();
+	}
+	
+	
+	
 }
