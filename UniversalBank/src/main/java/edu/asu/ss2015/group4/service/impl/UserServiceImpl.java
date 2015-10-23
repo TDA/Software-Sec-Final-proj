@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
 		userDAO.assignSupervisor(userName, employeeName);
 	}
 
+	@Override
+	public void addEditInfoRequest(String requestType, String requestBy, String approveBy) {
+		userDAO.addEditInfoRequest(requestType, requestBy, approveBy);
+	}
+
 }

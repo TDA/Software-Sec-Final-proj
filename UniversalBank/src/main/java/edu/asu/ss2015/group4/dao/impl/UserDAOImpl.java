@@ -98,7 +98,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveUserDetails(String username) {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email " + "from users where users.username=?";
+				+ "users.AccountType, users.email, users.SupervisorName " + "from users where users.username=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username },
 				new UserTableRows());
@@ -136,14 +136,17 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public String EditUser(UserInformation userInfo) throws FileNotFoundException {
-		System.out.println(userInfo.getUserName() + userInfo.getPassword() + userInfo.getEmailAddress()
-				+ userInfo.getSocialSecurityNumber());
-		String registerUserQuery = "INSERT into edit_info_requests (username,password,emailID,SSN) VALUES (?,?,?,?)";
+		String registerUserQuery = "INSERT into edit_info (username,password,emailID,SSN) VALUES (?,?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { userInfo.getUserName(),
 				userInfo.getPassword(), userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
 		return "Registration Completed! <br/> Please check you email for account approval notification!";
+	}
 
+	public void addEditInfoRequest(String requestType, String requestBy, String approveBy) {
+		String registerUserQuery = "INSERT into user_requests (requestBy,requstType,approvedBy) VALUES (?,?,?)";
+		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
+		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { requestBy, requestType, approveBy });
 	}
 
 	@Override
@@ -209,7 +212,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void resetFailAttempts(String username) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		//jdbcTemplate.update(SQL_USER_ATTEMPTS_RESET_ATTEMPTS, new Object[] { username });
+		jdbcTemplate.update(SQL_USER_ATTEMPTS_RESET_ATTEMPTS, new Object[] { username });
 	}
 
 	private boolean isUserExists(String username) {
@@ -238,4 +241,5 @@ public class UserDAOImpl implements UserDAO {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.update(sql, new Object[] { employeeName, userName });
 	}
+
 }

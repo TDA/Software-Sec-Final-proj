@@ -131,9 +131,16 @@ body {
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="edit"
 												id="edit" value="edit" />
+												
+												
 										</h4>
 											
 									</form:form>
+									<form:form method="POST" action="DisplaySignUp/delete"
+										modelAttribute="delete" autocomplete="off">
+										<input type="submit" style="margin-right: 5%" name="delete"
+												id="delete" value="Delete Account" />
+										</form:form>
 								</div>
 							</div>
 						</div>

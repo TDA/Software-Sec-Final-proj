@@ -31,4 +31,7 @@ public interface UserDAO {
 	public List<UserInformationDTO> fetchAllRegularEmployees();
 
 	public void assignSupervisor(String userName, String employeeName);
+
+	public void addEditInfoRequest(String requestType, String requestBy, String approveBy);
+
 }
