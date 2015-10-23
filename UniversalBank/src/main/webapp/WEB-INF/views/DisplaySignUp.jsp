@@ -131,7 +131,6 @@ body {
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="edit"
 												id="edit" value="edit" />
-												
 										</h4>
 											
 									</form:form>

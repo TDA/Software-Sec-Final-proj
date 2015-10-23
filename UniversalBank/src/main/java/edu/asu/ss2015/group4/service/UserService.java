@@ -20,4 +20,8 @@ public interface UserService {
 	public boolean unlockExternalUserAccount(String username);
 
 	public String EditInformation(UserInformation addInfo) throws NoSuchAlgorithmException, FileNotFoundException;
+
+	public List<UserInformationDTO> fetchRegularEmployees();
+
+	public void assignSupervisor(String userName, String employeeName);
 }

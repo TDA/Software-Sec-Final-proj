@@ -222,4 +222,20 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return result;
 	}
+
+	@Override
+	public List<UserInformationDTO> fetchAllRegularEmployees() {
+		List<UserInformationDTO> regulareEmployees = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username from users where user.AccountType=CLERK";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		regulareEmployees = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return regulareEmployees;
+	}
+
+	@Override
+	public void assignSupervisor(String userName, String employeeName) {
+		String sql = "UPDATE users set SupervisorName = ? where and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.update(sql, new Object[] { employeeName, userName });
+	}
 }
