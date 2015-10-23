@@ -2,8 +2,12 @@ package edu.asu.ss2015.group4.dto;
 
 import java.sql.Timestamp;
 
-public class TransactionDTO {
+import org.hibernate.validator.constraints.NotEmpty;
 
+import edu.asu.ss2015.group4.model.Transactions;
+
+public class TransactionDTO {
+	
 	private int transactionID;
 	private String transactionType;
 	private String amount;
@@ -14,6 +18,7 @@ public class TransactionDTO {
 	private Timestamp ApprovedTime;
 	private String comments;
 	private int AuthoriseBank;
+	private int criticalTransactions;
 
 	public int getTransactionID() {
 		return transactionID;
@@ -94,5 +99,12 @@ public class TransactionDTO {
 	public void setAuthoriseBank(int authoriseBank) {
 		AuthoriseBank = authoriseBank;
 	}
+	public int getCriticalTransactions() {
+		return criticalTransactions;
+	}
+	public void setCriticalTransactions(int criticalTransactions) {
+		this.criticalTransactions = criticalTransactions;
+	}
+	
 
 }

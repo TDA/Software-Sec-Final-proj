@@ -12,8 +12,8 @@ import edu.asu.ss2015.group4.model.UserInformation;
 
 
 
-@Component("TransferValidator")
-public class TransferValidator {
+@Component("TransferValidator1")
+public class transfervalidator1 {
 
 	public boolean supports(Class<?> c) {
 		return Transactions.class.isAssignableFrom(c);
@@ -27,11 +27,22 @@ public class TransferValidator {
 
 		Transactions cinfo = (Transactions) info;
 		
+		
+		Pattern p1 = Pattern.compile("[^0-9]");
+		
 		String accountType = cinfo.getAccountType();
 		if (accountType.isEmpty()) {
 			errors.rejectValue("accountType", "NotEmpty.Transactions.accountType", "Select at least one option");
 		}
 
+		 String transactiontoAccountID = cinfo.getTransactiontoAccountID();
+		 System.out.println("in validator"+transactiontoAccountID);
+		
+		Matcher match_fn1 = p1.matcher(transactiontoAccountID.subSequence(0, transactiontoAccountID.length()));
+		if ((transactiontoAccountID.length()) > 10 || match_fn1.find() == true) {
+			System.out.println("herein validate");
+			errors.rejectValue("transactiontoAccountID", "NotEmpty.Transactions.transactiontoAccountID", " is invalid");
+		}
 		Pattern p2 = Pattern.compile("([0-9]+([0-9]{1,2})?)");
 		
 		String amount=cinfo.getAmount();

@@ -25,6 +25,7 @@ import edu.asu.ss2015.group4.jdbc.RequestTableRow;
 import edu.asu.ss2015.group4.jdbc.UserTableRows;
 import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.model.editProfile;
 
 public class UserDAOImpl implements UserDAO {
 	@Autowired
@@ -137,7 +138,7 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 	}
 
-	public String EditUser(UserInformation userInfo) throws FileNotFoundException {
+	public String EditUser(editProfile userInfo) throws FileNotFoundException {
 		String registerUserQuery = "INSERT into edit_info (username,password,emailID,SSN) VALUES (?,?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { userInfo.getUserName(),

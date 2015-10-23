@@ -6,20 +6,22 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Transactions {
 
-	private int transactionId;
-	private String transactionType;
+private int transactionId;
+private String transactionType;
+@NotEmpty(message = "Please select a value")
+private String AccountType;
+@NotEmpty(message = "Please enter some amount")
+private String amount;
+private String transactionAccountID;
+private String transactiontoAccountID;
+private String authorizedManagerID;
+private Timestamp transactionTime;
+private boolean approved;
+private Timestamp ApprovedTime;
+private String comments;
+private int Authorisebank;
+private int criticalTransactions;
 
-	@NotEmpty(message = "Please enter some amount")
-	private String amount;
-	@NotEmpty(message = "Please enter your AccountId")
-	private String transactionAccountID;
-
-	private String authorizedManagerID;
-	private Timestamp transactionTime;
-	private boolean approved;
-	private Timestamp ApprovedTime;
-	private String Comments;
-	private int Authorisebank;
 
 	public int getTransactionId() {
 		return transactionId;
@@ -28,7 +30,12 @@ public class Transactions {
 	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
-
+public String getAccountType() {
+	return AccountType;
+}
+public void setAccountType(String AccountType) {
+	this.AccountType = AccountType;
+}
 	public String getTransactionType() {
 		return transactionType;
 	}
@@ -78,11 +85,11 @@ public class Transactions {
 	}
 
 	public String getComments() {
-		return Comments;
+		return comments;
 	}
 
 	public void setComments(String comments) {
-		this.Comments = comments;
+		this.comments = comments;
 	}
 
 	public String getTransactionAccountID() {
@@ -92,13 +99,25 @@ public class Transactions {
 	public void setTransactionAccountID(String transactionAccountID) {
 		this.transactionAccountID = transactionAccountID;
 	}
-
+public String getTransactiontoAccountID() {
+	return transactiontoAccountID;
+	}
+public void setTransactiontoAccountID(String transactiontoAccountID) {
+	this.transactiontoAccountID = transactiontoAccountID;
+}
 	public int getAuthorisebank() {
 		return Authorisebank;
 	}
 
 	public void setAuthorisebank(int authorisebank) {
 		Authorisebank = authorisebank;
+}
+public int getCriticalTransactions() {
+	return criticalTransactions;
+}
+public void setCriticalTransactions(int criticalTransactions) {
+	this.criticalTransactions = criticalTransactions;
 	}
 
 }
+

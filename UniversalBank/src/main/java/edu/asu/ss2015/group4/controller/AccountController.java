@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.model.editProfile;
 import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
@@ -83,16 +84,28 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/DisplaySignUp", method = RequestMethod.POST)
-	public ModelAndView EditPageUpdate(@Valid @ModelAttribute("editForm") UserInformation custInfo,
+	public ModelAndView EditPageUpdate(@Valid @ModelAttribute("editForm") editProfile custInfo,
 			BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		String loggedInUser = userDetail.getUsername();
+
 		ModelAndView modelAndView = new ModelAndView();
-		userService.EditInformation(custInfo);
-		List<UserInformationDTO> user = userService.fetchUserDetails(loggedInUser);
-		userService.addEditInfoRequest("EDIT_INFO", custInfo.getUserName(), user.get(0).getSupervisorName());
-		modelAndView.setViewName("success");
+		
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			editprofileValidator.validateForm(custInfo, result);
+			System.out.println("here"+result);
+			
+		if (result.hasErrors()) {
+			System.out.println(":in displayedit");
+			modelAndView.setViewName("DisplaySignUp"); // This prints errors
+			
+		} else {
+			userService.EditInformation(custInfo);
+			System.out.println("successinedit");
+			modelAndView.setViewName("success");
+		
+		}
+		}	
 		return modelAndView;
 	}
 

@@ -8,7 +8,6 @@ import edu.asu.ss2015.group4.model.Transactions;
 public interface TransactionDAO {
 
 
-	public void insert(Transactions transaction);
 
 	public List<TransactionDTO> view(String Username);
 
@@ -32,6 +31,10 @@ public interface TransactionDAO {
 
 		//added by gaurav
 	public List <TransactionDTO>viewTransactionForDeletion (String Username);
-	void deleteTransaction(int a);
+	public void deleteTransaction(int a, String userName);
+	public List<TransactionDTO> viewTransactionToRegularEmployee(String Username);
+	public void approveTransactionRegularEmployee(int a, String userName);
+	public void denyTransactionRegularEmployee(int a, String userName);
 
 }
+

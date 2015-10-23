@@ -10,6 +10,7 @@ import edu.asu.ss2015.group4.dao.UserDAO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.model.editProfile;
 import edu.asu.ss2015.group4.service.UserService;
 
 public class UserServiceImpl implements UserService {
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
 		return userDAO.unlockExternalUserAccount(username);
 	}
 
-	public String EditInformation(UserInformation addInfo) throws NoSuchAlgorithmException, FileNotFoundException {
+	public String EditInformation(editProfile addInfo) throws NoSuchAlgorithmException, FileNotFoundException {
 		return userDAO.EditUser(addInfo);
 	}
 

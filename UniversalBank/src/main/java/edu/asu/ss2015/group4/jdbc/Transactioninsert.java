@@ -1,4 +1,3 @@
-
 package edu.asu.ss2015.group4.jdbc;
 
 import java.sql.ResultSet;
@@ -28,3 +27,4 @@ public class Transactioninsert implements ResultSetExtractor<TransactionDTO> {
 
 	}
 }
+

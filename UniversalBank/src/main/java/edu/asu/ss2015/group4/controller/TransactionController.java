@@ -36,6 +36,9 @@ import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
 public class TransactionController {
+	
+	
+	
 	@Autowired
 	TransactionService trans;
 
@@ -45,7 +48,11 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("transaction", transac);
+		ArrayList<String> arrayList = new ArrayList<String>();
+				arrayList.add("checking");
+				arrayList.add("savings");
+		modelAndView.addObject("mylist",arrayList);
+		System.out.println(arrayList.get(0));
 		modelAndView.setViewName("transfer");
 		return modelAndView;
 	}
@@ -56,8 +63,8 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		
-		TransferValidator.validateForm(transac, result);
+		System.out.println("checking"+transac.getAccountType());
+		transfervalidator1.validateForm(transac, result);
 		System.out.println("here"+result);
 		if (result.hasErrors()) {
 			System.out.println("error");
@@ -106,7 +113,11 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-
+		ArrayList<String> arrayList = new ArrayList<String>();
+		arrayList.add("checking");
+		arrayList.add("savings");
+		modelAndView.addObject("mylist",arrayList);
+		System.out.println(arrayList.get(0));
 		modelAndView.addObject("transaction", transac);
 		System.out.println("to transfer");
 
@@ -145,7 +156,11 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-
+		ArrayList<String> arrayList = new ArrayList<String>();
+		arrayList.add("checking");
+		arrayList.add("savings");
+		modelAndView.addObject("mylist",arrayList);
+		System.out.println(arrayList.get(0));
 		modelAndView.addObject("transaction", transac);
 		System.out.println("to transfer");
 
@@ -285,6 +300,10 @@ public class TransactionController {
 	public ModelAndView deleteTransaction(@RequestParam("deleteParam") String strDelete) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String loggedInUser = userDetail.getUsername();
+		
 		if (strDelete != null && !strDelete.isEmpty()) {
 			String[] split = strDelete.split("_");
 			String x = split[0];
@@ -292,7 +311,7 @@ public class TransactionController {
 			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 			if (split[0].equals("delete")) {
 				int x1=Integer.parseInt(y);
-				String approve = trans.Delete(x1);
+				String approve = trans.Delete(x1,loggedInUser);
 			}
 		} else {
 			return modelAndView;
@@ -301,5 +320,70 @@ public class TransactionController {
 	}
 	
 	
+	//Added By Gaurav
+	@RequestMapping(value = "/ViewTransactionRegularEmployee", method = RequestMethod.GET)
+	public ModelAndView ViewTransactionRegularEmployeePage() {
+
+		Transactions transac = new Transactions();
+		ModelAndView modelAndView = new ModelAndView();
+		List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			modelAndView.addObject("userName", loggedInUser);
+			System.out.println(loggedInUser);
+
+			// Call the DAOImpl layer
+			custInfoFromDTO = trans.DisplayTransactionInfoToRegularEmployee(loggedInUser);
+
+			// Add it to the model
+			modelAndView.addObject("userInformation", custInfoFromDTO);
+			System.out.println(transac.getTransactionId());
+			modelAndView.setViewName("ViewTransactionRegularEmployee");
+		}
+		else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
+		
+	}
 	
+	//added by gaurav
+	@RequestMapping(value = "/ViewTransactionRegularEmployee", method = RequestMethod.POST)
+	public ModelAndView approveDenyTransactionRegularEmployee(@RequestParam("approveDenyParamRegularEmployee") String approveOrDeny) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("permission-denied");
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String loggedInUser = userDetail.getUsername();
+		
+		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+			String[] split = approveOrDeny.split("_");
+			String x = split[0];
+			String y = split[1];
+			
+			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+			
+			if (split[0].equals("approve")) {
+				int x1=Integer.parseInt(y);
+				System.out.println("xhere"+x1);
+				String approve = trans.RegularEmployeeAprroveTransaction(x1,loggedInUser);
+			}
+			
+			else {
+				int x1=Integer.parseInt(y);
+				String deny = trans.RegularEmployeeDeleteTransaction(x1,loggedInUser);
+			}
+			
+		} else {
+			return modelAndView;
+		}
+		return ViewTransactionRegularEmployeePage();
+	}
+	
+	
+	
+
 }

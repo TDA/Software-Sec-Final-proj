@@ -113,20 +113,23 @@ th, td {
     padding: 5px;
 }
 </style>
-<form:form method="POST" action="DeleteTransaction"
+<form:form method="POST" action="ViewTransactionRegularEmployee"
  modelAttribute="ApproveForm" autocomplete="off">
     <table style="width:80%">
   			<tr>
   				<th>Transaction ID</th>
     			<th>Transaction Type</th>
-    			<th>Amount($)</th>		
+    			<th>Amount($)</th>	
+    			<th>Comment</th>		
    				  </tr>
         <c:forEach items="${userInformation}" var="transaction">
             <tr>
                 <td><c:out value="${transaction.transactionID}" /></td>
                 <td><c:out value="${transaction.transactionType}" /></td>
                 <td><c:out value="${transaction.amount}" /></td>
-                <td><button type="submit" name="deleteParam" value="delete_${transaction.transactionID}"/>Delete </button></td>
+                <td><c:out value="${transaction.comments}" /></td>
+                <td><button type="submit" name="approveDenyParamRegularEmployee" value="approve_${transaction.transactionID}"/>Approve</button></td>
+                <td><button type="submit" name="approveDenyParamRegularEmployee" value="deny_${transaction.transactionID}"/>Deny</button></td>
             </tr>
         </c:forEach>
 

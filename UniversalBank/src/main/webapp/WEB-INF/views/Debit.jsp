@@ -98,12 +98,15 @@ body {
 											<h3>${errorMsg}</h3>
 										</c:if>
 										<br />
-										<b>AccountId</b>
-										<FONT color="red"><form:errors path="transactionAccountID" /></FONT>
+										<b>Account Type:</b>
+										<FONT color="red"><form:errors path="accountType" /></FONT>
 										<br />
-										<input type="text" name="transactionAccountID" size="10" class="form-control" id="transactionAccountID"
-											style="color: #999;" />
-										<br />
+										<select class="selectpicker form-control" name="accountType">
+											<option value="">Select</option>
+											<c:forEach var="bankval" items="${mylist}">
+												<option value="${bankval}">${bankval}</option>
+											</c:forEach>
+										</select>
 										<br />
 										<br />
 										
@@ -114,6 +117,9 @@ body {
 											style="color: #999;" />
 										<br />
 										
+										<br />
+										 <Font Color="red">I authroise the bank to modify ,delete and access my transactions</Font>
+										<br />
 										<br />
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Debit"
