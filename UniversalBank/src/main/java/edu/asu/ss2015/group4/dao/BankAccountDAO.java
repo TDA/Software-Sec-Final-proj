@@ -7,7 +7,7 @@ import edu.asu.ss2015.group4.model.BankAccount;
 public interface BankAccountDAO {
 	public void insert(BankAccount account);
 
-	public void update(BankAccount account);
+	public void updateBalance(BankAccount account);
 
 	public void update(List<BankAccount> accounts);
 

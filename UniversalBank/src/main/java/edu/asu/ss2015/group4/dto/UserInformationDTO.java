@@ -7,6 +7,7 @@ public class UserInformationDTO {
 	private String accountType;
 	private String emailAddress;
 	private String socialSecurityNumber;
+	private String supervisorName;
 
 	public String getUserName() {
 		return userName;
@@ -54,5 +55,13 @@ public class UserInformationDTO {
 
 	public void setSocialSecurityNumber(String socialSecurityNumber) {
 		this.socialSecurityNumber = socialSecurityNumber;
+	}
+
+	public String getSupervisorName() {
+		return supervisorName;
+	}
+
+	public void setSupervisorName(String supervisorName) {
+		this.supervisorName = supervisorName;
 	}
 }

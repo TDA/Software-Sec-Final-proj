@@ -26,8 +26,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 	}
 
 	@Override
-	public void update(BankAccount account) {
-		// TODO Auto-generated method stub
+	public void updateBalance(BankAccount account) {
 
 	}
 

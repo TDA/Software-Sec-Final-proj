@@ -2,6 +2,7 @@ package edu.asu.ss2015.group4.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.MailingService;
+import edu.asu.ss2015.group4.service.TransactionService;
 import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
@@ -33,12 +36,16 @@ public class ManagerController {
 	@Autowired
 	BankAccountService accountService;
 
+	@Autowired
+	TransactionService transactionService;
+
 	@RequestMapping(value = "/manager", method = RequestMethod.GET)
 	public ModelAndView managerPage() {
 
 		ModelAndView modelAndView = new ModelAndView();
 		List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
 		List<UserInformationDTO> disabledCustInfoFromDTO = new ArrayList<UserInformationDTO>();
+		List<TransactionDTO> userTransactionsDTO = new ArrayList<TransactionDTO>();
 
 		// check if user is login
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -50,21 +57,45 @@ public class ManagerController {
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 			disabledCustInfoFromDTO = userService.fetchDisabledExternalUserDetails();
+			userTransactionsDTO = transactionService.fetchCriticalTransactions();
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
 			modelAndView.addObject("disabledCustInfoFromDTO", disabledCustInfoFromDTO);
+			modelAndView.addObject("userTransactions", userTransactionsDTO);
 
 			modelAndView.setViewName("welcomeManager");
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
 		return modelAndView;
+	}
 
+	@RequestMapping(value = "/manager/critical_transaction", method = RequestMethod.POST)
+	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam1") String approveOrDeny) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("permission-denied");
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String loggedInUser = userDetail.getUsername();
+
+		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+			String[] split = approveOrDeny.split("_");
+			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+			custInfoFromDTO = transactionService.viewTransactionByTransactionID(split[1]);
+
+			if (split[0].equals("approveVal")) {
+				transactionService.updateTransaction(custInfoFromDTO.get(0), loggedInUser);
+			}
+		} else {
+			return modelAndView;
+		}
+		return managerPage();
 	}
 
 	@RequestMapping(value = "/manager", method = RequestMethod.POST)
-	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam") String approveOrDeny) {
+	public ModelAndView manageCriticalTransactionRequests(@RequestParam("approveParam") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
@@ -74,6 +105,9 @@ public class ManagerController {
 
 			if (split[0].equals("approveVal")) {
 				userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
+				String employeeName = getRandomRegularEmployee();
+				userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
+
 				generateAccountInformation(custInfoFromDTO.get(0));
 				sendEmailToUser(custInfoFromDTO.get(0));
 			}
@@ -106,8 +140,40 @@ public class ManagerController {
 		svgAccount.setUserName(userInformationDTO.getUserName());
 		svgAccount.setAccountType("Savings");
 		svgAccount.setBalance(250.00);
+
 		accountService.createAccount(chkAccount);
 		accountService.createAccount(svgAccount);
+	}
+
+	private String getRandomRegularEmployee() {
+		List<UserInformationDTO> regEmployees = new ArrayList<UserInformationDTO>();
+		regEmployees = userService.fetchRegularEmployees();
+		int random = randInt(0, regEmployees.size());
+
+		return regEmployees.get(random).getUserName();
+	}
+
+	/**
+	 * Returns a pseudo-random number between min and max, inclusive. The
+	 * difference between min and max can be at most
+	 * <code>Integer.MAX_VALUE - 1</code>.
+	 *
+	 * @param min
+	 *            Minimum value
+	 * @param max
+	 *            Maximum value. Must be greater than min.
+	 * @return Integer between min and max, inclusive.
+	 * @see java.util.Random#nextInt(int)
+	 */
+	public static int randInt(int min, int max) {
+
+		Random rand = new Random();
+
+		// nextInt is normally exclusive of the top value,
+		// so add 1 to make it inclusive
+		int randomNum = rand.nextInt((max - min) + 1) + min;
+
+		return randomNum;
 	}
 
 	private void sendEmailToUser(UserInformationDTO custInfo) {

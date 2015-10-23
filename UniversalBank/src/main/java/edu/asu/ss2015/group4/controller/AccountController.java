@@ -108,4 +108,19 @@ public class AccountController {
 		}	
 		return modelAndView;
 	}
+
+	@RequestMapping(value = "/DisplaySignUp/delete", method = RequestMethod.POST)
+	public ModelAndView deleteAccount(@Valid @ModelAttribute("delete") UserInformation custInfo, BindingResult result,
+			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String loggedInUser = userDetail.getUsername();
+		List<UserInformationDTO> user = userService.fetchUserDetails(loggedInUser);
+		ModelAndView modelAndView = new ModelAndView();
+		userService.addEditInfoRequest("DELETE_ACCOUNT", loggedInUser, user.get(0).getSupervisorName());
+		modelAndView.setViewName("success");
+		return modelAndView;
+	}
+
 }

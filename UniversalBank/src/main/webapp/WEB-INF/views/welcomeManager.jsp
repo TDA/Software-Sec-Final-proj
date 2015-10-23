@@ -60,13 +60,39 @@
 			</div>
 			<div id="menu1" class="tab-pane fade">
 				<h3>Pending Critical Transactions</h3>
-				<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-					laboris nisi ut aliquip ex ea commodo consequat.</p>
+				<div class="table-responsive">
+					<form:form method="POST" action="manager/critical_transaction">
+						<table id="mytable1" class="table table-bordred table-striped">
+							<thead>
+								<tr>
+									<th>Transaction ID</th>
+									<th>Transaction Type</th>
+									<th>Amount</th>
+									<th>Comment</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="userTransaction" items="${userTransactions}">
+									<tr>
+										<td>${userTransaction.transactionID}</td>
+										<td>${userTransaction.transactionType}</td>
+										<td>${userTransaction.amount}</td>
+										<td>${userTransaction.comments}</td>
+										<td><button type="submit" class="btn btn-success"
+												name="approveParam1"
+												value="approveVal_${userTransaction.transactionID}">Approve</button></td>
+										<td><button type="submit" class="btn btn-danger"
+												name="approveParam1" value="denyVal_${userTransaction.transactionID}">Deny</button></td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</form:form>
+				</div>
 			</div>
 			<div id="menu2" class="tab-pane fade">
-				<h3>Menu 2</h3>
-				<p>Sed ut perspiciatis unde omnis iste natus error sit
-					voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+				<h3>Delete Accounts</h3>
+				
 			</div>
 			<div id="menu3" class="tab-pane fade">
 				<h3>Menu 3</h3>

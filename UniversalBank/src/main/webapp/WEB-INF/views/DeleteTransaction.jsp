@@ -16,7 +16,7 @@
 <meta name="author" content="">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<title>Universal Bank HomePage-User</title>
+<title>Universal Bank DeleteTransactions</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -56,7 +56,7 @@ body {
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Success</a>
+				<a class="navbar-brand" href="#">Available Transaction</a>
 			</div>
 		</div>
 		<!-- /.container -->
@@ -72,7 +72,7 @@ body {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">success</h1>
+						<h1 class="page-header">Available Transactions</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -82,61 +82,57 @@ body {
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-bar-chart-o fa-fw"></i> Acknowledgement
+									<i class="fa fa-bar-chart-o fa-fw"></i> <div id="morris-area-chart">
+
 									
+	<sec:authorize access="hasRole('ROLE_CLERK')">
+		</sec:authorize>
+		<div class="container">
+		<ul class="nav nav-tabs">
+			<li><a href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View Transaction</a></li>
+			<li><a data-toggle="tab" href="#menu2">Create Transaction</a></li>
+			<li><a data-toggle="tab" href="#menu3">Modify Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/DeleteTransaction">Delete Transaction</a></li>
+		</ul></div>
 								</h3>
 							</div>
 
 							<div class="panel-body">
 								<div id="morris-area-chart">
 
-									
-	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
-		
-		<div class="container">
-		<h4>Dear, ${userName }</h4>
-		<ul class="nav nav-tabs">
-		
-		<h4>Your Transaction Was Successful. Thank You for Using Universal Bank</h4>
-			
-			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
-			<li><a href="${pageContext.request.contextPath}/Transfer" >Transfer</a></li>
-			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
-			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
-			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>
-			<li><a href="${pageContext.request.contextPath}/UserRequest" >Pending tranactions</a></li>
-		
-		
+	<style>								
+	<sec:authorize access="hasRole('ROLE_CLERK')">
 		</sec:authorize>
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-					<hr class="small">
-					<p class="text-muted">Copyright &copy; Software Security Group 4 2015</p>
-				</div>
-			</div>
-		</div>
-	</section>
+		<div id="pdf">
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+</style>
+<form:form method="POST" action="DeleteTransaction"
+ modelAttribute="ApproveForm" autocomplete="off">
+    <table style="width:80%">
+  			<tr>
+  				<th>Transaction ID</th>
+    			<th>Transaction Type</th>
+    			<th>Amount($)</th>		
+   				  </tr>
+        <c:forEach items="${userInformation}" var="transaction">
+            <tr>
+                <td><c:out value="${transaction.transactionID}" /></td>
+                <td><c:out value="${transaction.transactionType}" /></td>
+                <td><c:out value="${transaction.amount}" /></td>
+                <td><button type="submit" name="deleteParam" value="delete_${transaction.transactionID}"/>Delete </button></td>
+            </tr>
+        </c:forEach>
 
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>	
-	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
-	
-    
+    </table>
+    </form:form>
+   </div>
+
 </body>
-
 </html>
-		

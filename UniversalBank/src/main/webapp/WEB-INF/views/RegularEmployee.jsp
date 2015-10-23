@@ -19,9 +19,10 @@
 	<div class="container">
 		<h2>Welcome, ${userName }</h2>
 		<ul class="nav nav-tabs">
-			<li><a data-toggle="tab" href="#menu1">Regular Transactions</a></li>
-			<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-			<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+			<li><a href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View Transaction</a></li>
+			<li><a data-toggle="tab" href="#menu2">Create Transaction</a></li>
+			<li><a data-toggle="tab" href="#menu3">Modify Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/DeleteTransaction">Delete Transaction</a></li>
 		</ul>
 
 		<div class="tab-content">

@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `unibank` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `unibank`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: unibank
@@ -40,11 +42,9 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
 INSERT INTO `accounts` VALUES ('0784-101','kenilabc','Checking',0,NULL,'2015-10-22 05:23:09'),('0784-102','kenilabc','Savings',250,NULL,'2015-10-22 05:23:10'),('1','kenilabc','Individual',0,'1234',NULL);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `transactions`
@@ -63,7 +63,8 @@ CREATE TABLE `transactions` (
   `Approved` tinyint(1) NOT NULL DEFAULT '0',
   `ApprovalTime` timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
   `Comments` varchar(140) DEFAULT NULL,
-  `AuthoriseBank` tinyint(1) NOT NULL DEFAULT '0',
+  `Authorise_bank` tinyint(1) NOT NULL DEFAULT '1',
+  `Critical_transactions` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`TransactionID`),
   KEY `TransactionAccountID_idx` (`TransactionAccountID`),
   CONSTRAINT `AccountID` FOREIGN KEY (`TransactionAccountID`) REFERENCES `accounts` (`AccountID`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -74,11 +75,9 @@ CREATE TABLE `transactions` (
 -- Dumping data for table `transactions`
 --
 
-LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (11,'Debit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.921589','User transfer Debit',1),(12,'Credit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.940579','User transfer Credit',1),(13,'Debit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.861229','User transfer Debit',1),(14,'Credit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.887576','User transfer Credit',0),(15,'Debit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.164122','User transfer Debit',0),(16,'Credit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.193142','User transfer Credit',0),(17,'Debit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.314909','User transfer Debit',0),(18,'Credit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.335922','User transfer Credit',0),(21,'Debit',12,'1',NULL,'2015-10-18 19:00:20',0,'2015-10-18 19:00:20.262256','Withdraw from ATM',0),(23,'Debit',12,'1',NULL,'2015-10-18 19:14:20',0,'2015-10-18 19:14:20.473394','Withdraw from ATM',0),(24,'Credit',12,'1',NULL,'2015-10-18 19:15:33',0,'2015-10-18 19:15:33.580737','Deposit at branch',0);
+INSERT INTO `transactions` VALUES (11,'Debit',11.22,'1','cborde','2015-10-18 15:13:02',1,'2015-10-18 15:13:02.921589','User transfer Debit',1,0),(12,'Credit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.940579','User transfer Credit',1,1),(13,'Debit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.861229','User transfer Debit',1,1),(14,'Credit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.887576','User transfer Credit',0,0),(15,'Debit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.164122','User transfer Debit',0,0),(16,'Credit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.193142','User transfer Credit',0,0),(17,'Debit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.314909','User transfer Debit',0,0),(18,'Credit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.335922','User transfer Credit',0,0),(21,'Debit',12,'1',NULL,'2015-10-18 19:00:20',0,'2015-10-18 19:00:20.262256','Withdraw from ATM',0,0),(23,'Debit',12,'1',NULL,'2015-10-18 19:14:20',0,'2015-10-18 19:14:20.473394','Withdraw from ATM',0,0),(24,'Credit',12,'1',NULL,'2015-10-18 19:15:33',0,'2015-10-18 19:15:33.580737','Deposit at branch',0,0);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user_attempts`
@@ -100,39 +99,36 @@ CREATE TABLE `user_attempts` (
 -- Dumping data for table `user_attempts`
 --
 
-LOCK TABLES `user_attempts` WRITE;
 /*!40000 ALTER TABLE `user_attempts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_attempts` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `user_requests`
---
 
-DROP TABLE IF EXISTS `user_requests`;
+DROP TABLE IF EXISTS `edit_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_requests` (
-  `RequestID` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `edit_info` (
   `username` varchar(40) NOT NULL,
   `password` varchar(40) NOT NULL,
   `EmailID` varchar(40) NOT NULL,
-  `SSN` int(9) NOT NULL,
-  `Approved` varchar(3) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL DEFAULT 'No',
-  `Approval_Time` timestamp(6) NULL DEFAULT NULL,
-  PRIMARY KEY (`RequestID`)
+  `SSN` int(9) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+CREATE TABLE IF NOT EXISTS `user_requests` (
+`RequestID` int(10) NOT NULL AUTO_INCREMENT,
+  `requestBy` varchar(40) NOT NULL,
+  `requstType` varchar(40) NOT NULL,
+  `approvedBy` varchar(40) DEFAULT NULL,
+  `Approved` tinyint(1) NOT NULL DEFAULT '0',
+  `ApprovedTime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`RequestID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 --
--- Dumping data for table `user_requests`
 --
 
-LOCK TABLES `user_requests` WRITE;
-/*!40000 ALTER TABLE `user_requests` DISABLE KEYS */;
-INSERT INTO `user_requests` VALUES (1,'kenilabc','Bhatt1!','r@r.com',123123123,'No','2015-10-18 05:47:48.926739'),(2,'bhaddy','Arya@123','baryasom@asu.edu',123456780,'No',NULL);
-/*!40000 ALTER TABLE `user_requests` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `edit_info` VALUES ('kenilabc','Bhatt1!','r@r.com',123123123),
+('bhaddy','Arya@123','baryasom@asu.edu',123456780);
 
 --
 -- Table structure for table `user_roles`
@@ -156,11 +152,9 @@ CREATE TABLE `user_roles` (
 -- Dumping data for table `user_roles`
 --
 
-LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
 INSERT INTO `user_roles` VALUES (1,'kenilabc','ROLE_INDIVIDUAL'),(2,'cborde','ROLE_MANAGER');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -179,6 +173,7 @@ CREATE TABLE `users` (
   `SSN` varchar(45) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `userLocked` tinyint(1) NOT NULL,
+  `SupervisorName` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -187,11 +182,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Individual','fake@fake.com','123456780',1,1),('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1),('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1);
+INSERT INTO `users` VALUES 
+('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Clerk','fake@fake.com','123456780',1,1,'cborde'),
+('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1,null),
+('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1,'bhaddy');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -202,4 +198,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-21 22:26:49
+-- Dump completed on 2015-10-18 17:15:11
+
+ALTER TABLE transactions ADD IsDeleted tinyint(1) NOT NULL DEFAULT '0'; 
+

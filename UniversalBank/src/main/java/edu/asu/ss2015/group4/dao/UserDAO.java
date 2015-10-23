@@ -28,4 +28,12 @@ public interface UserDAO {
 	void resetFailAttempts(String username);
 
 	AccountLoginAttempts getUserAttempts(String username);
+
+	public List<UserInformationDTO> fetchAllRegularEmployees();
+
+	public void assignSupervisor(String userName, String employeeName);
+
+	public void addEditInfoRequest(String requestType, String requestBy, String approveBy);
+
 }
+
