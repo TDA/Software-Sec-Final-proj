@@ -138,7 +138,7 @@ public class UserDAOImpl implements UserDAO {
 	public String EditUser(UserInformation userInfo) throws FileNotFoundException {
 		System.out.println(userInfo.getUserName() + userInfo.getPassword() + userInfo.getEmailAddress()
 				+ userInfo.getSocialSecurityNumber());
-		String registerUserQuery = "INSERT into user_requests (username,password,emailID,SSN) VALUES (?,?,?,?)";
+		String registerUserQuery = "INSERT into edit_info_requests (username,password,emailID,SSN) VALUES (?,?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { userInfo.getUserName(),
 				userInfo.getPassword(), userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });

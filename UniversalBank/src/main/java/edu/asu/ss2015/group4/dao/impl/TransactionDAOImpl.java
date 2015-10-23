@@ -15,9 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dao.TransactionDAO;
 import edu.asu.ss2015.group4.dto.TransactionDTO;
-import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.jdbc.TransactionTableRows;
-import edu.asu.ss2015.group4.jdbc.UserTableRows;
 import edu.asu.ss2015.group4.model.Transactions;
 
 public class TransactionDAOImpl implements TransactionDAO {
@@ -40,11 +38,22 @@ public class TransactionDAOImpl implements TransactionDAO {
 	}
 
 	public List<TransactionDTO> view(String username) {
-		System.out.println("view:"+username);
+		System.out.println("view:" + username);
 		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where TransactionAccountID=(Select AccountID from accounts where username=?)" ;
+		String retrieveDetailsQuery = "SELECT * from transactions where TransactionAccountID=(Select AccountID from accounts where username=?)";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] {username},new TransactionTableRows());
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username },
+				new TransactionTableRows());
+		return customerInformationToDisplay;
+	}
+
+	public List<TransactionDTO> viewTransactionByTransactionID(String id) {
+		System.out.println("view:" + id);
+		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
+		String retrieveDetailsQuery = "SELECT * from transactions where TransactionID=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { id },
+				new TransactionTableRows());
 		return customerInformationToDisplay;
 	}
 
@@ -64,7 +73,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 					+ "VALUES (?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] {"Debit", transac.getAmount(),transac.getTransactionAccountID(),
+					new Object[] { "Debit", transac.getAmount(), transac.getTransactionAccountID(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
 							transac.getApprovedTime(), "Withdraw from ATM" });
 		}
@@ -137,19 +146,19 @@ public class TransactionDAOImpl implements TransactionDAO {
 					+ "VALUES (?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] {  "Debit", transac.getAmount(),transac.getTransactionAccountID(),
+					new Object[] { "Debit", transac.getAmount(), transac.getTransactionAccountID(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(),"User transfer Debit" });
+							transac.getApprovedTime(), "User transfer Debit" });
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] {"Credit", transac.getAmount(),
-							transac.getTransactionAccountID(), transac.getAuthorizedManagerID(),
-							transac.getTransactionTime(), transac.isApproved(), transac.getApprovedTime(),
-							"User transfer Credit" });
-			
+					new Object[] { "Credit", transac.getAmount(), transac.getTransactionAccountID(),
+							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
+							transac.getApprovedTime(), "User transfer Credit" });
+
 		}
 	}
+
 	@Override
-	public void approval(int a ) {
+	public void approval(int a) {
 		ModelAndView modelAndView = new ModelAndView();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -157,23 +166,37 @@ public class TransactionDAOImpl implements TransactionDAO {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-				System.out.println(loggedInUser);
 			String registerUserQuery = "Update transactions  SET AuthoriseBank=? where transactionID=?";
-			System.out.println("updatedapprove"+a);
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
-			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] {1,a});
-				}
-			}
+			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { 1, a });
+		}
+	}
 
 	@Override
 	public List<TransactionDTO> viewCondition(String Username) {
-			System.out.println("view:"+Username);
-			List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
-			String retrieveDetailsQuery = "SELECT * from transactions where TransactionAccountID=(Select AccountID from accounts where username=?) and AuthoriseBank=?" ;
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] {Username,0},new TransactionTableRows());
-			return customerInformationToDisplay;
-		}
-		}
+		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
+		String retrieveDetailsQuery = "SELECT * from transactions where TransactionAccountID=(Select AccountID from accounts where username=?) and AuthoriseBank=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { Username, 0 },
+				new TransactionTableRows());
+		return customerInformationToDisplay;
+	}
 
+	@Override
+	public List<TransactionDTO> fetchCriticalTransaction() {
+		List<TransactionDTO> criticalTransactions = new ArrayList<TransactionDTO>();
+		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=1";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new TransactionTableRows());
+		return criticalTransactions;
+	}
+
+	@Override
+	public void updateTransaction(TransactionDTO transaction, String managerId) {
+		String updatTrans = "UPDATE transactions SET Critical_transactions=0, Approved=1, AuthorizedManagerID=? where transactionID=? and TransactionAccountID=?";
+		JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
+		jdbcTemplateForTransaction.update(updatTrans,
+				new Object[] { managerId, transaction.getTransactionID(), transaction.getTransactionAccountID() });
+
+	}
+}

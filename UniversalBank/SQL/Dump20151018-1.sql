@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `unibank` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `unibank`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: unibank
@@ -63,7 +65,8 @@ CREATE TABLE `transactions` (
   `Approved` tinyint(1) NOT NULL DEFAULT '0',
   `ApprovalTime` timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
   `Comments` varchar(140) DEFAULT NULL,
-  `AuthoriseBank` tinyint(1) NOT NULL DEFAULT '0',
+  `Authorise_bank` tinyint(1) NOT NULL DEFAULT '1',
+  `Critical_transactions` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`TransactionID`),
   KEY `TransactionAccountID_idx` (`TransactionAccountID`),
   CONSTRAINT `AccountID` FOREIGN KEY (`TransactionAccountID`) REFERENCES `accounts` (`AccountID`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -76,7 +79,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (11,'Debit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.921589','User transfer Debit',1),(12,'Credit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.940579','User transfer Credit',1),(13,'Debit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.861229','User transfer Debit',1),(14,'Credit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.887576','User transfer Credit',0),(15,'Debit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.164122','User transfer Debit',0),(16,'Credit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.193142','User transfer Credit',0),(17,'Debit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.314909','User transfer Debit',0),(18,'Credit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.335922','User transfer Credit',0),(21,'Debit',12,'1',NULL,'2015-10-18 19:00:20',0,'2015-10-18 19:00:20.262256','Withdraw from ATM',0),(23,'Debit',12,'1',NULL,'2015-10-18 19:14:20',0,'2015-10-18 19:14:20.473394','Withdraw from ATM',0),(24,'Credit',12,'1',NULL,'2015-10-18 19:15:33',0,'2015-10-18 19:15:33.580737','Deposit at branch',0);
+INSERT INTO `transactions` VALUES (11,'Debit',11.22,'1','cborde','2015-10-18 15:13:02',1,'2015-10-18 15:13:02.921589','User transfer Debit',1,0),(12,'Credit',11.22,'1',NULL,'2015-10-18 15:13:02',0,'2015-10-18 15:13:02.940579','User transfer Credit',1,1),(13,'Debit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.861229','User transfer Debit',1,1),(14,'Credit',1,'1',NULL,'2015-10-18 17:22:21',0,'2015-10-18 17:22:21.887576','User transfer Credit',0,0),(15,'Debit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.164122','User transfer Debit',0,0),(16,'Credit',11,'1',NULL,'2015-10-18 17:23:07',0,'2015-10-18 17:23:07.193142','User transfer Credit',0,0),(17,'Debit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.314909','User transfer Debit',0,0),(18,'Credit',12,'1',NULL,'2015-10-18 17:51:20',0,'2015-10-18 17:51:20.335922','User transfer Credit',0,0),(21,'Debit',12,'1',NULL,'2015-10-18 19:00:20',0,'2015-10-18 19:00:20.262256','Withdraw from ATM',0,0),(23,'Debit',12,'1',NULL,'2015-10-18 19:14:20',0,'2015-10-18 19:14:20.473394','Withdraw from ATM',0,0),(24,'Credit',12,'1',NULL,'2015-10-18 19:15:33',0,'2015-10-18 19:15:33.580737','Deposit at branch',0,0);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,4 +205,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-21 22:26:49
+-- Dump completed on 2015-10-22 17:35:57
+

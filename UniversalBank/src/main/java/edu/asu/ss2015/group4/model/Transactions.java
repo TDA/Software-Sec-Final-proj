@@ -18,7 +18,7 @@ public class Transactions {
 	private Timestamp transactionTime;
 	private boolean approved;
 	private Timestamp ApprovedTime;
-	private String comments;
+	private String Comments;
 	private int Authorisebank;
 
 	public int getTransactionId() {
@@ -78,11 +78,11 @@ public class Transactions {
 	}
 
 	public String getComments() {
-		return comments;
+		return Comments;
 	}
 
 	public void setComments(String comments) {
-		this.comments = comments;
+		this.Comments = comments;
 	}
 
 	public String getTransactionAccountID() {
