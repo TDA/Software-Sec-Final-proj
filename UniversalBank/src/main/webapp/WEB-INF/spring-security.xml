@@ -21,7 +21,7 @@
 			authentication-success-handler-ref="mySuccessHandler"
 			authentication-failure-url="/index?error" username-parameter="userName"
 			password-parameter="password" />
-		<logout logout-success-url="/index?logout" />
+		<logout logout-success-url="/" />
 		<!-- enable csrf protection -->
 		<csrf />
 
