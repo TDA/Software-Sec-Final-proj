@@ -49,7 +49,11 @@ body {
 
 </head>
 <body oncontextmenu="return false">
-
+	<c:url var="logoutUrl" value="j_spring_security_logout"/>
+	<form action="${logoutUrl}" method="post">
+	  <input type="submit" value="Log out" />
+	  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	</form>
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">

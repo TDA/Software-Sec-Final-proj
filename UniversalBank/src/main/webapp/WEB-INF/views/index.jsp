@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/virtualKeyboard/vk_loader.js?vk_layout=US%20US&vk_skin=flat_gray" ></script>
 <title>Universal Bank - Home Page</title>
 
 <!-- Bootstrap Core CSS -->
@@ -119,8 +119,8 @@
 					<input type="text" name="userName" id="userName" size="20" class="form-control"
 						placeholder="Username" required> 
 					<input type="password" name="password" id="password" size="20"
-						class="form-control keyboardInput" placeholder="Password" required>
-						
+						class="form-control keyboardInput" placeholder="Password" onfocus="VirtualKeyboard.toggle('password', 'softkey')" onblur="VirtualKeyboard.toggle('txt_Search','softkey');" required>
+					<div id="softkey"></div>						
 					<p>Forgot Password? <a href="${pageContext.request.contextPath}/forgotPassword" style="color: rgb(0,0,0)">Click here!</a></p>
 					
 					<button class="btn btn-lg btn-info btn-block" type="submit">Sign
