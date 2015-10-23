@@ -24,4 +24,7 @@ public interface UserService {
 	public List<UserInformationDTO> fetchRegularEmployees();
 
 	public void assignSupervisor(String userName, String employeeName);
+
+	public void addEditInfoRequest(String requestType, String requestBy, String approveBy);
+
 }
