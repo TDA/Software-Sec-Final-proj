@@ -139,12 +139,11 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 	}
 
-	public String EditUser(editProfile userInfo) throws FileNotFoundException {
-		String registerUserQuery = "INSERT into edit_info (username,password,emailID,SSN) VALUES (?,?,?,?)";
+	public String EditUser(String username, editProfile userInfo) throws FileNotFoundException {
+		String registerUserQuery = "INSERT into edit_info (username,emailID,SSN) VALUES (?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
-		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { userInfo.getUserName(),
-				userInfo.getPassword(), userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
-		return "Registration Completed! <br/> Please check you email for account approval notification!";
+		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { username, userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
+		return "Request received! <br/> Please check you email for account approval notification!";
 	}
 
 	public void addEditInfoRequest(String requestType, String requestBy, String approveBy) {

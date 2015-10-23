@@ -111,10 +111,10 @@ body {
 										<br />
 										
 										<b> Enter to AccountId</b>
-										<FONT color="red"><form:errors path="transactiontoAccountID" /></FONT>
+										<FONT color="red"><form:errors path="ToTransactionAccountID" /></FONT>
 										
 										<br />
-										<input type="text" name="transactiontoAccountID" size="10" class="form-control" id="transactiontoAccountID"
+										<input type="text" name="ToTransactionAccountID" size="10" class="form-control" id="toTransactionAccountID""
 											style="color: #999;" />
 										<br />
 										<br />

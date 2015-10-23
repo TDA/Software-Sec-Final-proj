@@ -22,7 +22,7 @@ public interface UserDAO {
 
 	public boolean unlockExternalUserAccount(String username);
 
-	public String EditUser(editProfile addInfo) throws FileNotFoundException, NoSuchAlgorithmException;
+	public String EditUser(String username, editProfile addInfo) throws FileNotFoundException, NoSuchAlgorithmException;
 
 	void updateFailAttempts(String username);
 

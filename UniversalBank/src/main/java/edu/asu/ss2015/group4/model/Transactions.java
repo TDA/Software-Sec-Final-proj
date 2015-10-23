@@ -12,8 +12,8 @@ private String transactionType;
 private String AccountType;
 @NotEmpty(message = "Please enter some amount")
 private String amount;
-private String transactionAccountID;
-private String transactiontoAccountID;
+private String FromTransactionAccountID;
+private String ToTransactionAccountID;
 private String authorizedManagerID;
 private Timestamp transactionTime;
 private boolean approved;
@@ -92,19 +92,6 @@ public void setAccountType(String AccountType) {
 		this.comments = comments;
 	}
 
-	public String getTransactionAccountID() {
-		return transactionAccountID;
-	}
-
-	public void setTransactionAccountID(String transactionAccountID) {
-		this.transactionAccountID = transactionAccountID;
-	}
-public String getTransactiontoAccountID() {
-	return transactiontoAccountID;
-	}
-public void setTransactiontoAccountID(String transactiontoAccountID) {
-	this.transactiontoAccountID = transactiontoAccountID;
-}
 	public int getAuthorisebank() {
 		return Authorisebank;
 	}
@@ -118,6 +105,22 @@ public int getCriticalTransactions() {
 public void setCriticalTransactions(int criticalTransactions) {
 	this.criticalTransactions = criticalTransactions;
 	}
+
+public String getToTransactionAccountID() {
+	return ToTransactionAccountID;
+}
+
+public void setToTransactionAccountID(String toTransactionAccountID) {
+	ToTransactionAccountID = toTransactionAccountID;
+}
+
+public String getFromTransactionAccountID() {
+	return FromTransactionAccountID;
+}
+
+public void setFromTransactionAccountID(String fromTransactionAccountID) {
+	FromTransactionAccountID = fromTransactionAccountID;
+}
 
 }
 

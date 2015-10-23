@@ -7,10 +7,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class editProfile {
-	@NotEmpty(message = "Please enter a user name.")
-	private String userName;
-	@NotEmpty(message = "Please enter a valid password.")
-	private String password;
 	@Email(message = "Invalid email address.")
 	@NotEmpty(message = "Please enter your email.")
 	private String emailAddress;
@@ -19,23 +15,6 @@ public class editProfile {
 
 	
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	
 
 	public String getEmailAddress() {
 		return emailAddress;

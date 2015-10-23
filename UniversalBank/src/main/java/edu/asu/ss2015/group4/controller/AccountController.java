@@ -92,20 +92,21 @@ public class AccountController {
 
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
 			editprofileValidator.validateForm(custInfo, result);
-			System.out.println("here" + result);
-
-			if (result.hasErrors()) {
-				System.out.println(":in displayedit");
-				modelAndView.setViewName("DisplaySignUp"); // This prints errors
-
-			} else {
-				userService.EditInformation(custInfo);
-				System.out.println("successinedit");
-				modelAndView.setViewName("success");
-
-			}
+			System.out.println("here"+result);
+			
+		if (result.hasErrors()) {
+			System.out.println(":in displayedit");
+			modelAndView.setViewName("DisplaySignUp"); // This prints errors
+			
+		} else {
+			userService.EditInformation(loggedInUser,custInfo);
+			System.out.println("successinedit");
+			modelAndView.setViewName("success");
+		
 		}
+		}	
 		return modelAndView;
 	}
 
