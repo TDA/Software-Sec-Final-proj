@@ -18,6 +18,12 @@
 <body>
 
 	<div class="container">
+	
+	<c:url var="logoutUrl" value="j_spring_security_logout" />
+	<form action="${logoutUrl}" method="post">
+		<input type="submit" class="btn btn-lg btn-info btn-block"  value="Log out" /> <input type="hidden"
+			name="${_csrf.parameterName}" value="${_csrf.token}" />
+	</form>
 		<h2>Welcome, ${userName }</h2>
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#home">Account
@@ -82,7 +88,8 @@
 												name="approveParam1"
 												value="approveVal_${userTransaction.transactionID}">Approve</button></td>
 										<td><button type="submit" class="btn btn-danger"
-												name="approveParam1" value="denyVal_${userTransaction.transactionID}">Deny</button></td>
+												name="approveParam1"
+												value="denyVal_${userTransaction.transactionID}">Deny</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -112,7 +119,8 @@
 												name="approveParam2"
 												value="approveVal_${requestFromUser.requestByUserName}_${requestFromUser.requestType}">Approve</button></td>
 										<td><button type="submit" class="btn btn-danger"
-												name="approveParam2" value="denyVal_${requestFromUser.requestByUserName}_${requestFromUser.requestType}">Deny</button></td>
+												name="approveParam2"
+												value="denyVal_${requestFromUser.requestByUserName}_${requestFromUser.requestType}">Deny</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
