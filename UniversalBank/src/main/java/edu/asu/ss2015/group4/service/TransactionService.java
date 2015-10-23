@@ -29,10 +29,13 @@ public interface TransactionService {
 	public String Approve(int i);
 	//added by gaurav
 	public List<TransactionDTO> DisplayTransactionInfo(String Username);
-	public String Delete(int i);
-
 	public List<TransactionDTO> fetchCriticalTransactions();
-
 	public List<TransactionDTO> viewTransactionByTransactionID(String id);
+	
+	//added by gaurav
+	public List<TransactionDTO> DisplayTransactionInfoToRegularEmployee(String Username);
+	public String RegularEmployeeAprroveTransaction(int i, String userName);
+	public String RegularEmployeeDeleteTransaction(int i, String userName);
+	public String Delete(int i, String userName);
 
 }

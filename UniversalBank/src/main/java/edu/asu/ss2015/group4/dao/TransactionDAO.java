@@ -32,6 +32,9 @@ public interface TransactionDAO {
 
 		//added by gaurav
 	public List <TransactionDTO>viewTransactionForDeletion (String Username);
-	void deleteTransaction(int a);
+	public void deleteTransaction(int a, String userName);
+	public List<TransactionDTO> viewTransactionToRegularEmployee(String Username);
+	public void approveTransactionRegularEmployee(int a, String userName);
+	public void denyTransactionRegularEmployee(int a, String userName);
 
 }

@@ -76,17 +76,39 @@ public class TransactionServiceImpl implements TransactionService {
 		return transac.viewTransactionByTransactionID(id);
 	}
 
-	//added by gaurav
+	// added by gaurav
 	@Override
 	public List<TransactionDTO> DisplayTransactionInfo(String Username) {
 		// TODO Auto-generated method stub
 		return transac.viewTransactionForDeletion(Username);
 	}
-	
-//	///added by gaurav
+
+	// ///added by gaurav
 	@Override
-	public String Delete(int i) {
-	transac.deleteTransaction(i);
-	return "deleted";
+	public String Delete(int i, String userName) {
+		transac.deleteTransaction(i,userName);
+		return "deleted";
 	}
+
+	// added by gaurav
+	@Override
+	public List<TransactionDTO> DisplayTransactionInfoToRegularEmployee(String Username) {
+		// TODO Auto-generated method stub
+		return transac.viewTransactionToRegularEmployee(Username);
+	}
+
+	// added by gaurav
+	@Override
+	public String RegularEmployeeAprroveTransaction(int i, String userName) {
+		transac.approveTransactionRegularEmployee(i, userName);
+		return "Approved";
+	}
+	
+	// added by gaurav
+	@Override
+	public String RegularEmployeeDeleteTransaction(int i, String userName) {
+		transac.denyTransactionRegularEmployee(i, userName);
+		return "Denied";
+	}
+
 }
