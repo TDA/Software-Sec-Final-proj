@@ -92,6 +92,7 @@ public class AccountController {
 		
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
 			editprofileValidator.validateForm(custInfo, result);
 			System.out.println("here"+result);
 			
@@ -100,7 +101,7 @@ public class AccountController {
 			modelAndView.setViewName("DisplaySignUp"); // This prints errors
 			
 		} else {
-			userService.EditInformation(custInfo);
+			userService.EditInformation(loggedInUser, custInfo);
 			System.out.println("successinedit");
 			modelAndView.setViewName("success");
 		

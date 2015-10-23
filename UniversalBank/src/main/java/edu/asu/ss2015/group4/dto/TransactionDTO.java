@@ -88,9 +88,14 @@ public class TransactionDTO {
 		return transactionAccountID;
 	}
 
-	public void setTransactionAccountID(String transactionAccountID) {
+	public void setFromTransactionAccountID(String transactionAccountID) {
 		this.transactionAccountID = transactionAccountID;
 	}
+	
+	public void setToTransactionAccountID(String transactionAccountID) {
+		this.transactionAccountID = transactionAccountID;
+	}
+
 
 	public int getAuthoriseBank() {
 		return AuthoriseBank;

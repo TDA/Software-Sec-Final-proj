@@ -21,17 +21,17 @@
 
 			public static void validateForm(Object info, Errors errors) {
 
-				int count = 0;
-				int number = 0;
+				//int count = 0;
+				//int number = 0;
 				int ssnNum = 0;
 
 				editProfile cinfo = (editProfile) info;
 				ValidationUtils.rejectIfEmptyOrWhitespace(errors, "socialSecurityNumber",
 						"NotEmpty.editProfile.socialSecurityNumber", "SSN must not be Empty.");
 
-				String userName = cinfo.getUserName();
+				//String userName = cinfo.getUserName();
 				
-				Pattern p1 = Pattern.compile("[!@#${},%^&*+_.-]");
+				//Pattern p1 = Pattern.compile("[!@#${},%^&*+_.-]");
 
 				
 				String ssn = cinfo.getSocialSecurityNumber();
@@ -47,27 +47,6 @@
 				if (ssnNum != 9 || ssn.length() != 9) {
 					errors.rejectValue("socialSecurityNumber",
 							"lengthOfSocialSecurityNumber.editProfile.socialSecurityNumber", "SSN is invalid");
-				}
-
-				String pass = cinfo.getPassword();
-				for (char c : pass.toCharArray()) {
-					if (Character.isDigit(c)) {
-						number++;
-					}
-				}
-				for (char c : pass.toCharArray()) {
-					if (Character.isUpperCase(c)) {
-						count++;
-					}
-				}
-
-				Pattern p = Pattern.compile("[!@#${},%^&*+_.-]");
-				Matcher match = p.matcher(pass.subSequence(0, pass.length()));
-				Matcher match_1 = p.matcher(userName.subSequence(0, userName.length()));
-				if (pass.length() < 6 || pass.length() > 15 || number <= 0 || count <= 0 || match.find() == false
-						|| userName.length() > 10 || userName.length() == 0 || match_1.find() == true) {
-					errors.rejectValue("userName", "matchingPassword.editProfile.username",
-							"User Name or Password is invalid!");
 				}
 
 				

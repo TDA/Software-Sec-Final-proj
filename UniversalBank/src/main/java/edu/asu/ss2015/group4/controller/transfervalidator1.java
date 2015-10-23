@@ -35,7 +35,7 @@ public class transfervalidator1 {
 			errors.rejectValue("accountType", "NotEmpty.Transactions.accountType", "Select at least one option");
 		}
 
-		 String transactiontoAccountID = cinfo.getTransactiontoAccountID();
+		 String transactiontoAccountID = cinfo.getToTransactionAccountID();
 		 System.out.println("in validator"+transactiontoAccountID);
 		
 		Matcher match_fn1 = p1.matcher(transactiontoAccountID.subSequence(0, transactiontoAccountID.length()));

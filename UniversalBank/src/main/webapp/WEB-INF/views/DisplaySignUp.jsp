@@ -37,15 +37,7 @@ body {
 }
 </style>
 
-<script>
-    	function check() {
-    		 document.getElementById("male").checked = true;
-    	}
-    	
-    	function uncheck() {
-   		 document.getElementById("female").checked = false;
-   		}
-    </script>
+
 
 </head>
 <body oncontextmenu="return false">
@@ -101,20 +93,7 @@ body {
 										<c:if test="${not empty errorMsg}">
 											<h3>${errorMsg}</h3>
 										</c:if>
-										<b>User Name:</b>
-										<FONT color="red"><form:errors path="userName" /></FONT>
-										<br />
-										<input type="text" name="userName"  size="10" class="form-control" id="username"
-											style="color: #999;" />
-										<br />
-										<br />
-										<b>Password:</b>
-										<FONT color="red"><form:errors path="password" /></FONT>
-										<br />
-										<input type="password" name="password" size="10" class="form-control" id="password"
-											style="color: #999;" />
-										<br />
-										<br />
+										
 										<b>Email Address:</b>
 										<br />
 										<input type="text" name="emailAddress"  size="10" class="form-control" id="email"
