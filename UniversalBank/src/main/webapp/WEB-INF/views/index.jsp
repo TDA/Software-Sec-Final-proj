@@ -30,6 +30,7 @@
 <link
 	href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
 	rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/resources/css/keyboard.css" rel="stylesheet" type="text/css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -159,14 +160,12 @@
 			</div>
 		</div>
 	</section>
-
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/keyboard.js" charset="UTF-8"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>	
 	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
-	
-    
+	<script src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script> 
 </body>
 
 </html>
