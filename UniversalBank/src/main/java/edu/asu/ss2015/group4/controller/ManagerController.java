@@ -105,19 +105,15 @@ public class ManagerController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		String loggedInUser = userDetail.getUsername();
-
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
-			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 
 			if (split[0].equals("approveVal")) {
 				switch (split[2]) {
-				case "DELETE_ACCOUNT":
+				case "Delete Account":
+					userService.deleteAccount(split[1]);
 					break;
-				case "EDIT_PROFILE":
+				case "Edit Profile":
 					break;
 				case "REOPEN_ACCOUNT":
 					break;

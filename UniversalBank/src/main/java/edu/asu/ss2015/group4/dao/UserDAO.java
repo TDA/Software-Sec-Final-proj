@@ -38,5 +38,6 @@ public interface UserDAO {
 
 	public List<UserRequestsDTO> getAllRequests();
 
-}
+	public boolean deleteAccount(String username);
 
+}

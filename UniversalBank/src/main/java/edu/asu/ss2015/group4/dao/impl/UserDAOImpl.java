@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
 		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
-				+ " lastname, AccountType, enabled, userLocked,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?)";
+				+ " lastname, AccountType, enabled, userLocked, userAccountExpired,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?,?)";
 		String insertIntoUserRolesTable = "INSERT into user_roles (username, role) " + "VALUES (?,?)";
 
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
@@ -61,7 +61,8 @@ public class UserDAOImpl implements UserDAO {
 			jdbcTemplateForExternalUser.update(registerUserQuery,
 					new Object[] { userInfo.getUserName(), hash, userInfo.getFirstName(), userInfo.getLastName(),
 							userInfo.getAccountType(), userInfo.isEnabled(), userInfo.isUserLocked(),
-							userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
+							userInfo.isUserAccountExpired(), userInfo.getEmailAddress(),
+							userInfo.getSocialSecurityNumber() });
 
 			String user_role = "";
 			switch (userInfo.getAccountType()) {
@@ -111,7 +112,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email "
+				+ "users.AccountType, users.email, users.supervisorname "
 				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') AND users.enabled=false";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
@@ -248,10 +249,23 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<UserRequestsDTO> getAllRequests() {
 		List<UserRequestsDTO> requests = new ArrayList<UserRequestsDTO>();
-		String retrieveDetailsQuery = "SELECT * from user_requests where user_requests.Approved=1";
+		String retrieveDetailsQuery = "SELECT * from user_requests where user_requests.Approved=1 and user_requests.Completed=0";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		requests = jdbcTemplate.query(retrieveDetailsQuery, new RequestTableRow());
 		return requests;
+	}
+
+	public boolean deleteAccount(String username) {
+
+		String sql = "UPDATE users set enabled = false, userAccountExpired=false, userLocked=false where enabled = true  and username =  ?";
+		String sql2 = "UPDATE user_requests set completed = true, approvedtime=now() where approved = true  and requestby =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		int status2 = jdbcTemplate.update(sql2, new Object[] { username });
+		if (status == 1 && status2 == 1) {
+			return true;
+		}
+		return false;
 	}
 
 }

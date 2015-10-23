@@ -26,6 +26,7 @@ public class UserInformation {
 	private String socialSecurityNumber;
 	private boolean enabled;
 	private boolean userLocked;
+	private boolean userAccountExpired;
 
 	public boolean isUserLocked() {
 		return userLocked;
@@ -105,6 +106,14 @@ public class UserInformation {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public boolean isUserAccountExpired() {
+		return userAccountExpired;
+	}
+
+	public void setUserAccountExpired(boolean userAccountExpired) {
+		this.userAccountExpired = userAccountExpired;
 	}
 
 }

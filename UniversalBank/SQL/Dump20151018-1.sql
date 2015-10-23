@@ -110,7 +110,8 @@ CREATE TABLE `edit_info` (
   `username` varchar(40) NOT NULL,
   `password` varchar(40) NOT NULL,
   `EmailID` varchar(40) NOT NULL,
-  `SSN` int(9) NOT NULL
+  `SSN` int(9) NOT NULL,
+  `Completed` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -121,14 +122,15 @@ CREATE TABLE IF NOT EXISTS `user_requests` (
   `requstType` varchar(40) NOT NULL,
   `approvedBy` varchar(40) DEFAULT NULL,
   `Approved` tinyint(1) NOT NULL DEFAULT '0',
-  `ApprovedTime` timestamp NULL DEFAULT NULL,
+  `ApprovedTime` datetime NULL DEFAULT NULL,
+  `Completed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`RequestID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 --
 --
 
-INSERT INTO `edit_info` VALUES ('kenilabc','Bhatt1!','r@r.com',123123123),
-('bhaddy','Arya@123','baryasom@asu.edu',123456780);
+INSERT INTO `edit_info` VALUES ('kenilabc','Bhatt1!','r@r.com',123123123,0),
+('bhaddy','Arya@123','baryasom@asu.edu',123456780,0);
 
 --
 -- Table structure for table `user_roles`
@@ -173,6 +175,7 @@ CREATE TABLE `users` (
   `SSN` varchar(45) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `userLocked` tinyint(1) NOT NULL,
+  `userAccountExpired` tinyint(1) NOT NULL,
   `SupervisorName` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -184,9 +187,9 @@ CREATE TABLE `users` (
 
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES 
-('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Clerk','fake@fake.com','123456780',1,1,'cborde'),
-('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1,null),
-('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1,'bhaddy');
+('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Clerk','fake@fake.com','123456780',1,1,1,'cborde'),
+('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1,1,null),
+('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1,1,'bhaddy');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -84,28 +84,28 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/DisplaySignUp", method = RequestMethod.POST)
-	public ModelAndView EditPageUpdate(@Valid @ModelAttribute("editForm") editProfile custInfo,
-			BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
+	public ModelAndView EditPageUpdate(@Valid @ModelAttribute("editForm") editProfile custInfo, BindingResult result,
+			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		ModelAndView modelAndView = new ModelAndView();
-		
+
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			editprofileValidator.validateForm(custInfo, result);
-			System.out.println("here"+result);
-			
-		if (result.hasErrors()) {
-			System.out.println(":in displayedit");
-			modelAndView.setViewName("DisplaySignUp"); // This prints errors
-			
-		} else {
-			userService.EditInformation(custInfo);
-			System.out.println("successinedit");
-			modelAndView.setViewName("success");
-		
+			System.out.println("here" + result);
+
+			if (result.hasErrors()) {
+				System.out.println(":in displayedit");
+				modelAndView.setViewName("DisplaySignUp"); // This prints errors
+
+			} else {
+				userService.EditInformation(custInfo);
+				System.out.println("successinedit");
+				modelAndView.setViewName("success");
+
+			}
 		}
-		}	
 		return modelAndView;
 	}
 
@@ -118,7 +118,7 @@ public class AccountController {
 		String loggedInUser = userDetail.getUsername();
 		List<UserInformationDTO> user = userService.fetchUserDetails(loggedInUser);
 		ModelAndView modelAndView = new ModelAndView();
-		userService.addEditInfoRequest("DELETE_ACCOUNT", loggedInUser, user.get(0).getSupervisorName());
+		userService.addEditInfoRequest("Delete Account", loggedInUser, user.get(0).getSupervisorName());
 		modelAndView.setViewName("success");
 		return modelAndView;
 	}

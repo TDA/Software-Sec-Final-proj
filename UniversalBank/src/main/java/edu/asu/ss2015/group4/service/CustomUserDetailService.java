@@ -35,7 +35,8 @@ public class CustomUserDetailService extends JdbcDaoImpl {
 						String password = rs.getString("password");
 						boolean enabled = rs.getBoolean("enabled");
 						boolean userLocked = rs.getBoolean("userLocked");
-						return new User(username, password, enabled, userLocked, true, true,
+						boolean userAccountExpiredLocked = rs.getBoolean("userAccountExpired");
+						return new User(username, password, enabled, userAccountExpiredLocked, true, userLocked,
 								AuthorityUtils.NO_AUTHORITIES);
 					}
 

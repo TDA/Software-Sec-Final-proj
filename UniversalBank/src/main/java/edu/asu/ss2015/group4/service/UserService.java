@@ -31,4 +31,6 @@ public interface UserService {
 
 	public List<UserRequestsDTO> getAllRequests();
 
+	public boolean deleteAccount(String username);
+
 }

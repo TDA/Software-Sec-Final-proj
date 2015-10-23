@@ -44,6 +44,8 @@
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Account Type</th>
+									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -75,6 +77,8 @@
 									<th>Transaction Type</th>
 									<th>Amount</th>
 									<th>Comment</th>
+									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -107,6 +111,8 @@
 									<th>Request By</th>
 									<th>Request Type</th>
 									<th>Approved By</th>
+									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>

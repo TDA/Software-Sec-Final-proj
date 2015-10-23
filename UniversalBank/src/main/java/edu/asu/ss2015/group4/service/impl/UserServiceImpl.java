@@ -62,4 +62,9 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getAllRequests();
 	}
 
+	@Override
+	public boolean deleteAccount(String username) {
+		return userDAO.deleteAccount(username);
+	}
+
 }
