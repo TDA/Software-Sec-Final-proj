@@ -35,8 +35,10 @@ public class TransferValidator {
 		Pattern p2 = Pattern.compile("([0-9]+([0-9]{1,2})?)");
 		
 		String amount=cinfo.getAmount();
+		Boolean x=amount.matches("^(\\d{1,5}|\\d{0,5}\\.\\d{1,2})$");
+
 		Matcher  am=p2.matcher(amount.subSequence(0, amount.length()));
-		if(amount.isEmpty() || am.find()==false ){
+		if(amount.isEmpty() || am.find()==false || x==false){
 			errors.rejectValue("amount", "NotEmpty.Transactions.amount","Please Enter Only digits is invalid");
 			
 		}

@@ -27,8 +27,8 @@ public class transfervalidator1 {
 
 		Transactions cinfo = (Transactions) info;
 		
-		
-		Pattern p1 = Pattern.compile("[^0-9]");
+		Pattern p = Pattern.compile("[!@#${},%^&*+_.-]");
+		Pattern p1 = Pattern.compile("[a-z]");
 		
 		String accountType = cinfo.getAccountType();
 		if (accountType.isEmpty()) {
@@ -37,17 +37,19 @@ public class transfervalidator1 {
 
 		 String transactiontoAccountID = cinfo.getToTransactionAccountID();
 		 System.out.println("in validator"+transactiontoAccountID);
-		
+		Matcher match_fn = p.matcher(transactiontoAccountID.subSequence(0, transactiontoAccountID.length()));
 		Matcher match_fn1 = p1.matcher(transactiontoAccountID.subSequence(0, transactiontoAccountID.length()));
-		if ((transactiontoAccountID.length()) > 10 || match_fn1.find() == true) {
+		if ((transactiontoAccountID.length()) > 10 || match_fn1.find() == true ||match_fn.find() == true ||transactiontoAccountID.isEmpty()==true) {
 			System.out.println("herein validate");
-			errors.rejectValue("transactiontoAccountID", "NotEmpty.Transactions.transactiontoAccountID", " is invalid");
+			errors.rejectValue("ToTransactionAccountID","NotEmpty.Transactions.amount", " Shouldnt be empty or more than 10 digits");
 		}
-		Pattern p2 = Pattern.compile("([0-9]+([0-9]{1,2})?)");
-		
+		Pattern p2 = Pattern.compile("[0-9]+");
+		System.out.println("hereamount"+cinfo.getAmount());
 		String amount=cinfo.getAmount();
-		Matcher  am=p2.matcher(amount.subSequence(0, amount.length()));
-		if(amount.isEmpty() || am.find()==false ){
+		Boolean x=amount.matches("^(\\d{1,5}|\\d{0,5}\\.\\d{1,2})$");
+		System.out.println(x);
+		//Matcher  am=p2.matcher(amount.subSequence(0, amount.length()));
+		if(amount.isEmpty() || x==false ){
 			errors.rejectValue("amount", "NotEmpty.Transactions.amount","Please Enter Only digits is invalid");
 			
 		}

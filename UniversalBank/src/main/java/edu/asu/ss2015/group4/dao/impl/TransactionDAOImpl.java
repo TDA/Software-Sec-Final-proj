@@ -116,24 +116,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 					new Object[] { "Credit", transac.getAmount(), transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
 							transac.getApprovedTime(), "Deposit at branch", criticalTransaction });
-			// Bottom is removed in Rajat's branch please verify if it is
-			// correct or not
-			// } else if (Float.parseFloat(transac.getAmount()) <= 10000.0) {
-			// String registerUserQuery = "INSERT into transactions"
-			// +
-			// "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments,critical_transactions)
-			// "
-			// + "VALUES (?,?,(select AccountID from accounts where AccountType=
-			// ?),?,?,?,?,?,?)";
-			// JdbcTemplate jdbcTemplateForTransaction = new
-			// JdbcTemplate(dataSource);
-			// jdbcTemplateForTransaction.update(registerUserQuery,
-			// new Object[] { "Credit", transac.getAmount(),
-			// transac.getAccountType(),
-			// transac.getAuthorizedManagerID(), transac.getTransactionTime(),
-			// transac.isApproved(),
-			// transac.getApprovedTime(), "Deposit at branch", 0 });
-			// }
+			
 		}
 	}
 

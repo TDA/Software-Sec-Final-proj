@@ -10,7 +10,7 @@ private int transactionId;
 private String transactionType;
 @NotEmpty(message = "Please select a value")
 private String AccountType;
-@NotEmpty(message = "Please enter some amount")
+@NotEmpty(message = "Please enter a value")
 private String amount;
 private String FromTransactionAccountID;
 private String ToTransactionAccountID;
