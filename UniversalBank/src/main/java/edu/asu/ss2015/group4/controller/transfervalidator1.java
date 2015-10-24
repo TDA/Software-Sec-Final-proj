@@ -39,7 +39,7 @@ public class transfervalidator1 {
 		if (cinfo.getCount()==0){
 		errors.rejectValue("ToTransactionAccountID","NotEmpty.Transactions.amount", " AccountId not Registered" ); 
 		}
-		 String transactiontoAccountID = cinfo.getToTransactionAccountID();
+		String transactiontoAccountID = cinfo.getToTransactionAccountID();
 		 System.out.println("in validator"+transactiontoAccountID);
 		Matcher match_fn = p.matcher(transactiontoAccountID.subSequence(0, transactiontoAccountID.length()));
 		Matcher match_fn1 = p1.matcher(transactiontoAccountID.subSequence(0, transactiontoAccountID.length()));
@@ -57,6 +57,15 @@ public class transfervalidator1 {
 			errors.rejectValue("amount", "NotEmpty.Transactions.amount","Please Enter Only digits is invalid");
 			
 		}
+		
+		
+		if(cinfo.getCount()==1 && x==true && amount.isEmpty()==false){
+			Double b=Double.parseDouble(cinfo.getAmount());
+		if(cinfo.getBalance()<=b){
+			errors.rejectValue("amount", "NotEmpty.Transactions.amount","You Dont Have Sufficient Balance");
+		}
+		}
+		
 
 	}
 }

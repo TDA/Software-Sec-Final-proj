@@ -60,35 +60,13 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String registerUserQuery = "INSERT into transactions"
 					+ "(TransactionType,Amount,FromTransactionAccountId,AuthorizedManagerID,TransactionTime,Approved"
 					+ ",ApprovalTime,Comments,critical_transactions) "
-					+ "VALUES (?,?,(select AccountID from accounts where AccountType= ?),?,?,?,?,?,?)";
+					+ "VALUES (?,?,(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { "Debit", transac.getAmount(), transac.getAccountType(),
+					new Object[] { "Debit", transac.getAmount(),loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
 							transac.getApprovedTime(), "Withdraw from ATM", criticalTransaction });
-			// Bottom is removed in Rajat's branch please verify
-			// if it is correct or not
-			// if (Float.parseFloat(transac.getAmount()) <=
-			// 10000.0) {
-			// String registerUserQuery = "INSERT into
-			// transactions"
-			// +
-			// "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,"
-			// + "ApprovalTime,Comments,critical_transactions) "
-			// + "VALUES (?,?,(select AccountID from accounts
-			// where AccountType= ?),?,?,?,?,?,?)";
-			// JdbcTemplate jdbcTemplateForTransaction = new
-			// JdbcTemplate(dataSource);
-			// jdbcTemplateForTransaction.update(registerUserQuery,
-			// new Object[] { "Debit", transac.getAmount(),
-			// transac.getAccountType(),
-			// transac.getAuthorizedManagerID(),
-			// transac.getTransactionTime(),
-			// transac.isApproved(),
-			// transac.getApprovedTime(), "Withdraw from ATM", 0
-			// });
-			// }
-
+			
 		}
 	}
 
@@ -110,10 +88,10 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String registerUserQuery = "INSERT into transactions"
 					+ "(TransactionType,Amount,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,"
 					+ "ApprovalTime,Comments,critical_transactions) "
-					+ "VALUES (?,?,(select AccountID from accounts where AccountType= ?),?,?,?,?,?,?)";
+					+ "VALUES (?,?,(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { "Credit", transac.getAmount(), transac.getAccountType(),
+					new Object[] { "Credit", transac.getAmount(),loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
 							transac.getApprovedTime(), "Deposit at branch", criticalTransaction });
 			
@@ -175,49 +153,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 							transac.getToTransactionAccountID(), transac.getAuthorizedManagerID(),
 							transac.getTransactionTime(), transac.isApproved(), transac.getApprovedTime(),
 							"User transfer Debit", criticalTransaction });
-
-			// String registerUserQuery1 = "INSERT into transactions"
-			// +
-			// "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
-			// + ",Comments,critical_transactions) " + "VALUES
-			// (?,?,?,?,?,?,?,?,?)";
-			// JdbcTemplate jdbcTemplateForTransaction1 = new
-			// JdbcTemplate(dataSource);
-			// jdbcTemplateForTransaction1.update(registerUserQuery1,
-			// new Object[] { "Credit", transac.getAmount(),
-			// transac.getTransactiontoAccountID(),
-			// transac.getAuthorizedManagerID(), transac.getTransactionTime(),
-			// transac.isApproved(),
-			// transac.getApprovedTime(), "User transfer Credit", 1 });
-			// } else if (Float.parseFloat(transac.getAmount()) <= 10000.0) {
-			// String registerUserQuery = "INSERT into transactions"
-			// +
-			// "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
-			// + ",Comments,critical_transactions) " + "VALUES (?,?,"
-			// + "(select AccountID from accounts where AccountType=
-			// ?),?,?,?,?,?,?)";
-			// JdbcTemplate jdbcTemplateForTransaction = new
-			// JdbcTemplate(dataSource);
-			// jdbcTemplateForTransaction.update(registerUserQuery,
-			// new Object[] { "Debit", transac.getAmount(),
-			// transac.getAccountType(),
-			// transac.getAuthorizedManagerID(), transac.getTransactionTime(),
-			// transac.isApproved(),
-			// transac.getApprovedTime(), "User transfer Debit", 0 });
-			// String registerUserQuery1 = "INSERT into transactions"
-			// +
-			// "(TransactionType,Amount,TransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
-			// + ",Comments,critical_transactions) " + "VALUES
-			// (?,?,?,?,?,?,?,?,?)";
-			// JdbcTemplate jdbcTemplateForTransaction1 = new
-			// JdbcTemplate(dataSource);
-			// jdbcTemplateForTransaction1.update(registerUserQuery1,
-			// new Object[] { "Credit", transac.getAmount(),
-			// transac.getTransactiontoAccountID(),
-			// transac.getAuthorizedManagerID(), transac.getTransactionTime(),
-			// transac.isApproved(),
-			// transac.getApprovedTime(), "User transfer Credit", 0 });
-			// }
 
 		}
 	}

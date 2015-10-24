@@ -69,9 +69,15 @@ public class TransactionController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			BankAccount b=new BankAccount();
 			b.setId(transac.getToTransactionAccountID());
+			System.out.println("checking"+transac.getAccountType());
+			b.setAccountType(transac.getAccountType());
 			int i=service.BankValidate(b);
+			if(i==1){
+			double b1= service.BankBalanceValidate(b);
+			System.out.println("balance"+b1);
+			transac.setBalance(b1);
+			}
 			System.out.println("fialcount"+i);
-		System.out.println("checking"+transac.getAccountType());
 		transac.setCount(i);
 		transfervalidator1.validateForm(transac, result);
 		System.out.println("here"+result);
@@ -144,8 +150,18 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			TransferValidator.validateForm(transac, result);
 			System.out.println("here"+result);
+			BankAccount b=new BankAccount();
+			System.out.println("checking"+transac.getAccountType());
+			b.setAccountType(transac.getAccountType());
+			
+			double b1= service.BankBalanceValidate(b);
+			System.out.println("balance"+b1);
+			transac.setBalance(b1);
+			}
+			
+		TransferValidator.validateForm1(transac, result);
+
 			
 		if (result.hasErrors()) {
 			System.out.println(":in debet");
@@ -157,8 +173,9 @@ public class TransactionController {
 			modelAndView.setViewName("success");
 		
 		}
-		}	
+		
 		return modelAndView;
+
 	}
 	@RequestMapping(value = "/Credit", method = RequestMethod.GET)
 	public ModelAndView CreditPage() {

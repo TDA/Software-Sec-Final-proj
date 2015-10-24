@@ -6,5 +6,6 @@ public interface BankAccountService {
 
 	void createAccount(BankAccount svgAccount);
 	int BankValidate(BankAccount a);
+    double BankBalanceValidate(BankAccount account);
 
 }

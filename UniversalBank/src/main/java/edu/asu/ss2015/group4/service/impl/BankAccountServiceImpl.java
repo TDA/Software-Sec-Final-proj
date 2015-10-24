@@ -20,4 +20,11 @@ public class BankAccountServiceImpl implements BankAccountService {
 		int a=accountDAO.Validate(account);
 		return a;
 	}
+	
+
+@Override
+public double BankBalanceValidate(BankAccount account) {
+	double a=accountDAO.ValidateBalance(account);
+	return a;
+}
 }

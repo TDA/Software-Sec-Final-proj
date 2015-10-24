@@ -20,4 +20,6 @@ public interface BankAccountDAO {
 	public List<BankAccount> find(String ownerName);
 	
 	public int Validate(BankAccount a);
+
+	double ValidateBalance(BankAccount a);
 }

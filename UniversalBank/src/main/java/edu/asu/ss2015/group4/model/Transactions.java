@@ -22,6 +22,7 @@ private String comments;
 private int Authorisebank;
 private int criticalTransactions;
 private int count;
+private Double balance;
 
 
 	public int getTransactionId() {
@@ -129,6 +130,14 @@ public int getCount() {
 
 public void setCount(int count) {
 	this.count = count;
+}
+
+public Double getBalance() {
+	return balance;
+}
+
+public void setBalance(Double balance) {
+	this.balance = balance;
 }
 
 }
