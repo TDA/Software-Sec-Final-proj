@@ -28,4 +28,3 @@ public class Transactioninsert implements ResultSetExtractor<TransactionDTO> {
 
 	}
 }
-

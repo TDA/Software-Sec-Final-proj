@@ -142,7 +142,8 @@ public class UserDAOImpl implements UserDAO {
 	public String EditUser(String username, editProfile userInfo) throws FileNotFoundException {
 		String registerUserQuery = "INSERT into edit_info (username,emailID,SSN) VALUES (?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
-		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { username, userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
+		jdbcTemplateForExternalUser.update(registerUserQuery,
+				new Object[] { username, userInfo.getEmailAddress(), userInfo.getSocialSecurityNumber() });
 		return "Request received! <br/> Please check you email for account approval notification!";
 	}
 
@@ -215,7 +216,8 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void resetFailAttempts(String username) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		//jdbcTemplate.update(SQL_USER_ATTEMPTS_RESET_ATTEMPTS, new Object[] { username });
+		// jdbcTemplate.update(SQL_USER_ATTEMPTS_RESET_ATTEMPTS, new Object[] {
+		// username });
 	}
 
 	private boolean isUserExists(String username) {
@@ -232,7 +234,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<UserInformationDTO> fetchAllRegularEmployees() {
 		List<UserInformationDTO> regulareEmployees = new ArrayList<UserInformationDTO>();
-		String retrieveDetailsQuery = "SELECT users.username from users where user.AccountType=CLERK";
+		String retrieveDetailsQuery = "SELECT * from users where users.AccountType like 'Clerk'";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		regulareEmployees = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
 		return regulareEmployees;
@@ -240,7 +242,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void assignSupervisor(String userName, String employeeName) {
-		String sql = "UPDATE users set SupervisorName = ? where and username =  ?";
+		String sql = "UPDATE users set SupervisorName = ? where username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.update(sql, new Object[] { employeeName, userName });
 	}

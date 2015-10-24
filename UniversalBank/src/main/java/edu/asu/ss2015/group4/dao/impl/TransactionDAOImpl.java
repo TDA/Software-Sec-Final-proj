@@ -63,10 +63,10 @@ public class TransactionDAOImpl implements TransactionDAO {
 					+ "VALUES (?,?,(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { "Debit", transac.getAmount(),loggedInUser, transac.getAccountType(),
+					new Object[] { "Debit", transac.getAmount(), loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
 							transac.getApprovedTime(), "Withdraw from ATM", criticalTransaction });
-			
+
 		}
 	}
 
@@ -91,10 +91,10 @@ public class TransactionDAOImpl implements TransactionDAO {
 					+ "VALUES (?,?,(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { "Credit", transac.getAmount(),loggedInUser, transac.getAccountType(),
+					new Object[] { "Credit", transac.getAmount(), loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
 							transac.getApprovedTime(), "Deposit at branch", criticalTransaction });
-			
+
 		}
 	}
 
@@ -251,30 +251,30 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 	// added by Gaurav
 	@Override
-	public void approveTransactionRegularEmployee(int a,double b, String userName) {
+	public void approveTransactionRegularEmployee(int a, double b, String userName) {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
+
+			// update balance
+			String registerUserQuery2 = "UPDATE accounts SET  balance= balance + ? where AccountID = ( Select ToTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Credit'))";
+			System.out.println("updatedapprove" + a);
+			JdbcTemplate jdbcTemplateForTransaction2 = new JdbcTemplate(dataSource);
+			jdbcTemplateForTransaction2.update(registerUserQuery2, new Object[] { b, a });
+
+			String registerUserQuery3 = "UPDATE accounts SET  balance= balance - ? where AccountID = ( Select FromTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Debit'))";
+			System.out.println("updatedapprove" + a);
+			JdbcTemplate jdbcTemplateForTransaction3 = new JdbcTemplate(dataSource);
+			jdbcTemplateForTransaction3.update(registerUserQuery3, new Object[] { b, a });
+
 			System.out.println("transactionid" + a);
 			String registerUserQuery = "UPDATE transactions SET  Approved=1, AuthorizedManagerID=? where transactionID=?";
 			System.out.println("updatedapprove" + a);
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { userName, a });
-			
-			//update balance
-			String registerUserQuery2 = "UPDATE accounts SET  balance= balance + ? where AccountID = ( Select ToTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Credit'))";
-			System.out.println("updatedapprove" + a);
-			JdbcTemplate jdbcTemplateForTransaction2= new JdbcTemplate(dataSource);
-			jdbcTemplateForTransaction2.update(registerUserQuery2, new Object[] {b,a});
-			
-			
-			String registerUserQuery3 = "UPDATE accounts SET  balance= balance - ? where AccountID = ( Select FromTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Debit'))";
-			System.out.println("updatedapprove" + a);
-			JdbcTemplate jdbcTemplateForTransaction3= new JdbcTemplate(dataSource);
-			jdbcTemplateForTransaction3.update(registerUserQuery3, new Object[] {b,a});
 		}
 	}
 

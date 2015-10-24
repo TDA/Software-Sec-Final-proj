@@ -30,6 +30,7 @@ import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
 @SessionAttributes("userName")
+@RequestMapping(value = "/manager")
 public class ManagerController {
 
 	@Autowired
@@ -41,7 +42,7 @@ public class ManagerController {
 	@Autowired
 	TransactionService transactionService;
 
-	@RequestMapping(value = "/manager", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView managerPage() {
 
 		ModelAndView modelAndView = new ModelAndView();
@@ -100,7 +101,7 @@ public class ManagerController {
 		return listrequests;
 	}
 
-	@RequestMapping(value = "/manager/process_requests", method = RequestMethod.POST)
+	@RequestMapping(value = "/process_requests", method = RequestMethod.POST)
 	public ModelAndView processRequests(@RequestParam("approveParam2") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
@@ -128,8 +129,8 @@ public class ManagerController {
 		return managerPage();
 	}
 
-	@RequestMapping(value = "/manager/critical_transaction", method = RequestMethod.POST)
-	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam1") String approveOrDeny) {
+	@RequestMapping(value = "/critical_transaction", method = RequestMethod.POST)
+	public ModelAndView manageCriticalTransactionRequests(@RequestParam("approveParam1") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
 
@@ -139,20 +140,31 @@ public class ManagerController {
 
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
-			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
-			custInfoFromDTO = transactionService.viewTransactionByTransactionID(split[1]);
 
-			if (split[0].equals("approveVal")) {
-				transactionService.updateTransaction(custInfoFromDTO.get(0), loggedInUser);
+			String x = split[0];
+			String y = split[1];
+			String z = split[2];
+
+			if (split[0].equals("approve")) {
+				int x1 = Integer.parseInt(y);
+				System.out.println("xhere" + x1);
+				double x2 = Double.parseDouble(z);
+				String approve = transactionService.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
 			}
+
+			else {
+				int x1 = Integer.parseInt(y);
+				String deny = transactionService.RegularEmployeeDeleteTransaction(x1, loggedInUser);
+			}
+
 		} else {
 			return modelAndView;
 		}
 		return managerPage();
 	}
 
-	@RequestMapping(value = "/manager", method = RequestMethod.POST)
-	public ModelAndView manageCriticalTransactionRequests(@RequestParam("approveParam") String approveOrDeny) {
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
@@ -205,7 +217,7 @@ public class ManagerController {
 	private String getRandomRegularEmployee() {
 		List<UserInformationDTO> regEmployees = new ArrayList<UserInformationDTO>();
 		regEmployees = userService.fetchRegularEmployees();
-		int random = randInt(0, regEmployees.size());
+		int random = randInt(0, regEmployees.size() - 1);
 		return regEmployees.get(random).getUserName();
 	}
 
