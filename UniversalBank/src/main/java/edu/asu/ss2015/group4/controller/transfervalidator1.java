@@ -3,38 +3,42 @@ package edu.asu.ss2015.group4.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
+import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.model.UserInformation;
-
+import edu.asu.ss2015.group4.service.BankAccountService;
 
 
 @Component("TransferValidator1")
 public class transfervalidator1 {
+	
 
 	public boolean supports(Class<?> c) {
 		return Transactions.class.isAssignableFrom(c);
 	}
 
-	public static void validateForm(Object info, Errors errors) {
-
-		int count = 0;
-		int number = 0;
-		int ssnNum = 0;
-
+	public static  void validateForm(Object info, Errors errors) {
+		
+		
+		int i;
 		Transactions cinfo = (Transactions) info;
 		
 		Pattern p = Pattern.compile("[!@#${},%^&*+_.-]");
 		Pattern p1 = Pattern.compile("[a-z]");
 		
 		String accountType = cinfo.getAccountType();
+		
 		if (accountType.isEmpty()) {
 			errors.rejectValue("accountType", "NotEmpty.Transactions.accountType", "Select at least one option");
 		}
-
+		if (cinfo.getCount()==0){
+		errors.rejectValue("ToTransactionAccountID","NotEmpty.Transactions.amount", " AccountId not Registered" ); 
+		}
 		 String transactiontoAccountID = cinfo.getToTransactionAccountID();
 		 System.out.println("in validator"+transactiontoAccountID);
 		Matcher match_fn = p.matcher(transactiontoAccountID.subSequence(0, transactiontoAccountID.length()));

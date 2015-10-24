@@ -25,8 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.TransactionService;
 import edu.asu.ss2015.group4.service.UserService;
 
@@ -41,6 +43,8 @@ public class TransactionController {
 	
 	@Autowired
 	TransactionService trans;
+	@Autowired
+	BankAccountService service;
 
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	@ResponseBody
@@ -63,7 +67,12 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			BankAccount b=new BankAccount();
+			b.setId(transac.getToTransactionAccountID());
+			int i=service.BankValidate(b);
+			System.out.println("fialcount"+i);
 		System.out.println("checking"+transac.getAccountType());
+		transac.setCount(i);
 		transfervalidator1.validateForm(transac, result);
 		System.out.println("here"+result);
 		if (result.hasErrors()) {

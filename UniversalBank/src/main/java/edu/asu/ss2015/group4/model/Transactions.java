@@ -21,6 +21,7 @@ private Timestamp ApprovedTime;
 private String comments;
 private int Authorisebank;
 private int criticalTransactions;
+private int count;
 
 
 	public int getTransactionId() {
@@ -120,6 +121,14 @@ public String getFromTransactionAccountID() {
 
 public void setFromTransactionAccountID(String fromTransactionAccountID) {
 	FromTransactionAccountID = fromTransactionAccountID;
+}
+
+public int getCount() {
+	return count;
+}
+
+public void setCount(int count) {
+	this.count = count;
 }
 
 }

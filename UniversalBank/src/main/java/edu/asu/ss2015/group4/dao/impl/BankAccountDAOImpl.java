@@ -60,4 +60,16 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 		return null;
 	}
 
+	@Override
+	public int Validate(BankAccount a) {
+		System.out.println("countinvalidate"+a.getId());
+
+		String sql="SELECT COUNT(*) from accounts where AccountID=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int count=0;
+		 count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId()}, Integer.class);
+		System.out.println("count"+count);
+		return count;
+	}
+
 }

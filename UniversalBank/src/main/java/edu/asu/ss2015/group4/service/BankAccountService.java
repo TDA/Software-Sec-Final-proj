@@ -5,5 +5,6 @@ import edu.asu.ss2015.group4.model.BankAccount;
 public interface BankAccountService {
 
 	void createAccount(BankAccount svgAccount);
+	int BankValidate(BankAccount a);
 
 }
