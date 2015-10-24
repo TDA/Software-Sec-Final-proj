@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
 	private static final String SQL_USERS_UPDATE_LOCKED = "UPDATE USERS SET userLocked = ? WHERE username = ?";
 	private static final String SQL_USERS_COUNT = "SELECT count(*) FROM USERS WHERE username = ?";
 	private static final int MAX_ATTEMPTS = 3;
-
+	private static final String checkUnlocking = "select userLocked from users where username =?";
 	private static final String SQL_USER_ATTEMPTS_GET = "SELECT * FROM USER_ATTEMPTS WHERE username = ?";
 	private static final String SQL_USER_ATTEMPTS_INSERT = "INSERT INTO USER_ATTEMPTS (USERNAME, ATTEMPTS, LASTMODIFIED) VALUES(?,?,?)";
 	private static final String SQL_USER_ATTEMPTS_UPDATE_ATTEMPTS = "UPDATE USER_ATTEMPTS SET attempts = attempts + 1, lastmodified = ? WHERE username = ?";
@@ -105,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
 	// Method for checking duplicate details
 	public List<CheckDuplicationDTO> checkDuplicateExternalUser(String username, String email, String SSN) {
 		List<CheckDuplicationDTO> duplicateCheckDetails = new ArrayList<CheckDuplicationDTO>();
-		String getDuplicateDetailsQuery = "SELECT users.username, users.email, users.SSN from users where users.username=? OR users.email=? OR users.SSN=?";
+		String getDuplicateDetailsQuery = "SELECT users.username, users.email, users.otp from users where users.username=? OR users.email=? OR users.SSN=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		duplicateCheckDetails = jdbcTemplate.query(getDuplicateDetailsQuery, new Object[] { username, email, SSN },
 				new CheckDuplicationMapper());
@@ -124,6 +124,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public List<UserInformationDTO> retrieveUserDetails(String username) {
+		System.out.println("in retrieve user details");
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
 				+ "users.AccountType, users.email, users.otp, users.otpValidity " + "from users where users.username=?";
@@ -154,7 +155,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean unlockExternalUserAccount(String username) {
-		String sql = "UPDATE users set userLocked = true where userLocked = false and username =  ?";
+		String sql = "UPDATE users set userLocked = 1 where userLocked = 0 and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int status = jdbcTemplate.update(sql, new Object[] { username });
 		if (status == 1) {

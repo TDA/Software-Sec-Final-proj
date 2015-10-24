@@ -14,10 +14,10 @@ public interface UserService {
 	public List<UserInformationDTO> fetchDisabledExternalUserDetails();
 	public boolean activateExternalUserAccount(String username);
 	public boolean unlockExternalUserAccount(String username);
-<<<<<<< HEAD
+
 	
 	public void insertOTP(String otp,String otpValidity, String username);
-=======
+
 	public String EditInformation(UserInformation addInfo) throws NoSuchAlgorithmException, FileNotFoundException;
->>>>>>> refs/remotes/origin/master
+
 }
