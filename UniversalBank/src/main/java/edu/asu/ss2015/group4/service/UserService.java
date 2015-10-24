@@ -34,4 +34,8 @@ public interface UserService {
 	public boolean deleteAccount(String username);
 
 	public void insertOTP(String otp,String otpValidity, String username);
+
+///	public String EditInformation(UserInformation addInfo) throws NoSuchAlgorithmException, FileNotFoundException;
+
+
 }

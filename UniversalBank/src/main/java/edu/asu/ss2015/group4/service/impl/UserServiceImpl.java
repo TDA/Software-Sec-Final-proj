@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserInformationDTO> fetchUserDetails(String usernameSearch) {
+		System.out.println("in fetch user details");
 		return userDAO.retrieveUserDetails(usernameSearch);
 	}
 	
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
 	public boolean unlockExternalUserAccount(String username) {
 		return userDAO.unlockExternalUserAccount(username);
 	}
+
 
 	public String EditInformation(String userName, editProfile addInfo) throws NoSuchAlgorithmException, FileNotFoundException {
 		return userDAO.EditUser(userName, addInfo);
@@ -68,10 +70,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+
 	@Override
 	public void insertOTP(String otp, String otpValidity, String username) {
 		userDAO.insertOTP(otp, otpValidity, username);
 		
 	}
+
+
+	
+	/*public String EditInformation(String username, editProfile addInfo)
+			throws NoSuchAlgorithmException, FileNotFoundException {
+		return userDAO.EditUser(String username, editProfile addInfo);
+	}*/
+	
+
 
 }

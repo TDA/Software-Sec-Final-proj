@@ -263,13 +263,21 @@ public class ManagerController {
 
 				+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
 				+"\n OTP: "+otp+" which is valid till: "+validDate+"\n http://localhost:8083/UniversalBankingSystem/unlockAccount"
-
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 
 		MailingService mm = (MailingService) context.getBean("mailingService");
 		mm.sendMail(mm.getFromAddress(), custInfo.getEmailAddress(), "Universal Bank - Registration Successful.",
 				message);
 
+	}
+	
+	public void sendOTP(String otp,String otpValidity, String email ){
+		Date date = new Date(Long.parseLong(otpValidity));
+		String message = "\n Your new OTP: "+otp+ ". It is valid till : "+date;
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+		MailingService mm = (MailingService) context.getBean("mailingService");
+		mm.sendMail(mm.getFromAddress(), email, "Universal Bank- New OTP",
+				message);
 	}
 
 }

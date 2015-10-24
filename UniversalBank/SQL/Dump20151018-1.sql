@@ -1,3 +1,4 @@
+Drop database if exists unibank;
 CREATE DATABASE  IF NOT EXISTS `unibank` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `unibank`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
@@ -177,6 +178,8 @@ CREATE TABLE `users` (
   `userLocked` tinyint(1) NOT NULL,
   `userAccountExpired` tinyint(1) NOT NULL,
   `SupervisorName` varchar(40) DEFAULT NULL,
+  otp varchar(10) not null default '0',
+  otpValidity varchar(20) not null default '0',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -190,9 +193,13 @@ INSERT INTO `users` VALUES
 ('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Clerk','fake@fake.com','123456780',1,1,1,'cborde'),
 ('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1,1,null),
 ('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1,1,'bhaddy');
+
+
+
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
+LOCK TABLES `user_roles` WRITE;
+UNLOCK TABLES;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

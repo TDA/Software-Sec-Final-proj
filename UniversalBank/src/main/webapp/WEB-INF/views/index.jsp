@@ -133,6 +133,7 @@
 			</div>
 		</div>
 		</div>
+		<p><a href="${pageContext.request.contextPath}/unlockAccount" style="color: rgb(0,0,0)">Unlock Account</a></p>
 		<!-- /.container -->
 	</section>
 
