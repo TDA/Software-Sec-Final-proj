@@ -128,8 +128,8 @@ th, td {
                 <td><c:out value="${transaction.transactionType}" /></td>
                 <td><c:out value="${transaction.amount}" /></td>
                 <td><c:out value="${transaction.comments}" /></td>
-                <td><button type="submit" name="approveDenyParamRegularEmployee" value="approve_${transaction.transactionID}"/>Approve</button></td>
-                <td><button type="submit" name="approveDenyParamRegularEmployee" value="deny_${transaction.transactionID}"/>Deny</button></td>
+                <td><button type="submit" name="approveDenyParamRegularEmployee" value="approve_${transaction.transactionID}_${transaction.amount}"/>Approve</button></td>
+                <td><button type="submit" name="approveDenyParamRegularEmployee" value="deny_${transaction.transactionID}_${transaction.amount}"/>Deny</button></td>
             </tr>
         </c:forEach>
 

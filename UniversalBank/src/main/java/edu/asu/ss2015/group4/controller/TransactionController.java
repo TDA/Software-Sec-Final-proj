@@ -363,13 +363,15 @@ public class TransactionController {
 			String[] split = approveOrDeny.split("_");
 			String x = split[0];
 			String y = split[1];
+			String z= split[2];
 			
 			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 			
 			if (split[0].equals("approve")) {
 				int x1=Integer.parseInt(y);
 				System.out.println("xhere"+x1);
-				String approve = trans.RegularEmployeeAprroveTransaction(x1,loggedInUser);
+				double x2= Double.parseDouble(z);
+				String approve = trans.RegularEmployeeAprroveTransaction(x1,x2,loggedInUser);
 			}
 			
 			else {

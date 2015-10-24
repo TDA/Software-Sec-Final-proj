@@ -34,8 +34,9 @@ public interface TransactionService {
 	
 	//added by gaurav
 	public List<TransactionDTO> DisplayTransactionInfoToRegularEmployee(String Username);
-	public String RegularEmployeeAprroveTransaction(int i, String userName);
+	public String RegularEmployeeAprroveTransaction(int i,double j, String userName);
 	public String RegularEmployeeDeleteTransaction(int i, String userName);
 	public String Delete(int i, String userName);
+
 
 }
