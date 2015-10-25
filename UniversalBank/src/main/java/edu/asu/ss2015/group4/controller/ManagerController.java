@@ -145,9 +145,8 @@ public class ManagerController {
 			String y = split[1];
 			String z = split[2];
 
-			if (split[0].equals("approve")) {
+			if (split[0].equals("approveVal")) {
 				int x1 = Integer.parseInt(y);
-				System.out.println("xhere" + x1);
 				double x2 = Double.parseDouble(z);
 				String approve = transactionService.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
 			}

@@ -3,6 +3,7 @@ package edu.asu.ss2015.group4.dao;
 import java.util.List;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
+import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.Transactions;
 
 public interface TransactionDAO {
@@ -29,12 +30,15 @@ public interface TransactionDAO {
 
 	public List<TransactionDTO> viewTransactionByTransactionID(String id);
 
-		//added by gaurav
+	//added by gaurav
 	public List <TransactionDTO>viewTransactionForDeletion (String Username);
 	public void deleteTransaction(int a, String userName);
 	public List<TransactionDTO> viewTransactionToRegularEmployee(String Username);
 	public void approveTransactionRegularEmployee(int a,double b, String userName);
 	public void denyTransactionRegularEmployee(int a, String userName);
+	public void modifyTransaction(int a, double b, String userName);
+	public List<UserRequestsDTO> viewAcoountDeletionRequestToRegularEmployee(String Username);
+	public void approveUserReq(int a, String userName);
 
 }
 

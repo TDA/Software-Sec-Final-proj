@@ -34,7 +34,6 @@ public class RegularEmployeeController {
 
 		// check if user is login
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println("auth is: " + auth);
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
@@ -43,12 +42,11 @@ public class RegularEmployeeController {
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 			disabledCustInfoFromDTO = userService.fetchDisabledExternalUserDetails();
-			
+
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
 			modelAndView.addObject("disabledCustInfoFromDTO", disabledCustInfoFromDTO);
-			
-			System.out.println("inside regular employee get");
+
 			modelAndView.setViewName("RegularEmployee");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -56,27 +54,23 @@ public class RegularEmployeeController {
 		return modelAndView;
 
 	}
-	
-	
+
 	@RequestMapping(value = "/clerk", method = RequestMethod.POST)
 	public ModelAndView managerExternalUserApproval(@RequestParam("approveClerkParam") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			System.out.println("inside regular employee POST");
 			String[] split = approveOrDeny.split("_");
 			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
 			custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
 			if (split[0].equals("approveVal")) {
-				System.out.println("=============> Account Approved <=================");
 				userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
-				//sendEmailToUser(custInfoFromDTO.get(0));
+				// sendEmailToUser(custInfoFromDTO.get(0));
 			}
 		} else {
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return clerkPage();
 	}
 }

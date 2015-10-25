@@ -20,9 +20,9 @@
 		<h2>Welcome, ${userName }</h2>
 		<ul class="nav nav-tabs">
 			<li><a href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View Transaction</a></li>
-			<li><a data-toggle="tab" href="#menu2">Create Transaction</a></li>
-			<li><a data-toggle="tab" href="#menu3">Modify Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/ModifyTransaction">Modify Transaction</a></li>
 			<li><a href="${pageContext.request.contextPath}/DeleteTransaction">Delete Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/AccountDeleteRequest">Account Delete Request</a></li>
 		</ul>
 
 		<div class="tab-content">

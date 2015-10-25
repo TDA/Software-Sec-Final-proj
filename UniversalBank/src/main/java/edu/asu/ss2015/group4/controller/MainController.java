@@ -124,8 +124,6 @@ public class MainController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			System.out.println(userDetail);
-
 			model.addObject("userName", userDetail.getUsername());
 		}
 		model.setViewName("permission-denied");

@@ -12,6 +12,7 @@ public class RequestGenerator implements ResultSetExtractor<UserRequestsDTO> {
 
 	public UserRequestsDTO extractData(ResultSet resultSet) throws SQLException, DataAccessException {
 		UserRequestsDTO userInfoDTO = new UserRequestsDTO();
+		userInfoDTO.setRequestID(resultSet.getString(1));
 		userInfoDTO.setRequestBy(resultSet.getString(2));
 		userInfoDTO.setRequestType(resultSet.getString(3));
 		userInfoDTO.setApprovedBy(resultSet.getString(4));

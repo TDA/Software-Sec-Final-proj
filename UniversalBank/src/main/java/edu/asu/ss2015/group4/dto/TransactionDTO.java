@@ -20,6 +20,7 @@ public class TransactionDTO {
 	private String comments;
 	private int AuthoriseBank;
 	private int criticalTransactions;
+	private String supervisorName;
 
 	
 	public int getTransactionID() {
@@ -88,11 +89,22 @@ public class TransactionDTO {
 	public void setAuthoriseBank(int authoriseBank) {
 		AuthoriseBank = authoriseBank;
 	}
+
 	public int getCriticalTransactions() {
 		return criticalTransactions;
 	}
+
 	public void setCriticalTransactions(int criticalTransactions) {
 		this.criticalTransactions = criticalTransactions;
 	}
+
+	public String getSupervisorName() {
+		return supervisorName;
+	}
+
+	public void setSupervisorName(String supervisorName) {
+		this.supervisorName = supervisorName;
+	}
 	
+
 }
