@@ -194,9 +194,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> viewTransactionForDeletion(String Username) {
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Approved=? and IsDeleted=?";
+		String retrieveDetailsQuery = "SELECT * from transactions where Approved=? and IsDeleted=? and SupervisorName=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0 },
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0,Username},
 				new TransactionTableRows());
 		return transactionToDisplay;
 	}
@@ -230,9 +230,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> viewTransactionToRegularEmployee(String Username) {
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=?";
+		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and SupervisorName=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0 },
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0,Username},
 				new TransactionTableRows());
 		return transactionToDisplay;
 	}

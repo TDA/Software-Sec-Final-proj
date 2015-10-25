@@ -109,13 +109,13 @@ LOCK TABLES `transactions` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_attempts`
+-- Table structure for table `User_Attpts`
 --
 
-DROP TABLE IF EXISTS `user_attempts`;
+DROP TABLE IF EXISTS `User_Attpts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_attempts` (
+CREATE TABLE `User_Attpts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `attempts` varchar(45) NOT NULL,
@@ -125,12 +125,12 @@ CREATE TABLE `user_attempts` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_attempts`
+-- Dumping data for table `User_Attpts`
 --
 
-LOCK TABLES `user_attempts` WRITE;
-/*!40000 ALTER TABLE `user_attempts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_attempts` ENABLE KEYS */;
+LOCK TABLES `User_Attpts` WRITE;
+/*!40000 ALTER TABLE `User_Attpts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `User_Attpts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

@@ -92,6 +92,7 @@ body {
 			<li><a href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View Transaction</a></li>
 			<li><a href="${pageContext.request.contextPath}/ModifyTransaction">Modify Transaction</a></li>
 			<li><a href="${pageContext.request.contextPath}/DeleteTransaction">Delete Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/AccountDeleteRequest">Account Delete Request</a></li>
 		</ul></div>
 								</h3>
 							</div>

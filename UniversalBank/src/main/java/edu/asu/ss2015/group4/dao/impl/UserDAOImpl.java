@@ -35,10 +35,10 @@ public class UserDAOImpl implements UserDAO {
 	private static final String SQL_USERS_COUNT = "SELECT count(*) FROM USERS WHERE username = ?";
 	private static final int MAX_ATTEMPTS = 3;
 
-	private static final String SQL_USER_ATTEMPTS_GET = "SELECT * FROM USER_ATTEMPTS WHERE username = ?";
-	private static final String SQL_USER_ATTEMPTS_INSERT = "INSERT INTO USER_ATTEMPTS (USERNAME, ATTEMPTS, LASTMODIFIED) VALUES(?,?,?)";
-	private static final String SQL_USER_ATTEMPTS_UPDATE_ATTEMPTS = "UPDATE USER_ATTEMPTS SET attempts = attempts + 1, lastmodified = ? WHERE username = ?";
-	private static final String SQL_USER_ATTEMPTS_RESET_ATTEMPTS = "UPDATE USER_ATTEMPTS SET attempts = 0, lastmodified = now() WHERE username = ?";
+	private static final String SQL_User_Attpts_GET = "SELECT * FROM User_Attpts WHERE username = ?";
+	private static final String SQL_User_Attpts_INSERT = "INSERT INTO User_Attpts (USERNAME, ATTEMPTS, LASTMODIFIED) VALUES(?,?,?)";
+	private static final String SQL_User_Attpts_UPDATE_ATTEMPTS = "UPDATE User_Attpts SET attempts = attempts + 1, lastmodified = ? WHERE username = ?";
+	private static final String SQL_User_Attpts_RESET_ATTEMPTS = "UPDATE User_Attpts SET attempts = 0, lastmodified = now() WHERE username = ?";
 
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
@@ -161,13 +161,13 @@ public class UserDAOImpl implements UserDAO {
 		if (user == null) {
 			if (isUserExists(username)) {
 				// if no record, insert a new
-				jdbcTemplate.update(SQL_USER_ATTEMPTS_INSERT, new Object[] { username, 1, new Date() });
+				jdbcTemplate.update(SQL_User_Attpts_INSERT, new Object[] { username, 1, new Date() });
 			}
 		} else {
 
 			if (isUserExists(username)) {
 				// update attempts count, +1
-				jdbcTemplate.update(SQL_USER_ATTEMPTS_UPDATE_ATTEMPTS, new Object[] { new Date(), username });
+				jdbcTemplate.update(SQL_User_Attpts_UPDATE_ATTEMPTS, new Object[] { new Date(), username });
 			}
 
 			if (user.getAttempts() + 1 >= MAX_ATTEMPTS) {
@@ -193,7 +193,7 @@ public class UserDAOImpl implements UserDAO {
 	public AccountLoginAttempts getUserAttempts(String username) {
 		try {
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			AccountLoginAttempts userAttempts = jdbcTemplate.queryForObject(SQL_USER_ATTEMPTS_GET,
+			AccountLoginAttempts userAttempts = jdbcTemplate.queryForObject(SQL_User_Attpts_GET,
 					new Object[] { username }, new RowMapper<AccountLoginAttempts>() {
 						public AccountLoginAttempts mapRow(ResultSet rs, int rowNum) throws SQLException {
 							AccountLoginAttempts user = new AccountLoginAttempts();
@@ -216,7 +216,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void resetFailAttempts(String username) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		jdbcTemplate.update(SQL_USER_ATTEMPTS_RESET_ATTEMPTS, new Object[] { username });
+		jdbcTemplate.update(SQL_User_Attpts_RESET_ATTEMPTS, new Object[] { username });
 	}
 
 	private boolean isUserExists(String username) {

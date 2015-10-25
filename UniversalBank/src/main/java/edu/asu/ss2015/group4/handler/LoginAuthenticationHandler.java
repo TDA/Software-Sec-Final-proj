@@ -22,13 +22,13 @@ public class LoginAuthenticationHandler extends DaoAuthenticationProvider {
 
 			// if reach here, means login success, else an exception will be
 			// thrown
-			// reset the user_attempts
+			// reset the User_Attpts
 			userDAO.resetFailAttempts(authentication.getName());
 
 			return auth;
 		} catch (BadCredentialsException e) {
 
-			// invalid login, update to user_attempts
+			// invalid login, update to User_Attpts
 			userDAO.updateFailAttempts(authentication.getName());
 			throw e;
 

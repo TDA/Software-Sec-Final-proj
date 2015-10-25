@@ -67,31 +67,28 @@ public class TransactionController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			System.out.println("checking" + transac.getAccountType());
+			BankAccount b = new BankAccount();
+			b.setId(transac.getToTransactionAccountID());
+			b.setAccountType(transac.getAccountType());
+			int i = service.BankValidate(b);
+			if (i == 1) {
+				double b1 = service.BankBalanceValidate(b);
+				transac.setBalance(b1);
+			}
+			transac.setCount(i);
 			transfervalidator1.validateForm(transac, result);
 			System.out.println("here" + result);
+
 			if (result.hasErrors()) {
-				System.out.println("error");
-				BankAccount b = new BankAccount();
-				b.setId(transac.getToTransactionAccountID());
-				b.setAccountType(transac.getAccountType());
-				int i = service.BankValidate(b);
-				if (i == 1) {
-					double b1 = service.BankBalanceValidate(b);
-					transac.setBalance(b1);
-				}
-				transac.setCount(i);
-				if (result.hasErrors()) {
-					modelAndView.setViewName("transfer"); // This prints errors
+				modelAndView.setViewName("transfer"); // This prints errors
 
-				} else {
+			} else {
 
-					String a = trans.TransferUser(transac);
-					List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
-					info = userService.fetchUserDetails(userDetail.getUsername());
-					transac.setSupervisorName(info.get(0).getSupervisorName());
-					modelAndView.setViewName("success");
-
-				}
+				String a = trans.TransferUser(transac);
+				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+				info = userService.fetchUserDetails(userDetail.getUsername());
+				transac.setSupervisorName(info.get(0).getSupervisorName());
+				modelAndView.setViewName("success");
 
 			}
 
@@ -143,47 +140,33 @@ public class TransactionController {
 		ModelAndView modelAndView = new ModelAndView();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+
 			TransferValidator.validateForm(transac, result);
 			System.out.println("here" + result);
-
-			if (result.hasErrors()) {
-				System.out.println(":in debet");
-				modelAndView.setViewName("Debit"); // This prints errors
-
-			} else {
-				trans.DebitUser(transac);
-				System.out.println("successtransac");
-				modelAndView.setViewName("success");
-
-			}
-
 			BankAccount b = new BankAccount();
 			b.setAccountType(transac.getAccountType());
 
 			double b1 = service.BankBalanceValidate(b);
 			transac.setBalance(b1);
-
-			List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
-			info = userService.fetchUserDetails(userDetail.getUsername());
-			transac.setSupervisorName(info.get(0).getSupervisorName());
 		}
 
 		TransferValidator.validateForm1(transac, result);
-
-		if (result.hasErrors())
-
-		{
+		if (result.hasErrors()) {
+			System.out.println(":in debet");
 			modelAndView.setViewName("Debit"); // This prints errors
 
-		} else
-
-		{
+		} else {
+			List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+			info = userService.fetchUserDetails(userDetail.getUsername());
+			transac.setSupervisorName(info.get(0).getSupervisorName());
 			trans.DebitUser(transac);
+			System.out.println("successtransac");
 			modelAndView.setViewName("success");
 
 		}
+
 		return modelAndView;
 	}
 
@@ -221,20 +204,15 @@ public class TransactionController {
 				trans.CreditUser(transac);
 				System.out.println("successtransac");
 
-				if (result.hasErrors()) {
-					modelAndView.setViewName("Credit"); // This prints errors
+				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+				info = userService.fetchUserDetails(userDetail.getUsername());
+				transac.setSupervisorName(info.get(0).getSupervisorName());
 
-				} else {
-					List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
-					info = userService.fetchUserDetails(userDetail.getUsername());
-					transac.setSupervisorName(info.get(0).getSupervisorName());
-					trans.CreditUser(transac);
-					modelAndView.setViewName("success");
+				modelAndView.setViewName("success");
 
-				}
 			}
-
 		}
+
 		return modelAndView;
 	}
 
