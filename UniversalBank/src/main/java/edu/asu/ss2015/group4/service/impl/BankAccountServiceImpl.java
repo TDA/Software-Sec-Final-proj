@@ -27,4 +27,14 @@ public double BankBalanceValidate(BankAccount account) {
 	double a=accountDAO.ValidateBalance(account);
 	return a;
 }
+@Override
+public double BankBalancechecking(BankAccount account) {
+	  
+	return accountDAO.CheckingBalance(account);
+}
+@Override
+public double BankBalancesaving(BankAccount account) {
+	// TODO Auto-generated method stub
+	return accountDAO.SavingBalance(account);
+}
 }

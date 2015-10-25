@@ -93,4 +93,26 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 		}
 		return count;
 	}
+
+	@Override
+	public double CheckingBalance(BankAccount a) {
+		Double count = 0.0;
+			String sql = "SELECT Balance from accounts where username=? AND AccountType=?";
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+			count = jdbcTemplate.queryForObject(sql, new Object[] { a.getUserName(),"Checking" }, Double.class);
+		
+		return count;
+	}
+
+	@Override
+	public double SavingBalance(BankAccount a) {
+		Double count = 0.0;
+		String sql = "SELECT Balance from accounts where username=? AND AccountType=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getUserName(),"savings" }, Double.class);
+	
+	return count;
+	}
 }

@@ -36,6 +36,8 @@
 	<bean id="BankAccountDAOImpl" class="edu.asu.ss2015.group4.dao.impl.BankAccountDAOImpl" />
 	<bean id="BankAccountServiceImpl" class="edu.asu.ss2015.group4.service.impl.BankAccountServiceImpl" />
 	<bean id="BankAccount" class="edu.asu.ss2015.group4.model.BankAccount" />
+	<bean id="BankBalance" class="edu.asu.ss2015.group4.model.BankBalance" />
+	
 	<mvc:resources mapping="/resources/**" location="/resources/portfolio/" />
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler/>

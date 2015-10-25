@@ -22,4 +22,8 @@ public interface BankAccountDAO {
 	public int Validate(BankAccount a);
 
 	double ValidateBalance(BankAccount a);
+	
+	double CheckingBalance(BankAccount a);
+	
+	double SavingBalance(BankAccount a);
 }

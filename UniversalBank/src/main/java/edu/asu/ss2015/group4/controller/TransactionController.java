@@ -27,6 +27,7 @@ import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.BankAccount;
+import edu.asu.ss2015.group4.model.BankBalance;
 import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.model.UserInformation;
 import edu.asu.ss2015.group4.service.BankAccountService;
@@ -46,6 +47,33 @@ public class TransactionController {
 	BankAccountService service;
 	@Autowired
 	UserService userService;
+	
+	@RequestMapping(value = "/balance", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView returnBalance() {
+		ModelAndView modelAndView = new ModelAndView();
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	if (!(auth instanceof AnonymousAuthenticationToken)) {
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		Transactions transac = new Transactions();
+		BankAccount b=new BankAccount();
+		b.setUserName(userDetail.getUsername());
+		double saving=service.BankBalancesaving(b);
+		double checking=service.BankBalancechecking(b);
+		System.out.println("saving"+saving+"checking"+checking);
+		BankBalance bal=new BankBalance();
+		bal.setCheckingAccount(checking);
+		bal.setSavingsAccount(saving);
+		modelAndView.addObject("bal",checking);	
+		modelAndView.addObject("bal1",saving);	
+
+		modelAndView.setViewName("balance");
+	}
+	return modelAndView;
+
+
+	}
 
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	@ResponseBody
