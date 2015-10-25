@@ -17,11 +17,12 @@ import edu.asu.ss2015.group4.dao.TransactionDAO;
 import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.jdbc.TransactionTableRows;
 import edu.asu.ss2015.group4.model.Transactions;
+import edu.asu.ss2015.group4.service.UserService;
 
 public class TransactionDAOImpl implements TransactionDAO {
 	@Autowired
 	DataSource dataSource;
-
+	UserService userService;
 	public List<TransactionDTO> view(String username) {
 		System.out.println("view:" + username);
 		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
@@ -110,10 +111,10 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String registerUserQuery = "INSERT into transactions"
 					+ "(TransactionType,Amount,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,"
 					+ "ApprovalTime,Comments,critical_transactions) "
-					+ "VALUES (?,?,(select AccountID from accounts where AccountType= ?),?,?,?,?,?,?)";
+					+ "VALUES (?,?,(select AccountID from accounts where AccountType= ? and username = ?),?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { "Credit", transac.getAmount(), transac.getAccountType(),
+					new Object[] { "Credit", transac.getAmount(), transac.getAccountType(), loggedInUser,
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
 							transac.getApprovedTime(), "Deposit at branch", criticalTransaction });
 			

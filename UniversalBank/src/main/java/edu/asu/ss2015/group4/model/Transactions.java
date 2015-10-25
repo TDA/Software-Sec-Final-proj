@@ -21,6 +21,8 @@ private Timestamp ApprovedTime;
 private String comments;
 private int Authorisebank;
 private int criticalTransactions;
+private String otp;
+//@NotEmpty(message = "Please enter a value")
 
 
 	public int getTransactionId() {
@@ -120,6 +122,14 @@ public String getFromTransactionAccountID() {
 
 public void setFromTransactionAccountID(String fromTransactionAccountID) {
 	FromTransactionAccountID = fromTransactionAccountID;
+}
+
+public String getOtp() {
+	return otp;
+}
+
+public void setOtp(String otp) {
+	this.otp = otp;
 }
 
 }

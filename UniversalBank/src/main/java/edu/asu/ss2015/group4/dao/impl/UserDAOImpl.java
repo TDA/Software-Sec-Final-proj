@@ -166,7 +166,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean unlockExternalUserAccount(String username) {
-		String sql = "UPDATE users set userLocked = 1 where userLocked = 0 and username =  ?";
+		String sql = "UPDATE users set userLocked = 1, userAccountExpired = 1 where userLocked = false and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int status = jdbcTemplate.update(sql, new Object[] { username });
 		if (status == 1) {
@@ -268,7 +268,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<UserInformationDTO> fetchAllRegularEmployees() {
 		List<UserInformationDTO> regulareEmployees = new ArrayList<UserInformationDTO>();
-		String retrieveDetailsQuery = "SELECT users.username from users where user.AccountType=CLERK";
+		String retrieveDetailsQuery = "SELECT * from users where users.AccountType like 'Clerk'";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		regulareEmployees = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
 		return regulareEmployees;
@@ -276,7 +276,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void assignSupervisor(String userName, String employeeName) {
-		String sql = "UPDATE users set SupervisorName = ? where and username =  ?";
+		String sql = "UPDATE users set SupervisorName = ? where username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.update(sql, new Object[] { employeeName, userName });
 	}

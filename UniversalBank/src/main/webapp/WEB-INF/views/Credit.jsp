@@ -86,7 +86,7 @@ body {
 
 							<div class="panel-body">
 								<div id="morris-area-chart">
-								
+								<Font Color="green">An OTP has been sent to your email.</Font>
 										<c:if test="${not empty successMsg}">
 											<h4>
 												${successMsg} 
@@ -99,6 +99,7 @@ body {
 										<c:if test="${not empty errorMsg}">
 											<h3>${errorMsg}</h3>
 										</c:if>
+										<br />
 										<br />
 										<b>Account Type:</b>
 										<FONT color="red"><form:errors path="accountType" /></FONT>
@@ -118,15 +119,23 @@ body {
 											style="color: #999;" />
 										<br />				
 										<br />
-										 <Font Color="red">I authroise the bank to modify ,delete and access my transactions</Font>
+										<b>OTP</b>
+										<FONT color="red"><form:errors path="otp" /></FONT>
+										<br />
+										<input type="text" name="otp" size="10" class="form-control" id="otp"
+											style="color: #999;" />
+										<br />
+										<br />
+										 <Font Color="red">I authorize the bank to modify ,delete and access my transactions</Font>
 										<br />
 										<br />
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Credit"
 												id="Credit" value="Credit" />
+											<input type="submit" style="margin-right: 5%" name="generateOTP"
+												id="generateOTP" value="generateOTP" />
 										</h4>
-
-										
+																				
 									</form:form>
 								</div>
 							</div>

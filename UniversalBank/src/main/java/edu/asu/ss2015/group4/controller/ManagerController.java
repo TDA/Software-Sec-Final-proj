@@ -131,7 +131,7 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = "/manager/critical_transaction", method = RequestMethod.POST)
-	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam1") String approveOrDeny) {
+	public ModelAndView manageCriticalTransactionRequests (@RequestParam("approveParam1") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
 
@@ -154,7 +154,7 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = "/manager", method = RequestMethod.POST)
-	public ModelAndView manageCriticalTransactionRequests(@RequestParam("approveParam") String approveOrDeny) {
+	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
@@ -179,6 +179,7 @@ public class ManagerController {
 				userService.insertOTP(Integer.toString(OTP), otpValidity, custInfoFromDTO.get(0).getUserName());
 				List<UserInformationDTO> custInfoFromDTO1 = new ArrayList<UserInformationDTO>();
 				custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
+				System.out.println(custInfoFromDTO1.get(0).getOTP()+", "+custInfoFromDTO1.get(0).getOtpValidity());
 				sendEmailToUser(custInfoFromDTO.get(0),custInfoFromDTO1.get(0).getOTP(), custInfoFromDTO1.get(0).getOtpValidity());
 
 			}
@@ -220,7 +221,7 @@ public class ManagerController {
 	private String getRandomRegularEmployee() {
 		List<UserInformationDTO> regEmployees = new ArrayList<UserInformationDTO>();
 		regEmployees = userService.fetchRegularEmployees();
-		int random = randInt(0, regEmployees.size());
+		int random = randInt(0, regEmployees.size()-1);
 		return regEmployees.get(random).getUserName();
 	}
 
@@ -258,11 +259,8 @@ public class ManagerController {
 		//System.out.println("validity date: "+validDate);
 		String message = "Congratulations " + custInfo.getFirstName() + " " + custInfo.getLastName()
 
-				+ ",\n\nYour bank account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
-				+ "http://localhost:8083/UniversalBankingSystem/unlockAccount"
-
 				+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
-				+"\n OTP: "+otp+" which is valid till: "+validDate+"\n http://localhost:8083/UniversalBankingSystem/unlockAccount"
+				+"\n OTP: "+otp+" which is valid till: "+validDate+"\n http://localhost:8080/UniversalBankingSystem/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 
 		MailingService mm = (MailingService) context.getBean("mailingService");

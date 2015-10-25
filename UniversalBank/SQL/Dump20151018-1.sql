@@ -190,9 +190,9 @@ CREATE TABLE `users` (
 
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES 
-('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Clerk','fake@fake.com','123456780',1,1,1,'cborde'),
-('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1,1,null),
-('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1,1,'bhaddy');
+('bhaddy','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','bhaddy','bhaddy','Clerk','fake@fake.com','123456780',1,1,1,'cborde','0','0'),
+('cborde','$2a$10$QGbutUwJv4B2IpYr1.2Q7.Y0zL9gxgR8iFCa1V7Tqkp/AR7UrcyCy','Chandu','Borde','Manager','kenil.p.bhatt@gmail.com','124785369',1,1,1,null,'0','0'),
+('kenilabc','$2a$10$23sLqI0HtA8xkxudo7ntxu0WAmxEcjgaTjrmvc1MOt.yNkEk7XrZm','Kenil','Bhatt','Individual','kenilabcl@gmail.com','123456789',1,1,1,'bhaddy','0','0');
 
 
 

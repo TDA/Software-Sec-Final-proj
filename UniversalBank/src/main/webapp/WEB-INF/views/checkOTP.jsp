@@ -14,7 +14,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Universal Bank Debit Page</title>
+<title>Universal Bank Credit Page</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -39,7 +39,7 @@ body {
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Debit withdraw </a>
+				<a class="navbar-brand" href="#">Credit Deposit </a>
 			</div>
 		</div>
 		<!-- /.container -->
@@ -55,7 +55,7 @@ body {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Debit</h1>
+						<h1 class="page-header">Credit</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -67,17 +67,19 @@ body {
 								<h3 class="panel-title">
 									<div id="morris-area-chart">
 
+	<div id="morris-area-chart">
+
 									
 	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
 		</sec:authorize>
 		<div class="container">
 		<ul class="nav nav-tabs">
 			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
-			<li><a href="${pageContext.request.contextPath}/Transfer" >Transfer</a></li>
-			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
 			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
+			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
+			<li><a href="${pageContext.request.contextPath}/Debit" >Debit</a></li>
 			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>
-			<li><a href="${pageContext.request.contextPath}/UserRequest" >Pending tranactions</a></li>
+			<li><a href="${pageContext.request.contextPath}/UserRequest" >pendingRequests</a></li>
 		</ul></div>
 								</h3>
 							</div>
@@ -87,57 +89,27 @@ body {
 								
 										<c:if test="${not empty successMsg}">
 											<h4>
-												${successMsg} <a href="index"> Click here to LogIn!</a>
+												${successMsg} 
 											</h4>
 										</c:if>
-									<form:form method="POST" action="Debit"
-										modelAttribute="DebitForm" autocomplete="off">
+									<form:form method="POST" action="checkOTP"
+										 autocomplete="off">
 										<br />
 										<br />
 										<c:if test="${not empty errorMsg}">
 											<h3>${errorMsg}</h3>
 										</c:if>
+										<br/>				
 										<br />
-										<b>Account Type:</b>
-										<FONT color="red"><form:errors path="accountType" /></FONT>
-										<br />
-										<select class="selectpicker form-control" name="accountType">
-											<option value="">Select</option>
-											<c:forEach var="bankval" items="${mylist}">
-												<option value="${bankval}">${bankval}</option>
-											</c:forEach>
-										</select>
-										<br />
-										<br />
-										
-										<b>Amount</b>
-										<FONT color="red"><form:errors path="amount" /></FONT>
-										<br />
-										<input type="text" name="amount" size="10" class="form-control" id="amount"
-											style="color: #999;" />
-										<br />
-										
-										<br />
-										
 										<b>OTP</b>
 										<FONT color="red"><form:errors path="otp" /></FONT>
 										<br />
 										<input type="text" name="otp" size="10" class="form-control" id="otp"
 											style="color: #999;" />
 										<br />
-										
 										<br />
-										 <Font Color="red">I authroise the bank to modify ,delete and access my transactions</Font>
-										<br />
-										<br />
-										<h4>
-											<input type="submit" style="margin-right: 5%" name="Debit"
-												id="Debit" value="Debit" />
-											<br/>
 											<input type="submit" style="margin-right: 5%" name="generateOTP"
 												id="generateOTP" value="generateOTP" />
-										</h4>
-
 										
 									</form:form>
 								</div>
