@@ -25,10 +25,13 @@ public class TransactionDAOImpl implements TransactionDAO {
 	public List<TransactionDTO> view(String username) {
 		System.out.println("view:" + username);
 		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where (FromTransactionAccountID IN (Select AccountID from accounts where username=? ) OR (ToTransactionAccountID IN (Select AccountID from accounts where username=? )))";
+		System.out.println();
+		String retrieveDetailsQuery =
+		"SELECT TransactionID, TransactionType, Amount, FromTransactionAccountID, ToTransactionAccountID,TransactionTime"
+				+ " From Transactions where FromTransactionAccountID IN (Select AccountID from accounts where username=? ) OR"
+				+ " ToTransactionAccountID IN (Select AccountID from accounts where username=? )";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username, username },
-				new TransactionTableRows());
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username,username},new TransactionTableRows());
 		return customerInformationToDisplay;
 	}
 

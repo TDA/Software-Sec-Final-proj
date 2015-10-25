@@ -36,6 +36,13 @@ body {
 	padding-top: 70px;
 	/* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
 </style>
 
 <script>
@@ -102,35 +109,42 @@ body {
 							<div class="panel-body">
 								<div id="morris-area-chart">
 
-	<style>								
 	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
 		</sec:authorize>
 		
-		<div id="pdf">
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-}
-</style>
+<div id="printable" data-name="Transactions">
+
+	
     <table style="width:80%">
   			<tr>
   				<th>Transaction ID</th>
-    			<th>Transaction Type</th>
-    			<th>Amount($)</th>		
+  				<th>Type</th>
+  				<th> Amount($)</th>
+    			<th>From Account</th>
+    			<th>To account</th>	
+    			<th> Time </th>	
    				  </tr>
         <c:forEach items="${userInformation}" var="transaction">
             <tr>
                 <td><c:out value="${transaction.transactionID}" /></td>
                 <td><c:out value="${transaction.transactionType}" /></td>
                 <td><c:out value="${transaction.amount}" /></td>
+                <td><c:out value="${transaction.transactionAccountID}" /></td>
+                <td><c:out value="${transaction.totransactionAccountID}" /></td>
+                <td><c:out value="${transaction.transactionTime}" /></td>
+                
             </tr>
+            
         </c:forEach>
-
+			
     </table>
-   </div>
+</div>
+<input type="button" value="Click to PDF" id="pdfConvertor">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="scripts/jquery.js"><\/script>')</script>
+<script src="${pageContext.request.contextPath}/resources/js/jspdfdebug.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/pdf.js"></script>
 
 </body>
 </html>
