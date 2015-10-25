@@ -83,11 +83,10 @@ public class TransactionController {
 				modelAndView.setViewName("transfer"); // This prints errors
 
 			} else {
-
-				String a = trans.TransferUser(transac);
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
 				transac.setSupervisorName(info.get(0).getSupervisorName());
+				String a = trans.TransferUser(transac);
 				modelAndView.setViewName("success");
 
 			}
@@ -201,13 +200,12 @@ public class TransactionController {
 				modelAndView.setViewName("Credit"); // This prints errors
 
 			} else {
-				trans.CreditUser(transac);
 				System.out.println("successtransac");
 
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
 				transac.setSupervisorName(info.get(0).getSupervisorName());
-
+				trans.CreditUser(transac);
 				modelAndView.setViewName("success");
 
 			}
