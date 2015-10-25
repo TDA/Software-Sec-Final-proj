@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.dto.UserRequestsDTO;
+import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.model.Transactions;
-import edu.asu.ss2015.group4.model.UserInformation;
+import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.TransactionService;
 import edu.asu.ss2015.group4.service.UserService;
 
@@ -40,6 +40,10 @@ public class TransactionController {
 
 	@Autowired
 	TransactionService trans;
+	@Autowired
+	BankAccountService service;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	@ResponseBody
@@ -51,7 +55,6 @@ public class TransactionController {
 		arrayList.add("checking");
 		arrayList.add("savings");
 		modelAndView.addObject("mylist", arrayList);
-		System.out.println(arrayList.get(0));
 		modelAndView.setViewName("transfer");
 		return modelAndView;
 	}
@@ -68,24 +71,36 @@ public class TransactionController {
 			System.out.println("here" + result);
 			if (result.hasErrors()) {
 				System.out.println("error");
-				modelAndView.setViewName("transfer"); // This prints errors
+				BankAccount b = new BankAccount();
+				b.setId(transac.getToTransactionAccountID());
+				b.setAccountType(transac.getAccountType());
+				int i = service.BankValidate(b);
+				if (i == 1) {
+					double b1 = service.BankBalanceValidate(b);
+					transac.setBalance(b1);
+				}
+				transac.setCount(i);
+				if (result.hasErrors()) {
+					modelAndView.setViewName("transfer"); // This prints errors
 
-			} else {
+				} else {
 
-				String a = trans.TransferUser(transac);
-				System.out.println("successtransac11");
-				modelAndView.setViewName("success");
+					String a = trans.TransferUser(transac);
+					List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+					info = userService.fetchUserDetails(userDetail.getUsername());
+					transac.setSupervisorName(info.get(0).getSupervisorName());
+					modelAndView.setViewName("success");
+
+				}
 
 			}
 
 		}
-
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/ViewTransactions", method = RequestMethod.GET)
 	public ModelAndView ViewPage() {
-		System.out.println("enteredtransac");
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
 		List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
@@ -94,14 +109,12 @@ public class TransactionController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			System.out.println(loggedInUser);
 
 			// Call the DAOImpl layer
 			custInfoFromDTO = trans.ViewUserInfo(loggedInUser);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-			System.out.println(custInfoFromDTO);
 			modelAndView.setViewName("ViewTransactions");
 		}
 
@@ -117,9 +130,7 @@ public class TransactionController {
 		arrayList.add("checking");
 		arrayList.add("savings");
 		modelAndView.addObject("mylist", arrayList);
-		System.out.println(arrayList.get(0));
 		modelAndView.addObject("transaction", transac);
-		System.out.println("to transfer");
 
 		modelAndView.setViewName("Debit");
 
@@ -130,7 +141,6 @@ public class TransactionController {
 	public ModelAndView Debit(@Valid @ModelAttribute("DebitForm") Transactions transac, BindingResult result,
 			HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
-		System.out.println("debit");
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -148,6 +158,31 @@ public class TransactionController {
 				modelAndView.setViewName("success");
 
 			}
+
+			BankAccount b = new BankAccount();
+			b.setAccountType(transac.getAccountType());
+
+			double b1 = service.BankBalanceValidate(b);
+			transac.setBalance(b1);
+
+			List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+			info = userService.fetchUserDetails(userDetail.getUsername());
+			transac.setSupervisorName(info.get(0).getSupervisorName());
+		}
+
+		TransferValidator.validateForm1(transac, result);
+
+		if (result.hasErrors())
+
+		{
+			modelAndView.setViewName("Debit"); // This prints errors
+
+		} else
+
+		{
+			trans.DebitUser(transac);
+			modelAndView.setViewName("success");
+
 		}
 		return modelAndView;
 	}
@@ -161,9 +196,7 @@ public class TransactionController {
 		arrayList.add("checking");
 		arrayList.add("savings");
 		modelAndView.addObject("mylist", arrayList);
-		System.out.println(arrayList.get(0));
 		modelAndView.addObject("transaction", transac);
-		System.out.println("to transfer");
 
 		modelAndView.setViewName("Credit");
 
@@ -179,7 +212,6 @@ public class TransactionController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			TransferValidator.validateForm(transac, result);
-			System.out.println("here" + result);
 
 			if (result.hasErrors()) {
 				System.out.println(":in credit");
@@ -188,9 +220,20 @@ public class TransactionController {
 			} else {
 				trans.CreditUser(transac);
 				System.out.println("successtransac");
-				modelAndView.setViewName("success");
 
+				if (result.hasErrors()) {
+					modelAndView.setViewName("Credit"); // This prints errors
+
+				} else {
+					List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+					info = userService.fetchUserDetails(userDetail.getUsername());
+					transac.setSupervisorName(info.get(0).getSupervisorName());
+					trans.CreditUser(transac);
+					modelAndView.setViewName("success");
+
+				}
 			}
+
 		}
 		return modelAndView;
 	}
@@ -210,7 +253,6 @@ public class TransactionController {
 	@ResponseBody
 	public ModelAndView MerchantTransfer(@Valid @ModelAttribute("MerchantTransferForm") Transactions transac,
 			BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
-		System.out.println(transac.toString());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("transaction", transac);
 		modelAndView.setViewName("MerchantTransfer");
@@ -221,7 +263,6 @@ public class TransactionController {
 	@RequestMapping(value = "/UserRequest", method = RequestMethod.GET)
 	public ModelAndView RequestPage() {
 
-		System.out.println("enteredtransac");
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
 		List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
@@ -230,14 +271,12 @@ public class TransactionController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			System.out.println(loggedInUser);
 
 			// Call the DAOImpl layer
 			custInfoFromDTO = trans.ViewUserInfoApprove(loggedInUser);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-			System.out.println(transac.getTransactionId());
 			modelAndView.setViewName("UserRequest");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -259,13 +298,11 @@ public class TransactionController {
 
 			if (split[0].equals("approve")) {
 				int x1 = Integer.parseInt(y);
-				System.out.println("xhere" + x1);
 				String approve = trans.Approve(x1);
 			}
 		} else {
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return RequestPage();
 	}
 
@@ -281,14 +318,12 @@ public class TransactionController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			System.out.println(loggedInUser);
 
 			// Call the DAOImpl layer
 			custInfoFromDTO = trans.DisplayTransactionInfo(loggedInUser);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-			System.out.println(transac.getTransactionId());
 			modelAndView.setViewName("DeleteTransaction");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -310,7 +345,6 @@ public class TransactionController {
 			String[] split = strDelete.split("_");
 			String x = split[0];
 			String y = split[1];
-			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 			if (split[0].equals("delete")) {
 				int x1 = Integer.parseInt(y);
 				String approve = trans.Delete(x1, loggedInUser);
@@ -333,14 +367,12 @@ public class TransactionController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			System.out.println(loggedInUser);
 
 			// Call the DAOImpl layer
 			custInfoFromDTO = trans.DisplayTransactionInfoToRegularEmployee(loggedInUser);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-			System.out.println(transac.getTransactionId());
 			modelAndView.setViewName("ViewTransactionRegularEmployee");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -370,7 +402,6 @@ public class TransactionController {
 
 			if (split[0].equals("approve")) {
 				int x1 = Integer.parseInt(y);
-				System.out.println("xhere" + x1);
 				double x2 = Double.parseDouble(z);
 				String approve = trans.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
 			}
@@ -388,6 +419,7 @@ public class TransactionController {
 
 	// Added By Gaurav
 	@RequestMapping(value = "/ModifyTransaction", method = RequestMethod.GET)
+
 	public ModelAndView ModifyTransactionPage() {
 
 		Transactions transac = new Transactions();
@@ -439,59 +471,63 @@ public class TransactionController {
 		}
 		return ModifyTransactionPage();
 	}
-	
-	
+
 	// Added By Gaurav
-		@RequestMapping(value = "/AccountDeleteRequest", method = RequestMethod.GET)
-		public ModelAndView AccountDeleteRequestPage() {
+	@RequestMapping(value = "/AccountDeleteRequest", method = RequestMethod.GET)
+	public ModelAndView AccountDeleteRequestPage() {
 
-			Transactions transac = new Transactions();
-			ModelAndView modelAndView = new ModelAndView();
-			List<UserRequestsDTO> custInfoFromDTO = new ArrayList<UserRequestsDTO>();
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (!(auth instanceof AnonymousAuthenticationToken)) {
-				UserDetails userDetail = (UserDetails) auth.getPrincipal();
-				String loggedInUser = userDetail.getUsername();
-				modelAndView.addObject("userName", loggedInUser);
-				System.out.println(loggedInUser);
-
-				// Call the DAOImpl layer
-				custInfoFromDTO = trans.DisplayUserRequest(loggedInUser);
-				// Add it to the model
-				modelAndView.addObject("userInformation", custInfoFromDTO);
-				System.out.println(transac.getTransactionId());
-				modelAndView.setViewName("AccountDeleteRequest");
-			} else {
-				modelAndView.setViewName("permission-denied");
-			}
-			return modelAndView;
-
-		}
-		
-		
-		// Added By Gaurav
-		@RequestMapping(value = "/AccountDeleteRequest", method = RequestMethod.POST)
-		public ModelAndView approveDeleteRequest(@RequestParam("accountDeleteParam") String strApprove) {
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("permission-denied");
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Transactions transac = new Transactions();
+		ModelAndView modelAndView = new ModelAndView();
+		List<UserRequestsDTO> custInfoFromDTO = new ArrayList<UserRequestsDTO>();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
+			modelAndView.addObject("userName", loggedInUser);
+			System.out.println(loggedInUser);
 
-			if (strApprove != null && !strApprove.isEmpty()) {
-				String[] split = strApprove.split("_");
-				String x = split[0];
-				String y = split[1];
-				List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
-				if (split[0].equals("approve")) {
-					int x1 = Integer.parseInt(y);
-					String approve = trans.ApproveUserRequestRegularEmployee(x1, loggedInUser);
-				}
-			} else {
-				return modelAndView;
-			}
-			return AccountDeleteRequestPage();
+			// Call the DAOImpl layer
+			custInfoFromDTO = trans.DisplayUserRequest(loggedInUser);
+			// Add it to the model
+			modelAndView.addObject("userInformation", custInfoFromDTO);
+			System.out.println(transac.getTransactionId());
+			modelAndView.setViewName("AccountDeleteRequest");
+		} else {
+			modelAndView.setViewName("permission-denied");
 		}
-	
+		return modelAndView;
 
+	}
+
+	// Added By Gaurav
+	@RequestMapping(value = "/AccountDeleteRequest", method = RequestMethod.POST)
+	public ModelAndView approveDeleteRequest(@RequestParam("accountDeleteParam") String strApprove) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("permission-denied");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		String loggedInUser = userDetail.getUsername();
+
+		if (strApprove != null && !strApprove.isEmpty()) {
+			String[] split = strApprove.split("_");
+			String x = split[0];
+			String y = split[1];
+			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+			if (split[0].equals("approve")) {
+				int x1 = Integer.parseInt(y);
+				String approve = trans.ApproveUserRequestRegularEmployee(x1, loggedInUser);
+			}
+		} else {
+			return modelAndView;
+		}
+		return AccountDeleteRequestPage();
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 }

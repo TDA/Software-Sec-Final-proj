@@ -6,22 +6,24 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class Transactions {
 
-private int transactionId;
-private String transactionType;
-@NotEmpty(message = "Please select a value")
-private String AccountType;
-@NotEmpty(message = "Please enter a value")
-private String amount;
-private String FromTransactionAccountID;
-private String ToTransactionAccountID;
-private String authorizedManagerID;
-private Timestamp transactionTime;
-private boolean approved;
-private Timestamp ApprovedTime;
-private String comments;
-private int Authorisebank;
-private int criticalTransactions;
-
+	private int transactionId;
+	private String transactionType;
+	@NotEmpty(message = "Please select a value")
+	private String AccountType;
+	@NotEmpty(message = "Please enter a value")
+	private String amount;
+	private String FromTransactionAccountID;
+	private String ToTransactionAccountID;
+	private String authorizedManagerID;
+	private Timestamp transactionTime;
+	private boolean approved;
+	private Timestamp ApprovedTime;
+	private String comments;
+	private int Authorisebank;
+	private int criticalTransactions;
+	private int count;
+	private Double balance;
+	private String supervisorName;
 
 	public int getTransactionId() {
 		return transactionId;
@@ -30,12 +32,15 @@ private int criticalTransactions;
 	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
-public String getAccountType() {
-	return AccountType;
-}
-public void setAccountType(String AccountType) {
-	this.AccountType = AccountType;
-}
+
+	public String getAccountType() {
+		return AccountType;
+	}
+
+	public void setAccountType(String AccountType) {
+		this.AccountType = AccountType;
+	}
+
 	public String getTransactionType() {
 		return transactionType;
 	}
@@ -98,29 +103,54 @@ public void setAccountType(String AccountType) {
 
 	public void setAuthorisebank(int authorisebank) {
 		Authorisebank = authorisebank;
-}
-public int getCriticalTransactions() {
-	return criticalTransactions;
-}
-public void setCriticalTransactions(int criticalTransactions) {
-	this.criticalTransactions = criticalTransactions;
 	}
 
-public String getToTransactionAccountID() {
-	return ToTransactionAccountID;
-}
+	public int getCriticalTransactions() {
+		return criticalTransactions;
+	}
 
-public void setToTransactionAccountID(String toTransactionAccountID) {
-	ToTransactionAccountID = toTransactionAccountID;
-}
+	public void setCriticalTransactions(int criticalTransactions) {
+		this.criticalTransactions = criticalTransactions;
+	}
 
-public String getFromTransactionAccountID() {
-	return FromTransactionAccountID;
-}
+	public String getToTransactionAccountID() {
+		return ToTransactionAccountID;
+	}
 
-public void setFromTransactionAccountID(String fromTransactionAccountID) {
-	FromTransactionAccountID = fromTransactionAccountID;
-}
+	public void setToTransactionAccountID(String toTransactionAccountID) {
+		ToTransactionAccountID = toTransactionAccountID;
+	}
+
+	public String getFromTransactionAccountID() {
+		return FromTransactionAccountID;
+	}
+
+	public void setFromTransactionAccountID(String fromTransactionAccountID) {
+		FromTransactionAccountID = fromTransactionAccountID;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+	public String getSupervisorName() {
+		return supervisorName;
+	}
+
+	public void setSupervisorName(String supervisorName) {
+		this.supervisorName = supervisorName;
+	}
 
 }
-

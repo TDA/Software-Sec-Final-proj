@@ -6,6 +6,10 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import edu.asu.ss2015.group4.dao.BankAccountDAO;
 import edu.asu.ss2015.group4.model.BankAccount;
@@ -60,4 +64,28 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 		return null;
 	}
 
+	@Override
+	public int Validate(BankAccount a) {
+
+		String sql = "SELECT COUNT(*) from accounts where AccountID=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int count = 0;
+		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);
+		return count;
+	}
+
+	@Override
+	public double ValidateBalance(BankAccount a) {
+		Double count = 0.0;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			String sql = "SELECT Balance from accounts where username=? AND AccountType=?";
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+			count = jdbcTemplate.queryForObject(sql, new Object[] { loggedInUser, a.getAccountType() }, Double.class);
+		}
+		return count;
+	}
 }

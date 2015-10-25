@@ -96,10 +96,10 @@
 											<td>${userTransaction.comments}</td>
 											<td><button type="submit" class="btn btn-success"
 													name="approveParam1"
-													value="approveVal_${userTransaction.transactionID}">Approve</button></td>
+													value="approveVal_${userTransaction.transactionID}_${userTransaction.amount}">Approve</button></td>
 											<td><button type="submit" class="btn btn-danger"
 													name="approveParam1"
-													value="denyVal_${userTransaction.transactionID}">Deny</button></td>
+													value="denyVal_${userTransaction.transactionID}_${userTransaction.amount}">Deny</button></td>
 										</tr>
 									</c:forEach>
 								</tbody>
