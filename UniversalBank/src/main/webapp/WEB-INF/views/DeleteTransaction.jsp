@@ -56,7 +56,7 @@ body {
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Available Transaction</a>
+				<a class="navbar-brand" href="#">Available Transactions List</a>
 			</div>
 		</div>
 		<!-- /.container -->
@@ -72,7 +72,7 @@ body {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Available Transactions</h1>
+						<h1 class="page-header">Available Transactions List</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -90,9 +90,9 @@ body {
 		<div class="container">
 		<ul class="nav nav-tabs">
 			<li><a href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View Transaction</a></li>
-			<li><a data-toggle="tab" href="#menu2">Create Transaction</a></li>
-			<li><a data-toggle="tab" href="#menu3">Modify Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/ModifyTransaction">Modify Transaction</a></li>
 			<li><a href="${pageContext.request.contextPath}/DeleteTransaction">Delete Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/AccountDeleteRequest">Account Delete Request</a></li>
 		</ul></div>
 								</h3>
 							</div>

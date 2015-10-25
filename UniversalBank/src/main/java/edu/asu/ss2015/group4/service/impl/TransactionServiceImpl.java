@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.asu.ss2015.group4.dao.TransactionDAO;
 import edu.asu.ss2015.group4.dto.TransactionDTO;
+import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.service.TransactionService;
 
@@ -18,7 +19,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public String insertUserTransaction(Transactions transaction)
 			throws NoSuchAlgorithmException, FileNotFoundException {
 		// TODO Auto-generated method stub
-		
+
 		return "null";
 	}
 
@@ -83,10 +84,10 @@ public class TransactionServiceImpl implements TransactionService {
 		return transac.viewTransactionForDeletion(Username);
 	}
 
-	// ///added by gaurav
+	// added by gaurav
 	@Override
 	public String Delete(int i, String userName) {
-		transac.deleteTransaction(i,userName);
+		transac.deleteTransaction(i, userName);
 		return "deleted";
 	}
 
@@ -99,11 +100,11 @@ public class TransactionServiceImpl implements TransactionService {
 
 	// added by gaurav
 	@Override
-	public String RegularEmployeeAprroveTransaction(int i,double j, String userName) {
-		transac.approveTransactionRegularEmployee(i,j, userName);
+	public String RegularEmployeeAprroveTransaction(int i, double j, String userName) {
+		transac.approveTransactionRegularEmployee(i, j, userName);
 		return "Approved";
 	}
-	
+
 	// added by gaurav
 	@Override
 	public String RegularEmployeeDeleteTransaction(int i, String userName) {
@@ -111,5 +112,24 @@ public class TransactionServiceImpl implements TransactionService {
 		return "Denied";
 	}
 
-}
+	// added by gaurav
+	@Override
+	public String RegularEmployeeModifyTransaction(int i, double j, String userName) {
+		transac.modifyTransaction(i, j, userName);
+		return "Submitted";
+	}
 
+	// added by gaurav
+	@Override
+	public List<UserRequestsDTO> DisplayUserRequest(String Username) {
+		// TODO Auto-generated method stub
+		return transac.viewAcoountDeletionRequestToRegularEmployee(Username);
+	}
+
+	// added by gaurav
+	@Override
+	public String ApproveUserRequestRegularEmployee(int i, String userName) {
+		transac.approveUserReq(i, userName);
+		return "approve";
+	}
+}

@@ -16,7 +16,7 @@
 <meta name="author" content="">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<title>Universal Bank DeleteTransactions</title>
+<title>Universal Bank Modify Transactions</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -56,7 +56,7 @@ body {
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Available Transactions For Approval/Denial</a>
+				<a class="navbar-brand" href="#">Available Transactions For Modification</a>
 			</div>
 		</div>
 		<!-- /.container -->
@@ -72,7 +72,7 @@ body {
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Available Transactions For Approval/Denial</h1>
+						<h1 class="page-header">Available Transactions For Modification</h1>
 					</div>
 				</div>
 				<!-- /.row -->
@@ -90,9 +90,8 @@ body {
 		<div class="container">
 		<ul class="nav nav-tabs">
 			<li><a href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View Transaction</a></li>
-		<li><a href="${pageContext.request.contextPath}/ModifyTransaction">Modify Transaction</a></li>
+			<li><a href="${pageContext.request.contextPath}/ModifyTransaction">Modify Transaction</a></li>
 			<li><a href="${pageContext.request.contextPath}/DeleteTransaction">Delete Transaction</a></li>
-			<li><a href="${pageContext.request.contextPath}/AccountDeleteRequest">Account Delete Request</a></li>
 		</ul></div>
 								</h3>
 							</div>
@@ -113,23 +112,24 @@ th, td {
     padding: 5px;
 }
 </style>
-<form:form method="POST" action="ViewTransactionRegularEmployee"
+<form:form method="POST" action="ModifyTransaction"
  modelAttribute="ApproveForm" autocomplete="off">
     <table style="width:80%">
   			<tr>
   				<th>Transaction ID</th>
     			<th>Transaction Type</th>
-    			<th>Amount($)</th>	
+    			<th>Old Amount($)</th>		
+    			<th>Modified Amount($)</th>	
     			<th>Comment</th>		
    				  </tr>
         <c:forEach items="${userInformation}" var="transaction">
             <tr>
                 <td><c:out value="${transaction.transactionID}" /></td>
                 <td><c:out value="${transaction.transactionType}" /></td>
-                <td><c:out value="${transaction.amount}" /></td>
+                <td> <c:out value="${transaction.amount}" /></td>
+                <td><input type="text" id="ModifiedAmount_${transaction.transactionID}"></td>
                 <td><c:out value="${transaction.comments}" /></td>
-                <td><button type="submit" name="approveDenyParamRegularEmployee" value="approve_${transaction.transactionID}_${transaction.amount}"/>Approve</button></td>
-                <td><button type="submit" name="approveDenyParamRegularEmployee" value="deny_${transaction.transactionID}_${transaction.amount}"/>Deny</button></td>
+                <td><button type="submit" name="modifyParamRegularEmployee" onclick="this.value=document.getElementById('ModifiedAmount_${transaction.transactionID}').value + '_' + ${transaction.transactionID};"/>Submit</button></td>
             </tr>
         </c:forEach>
 

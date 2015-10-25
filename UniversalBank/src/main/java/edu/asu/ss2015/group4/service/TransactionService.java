@@ -5,7 +5,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
+import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.Transactions;
+
 
 public interface TransactionService {
 
@@ -37,6 +39,10 @@ public interface TransactionService {
 	public String RegularEmployeeAprroveTransaction(int i,double j, String userName);
 	public String RegularEmployeeDeleteTransaction(int i, String userName);
 	public String Delete(int i, String userName);
+	public String RegularEmployeeModifyTransaction(int i, double j, String userName);
+	public List<UserRequestsDTO> DisplayUserRequest(String Username);
+	public String ApproveUserRequestRegularEmployee(int i, String userName);
+	
 
 
 }
