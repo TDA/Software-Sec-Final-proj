@@ -67,6 +67,7 @@ public class UserInformationDTO {
 		this.socialSecurityNumber = socialSecurityNumber;
 	}
 
+
 	public String getSupervisorName() {
 		return supervisorName;
 	}
@@ -74,6 +75,7 @@ public class UserInformationDTO {
 	public void setSupervisorName(String supervisorName) {
 		this.supervisorName = supervisorName;
 	}
+
 	public String getOtpValidity() {
 		return otpValidity;
 	}

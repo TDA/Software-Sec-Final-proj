@@ -47,12 +47,7 @@ public class MainController {
 				} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
 					return new ModelAndView("forward:/manager");
 
-
 				} else if (grantedAuthority.getAuthority().equals("ROLE_CLERK")) {
-
-				}
-				else if (grantedAuthority.getAuthority().equals("ROLE_CLERK")) {
-
 					return new ModelAndView("forward:/clerk");
 				}
 			}
@@ -78,14 +73,13 @@ public class MainController {
 		if (exception instanceof BadCredentialsException) {
 			error = "Invalid username and password!";
 		} else if (exception instanceof LockedException) {
-			error = "Your account is locke. <a href=\"unlockAccount\">Plese click here to unlock.</a>";
+			error = "Your account is locked. <a href=\"unlockAccount\">Plese click here to unlock.</a>";
 		} else if (exception instanceof SessionAuthenticationException) {
 			error = exception.getMessage();
 		} else if (exception instanceof DisabledException) {
 			error = "Your account is in process of approval.";
 		} else if (exception instanceof AccountExpiredException) {
 			error = "This account has been deleted.";
-			error = "Your account is locked.";
 		} else {
 
 			error = "Invalid username and password!";

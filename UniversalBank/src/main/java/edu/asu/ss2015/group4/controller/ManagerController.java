@@ -170,7 +170,6 @@ public class ManagerController {
 
 				generateAccountInformation(custInfoFromDTO.get(0));
 				///sendEmailToUser(custInfoFromDTO.get(0));
-
 				OTPGenerator otp = new OTPGenerator();
 				Date date = new Date();
 				long otpTime = date.getTime() + 600000;
@@ -181,7 +180,7 @@ public class ManagerController {
 				custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
 				System.out.println(custInfoFromDTO1.get(0).getOTP()+", "+custInfoFromDTO1.get(0).getOtpValidity());
 				sendEmailToUser(custInfoFromDTO.get(0),custInfoFromDTO1.get(0).getOTP(), custInfoFromDTO1.get(0).getOtpValidity());
-
+				sendEmailToUser(custInfoFromDTO.get(0),custInfoFromDTO1.get(0).getOTP(), custInfoFromDTO1.get(0).getOtpValidity());
 			}
 		} else {
 			return modelAndView;
@@ -247,6 +246,7 @@ public class ManagerController {
 
 		return randomNum;
 	}
+
 
 
 	private void sendEmailToUser(UserInformationDTO custInfo, String otp, String otpValidity) {

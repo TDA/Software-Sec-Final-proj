@@ -110,6 +110,7 @@ public class UserInformation {
 		this.enabled = enabled;
 	}
 
+
 	public boolean isUserAccountExpired() {
 		return userAccountExpired;
 	}

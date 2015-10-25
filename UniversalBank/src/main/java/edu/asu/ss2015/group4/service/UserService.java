@@ -37,5 +37,6 @@ public interface UserService {
 
 ///	public String EditInformation(UserInformation addInfo) throws NoSuchAlgorithmException, FileNotFoundException;
 
+	//public String EditInformation(String username, editProfile addInfo) throws NoSuchAlgorithmException, FileNotFoundException; 
 
 }
