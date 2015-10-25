@@ -26,7 +26,16 @@ public class UserInformation {
 	private String socialSecurityNumber;
 	private boolean enabled;
 	private boolean userLocked;
+	private boolean piiAccess;
 	private boolean userAccountExpired;
+
+	public boolean isPiiAccess() {
+		return piiAccess;
+	}
+
+	public void setPiiAccess(boolean piiAccess) {
+		this.piiAccess = piiAccess;
+	}
 
 	public boolean isUserLocked() {
 		return userLocked;

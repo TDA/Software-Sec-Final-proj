@@ -66,5 +66,59 @@ public class UserServiceImpl implements UserService {
 	public boolean deleteAccount(String username) {
 		return userDAO.deleteAccount(username);
 	}
+	
+	public List<UserInformationDTO> fetchDelUserDetails(String usernameSearch) {
+		return userDAO.retrieveDelUserDetails(usernameSearch);
+	}
+	
+	@Override
+	public void modifyInternalUserAccount(String accountType,String username) throws NoSuchAlgorithmException, FileNotFoundException {
+		userDAO.modifyInternalUser(accountType, username);
+	}
+	
+	public List<UserInformationDTO> fetchDisabledInternalUserDetails() {
+		return userDAO.retrieveDisabledInternalUserAccounts();
+	}
+	
+	public List<UserInformationDTO> fetchPiiUserDetails() {
+		return userDAO.retrievePiiUserAccounts();
+	}
+	
+	public List<UserInformationDTO> fetchIntUserDetails() {
+		return userDAO.retrieveIntUserAccounts();
+	}
+	
+	public List<UserInformationDTO> fetchDelIntUserDetails() {
+		return userDAO.retrieveDelIntUserAccounts();
+	}
+	
+	public List<UserInformationDTO> fetchAuthPiiUserDetails() {
+		return userDAO.retrieveAuthPiiUserAccounts();
+	}
+	
+	public List<UserInformationDTO> fetchAuthPiiUserDetails1() {
+		return userDAO.retrieveAuthPiiUserAccounts1();
+	}
+	
+	
+	public boolean activateInternalUserAccount(String username) {
+		return userDAO.enableInternalUserAccount(username);
+	}
+	
+	public boolean addDeletedInternalUserAccount(String username) {
+		return userDAO.addAgainInternalUserAccount(username);
+	}
+	
+	public boolean activatePiiUserAccount(String username) {
+		return userDAO.enablePiiUserAccount(username);
+	}
+	
+	public boolean deactivatePiiUserAccount(String username) {
+		return userDAO.disablePiiUserAccount(username);
+	}
+	
+	public boolean deleteInternalUserAccount(String username) {
+		return userDAO.deleteInternalUserAccount(username);
+	}
 
 }

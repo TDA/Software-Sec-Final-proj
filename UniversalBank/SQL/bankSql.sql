@@ -77,6 +77,54 @@ UNLOCK TABLES;
 -- Table structure for table `transactions`
 --
 
+CREATE TABLE IF NOT EXISTS `deletedusers` (
+  `username` varchar(45) NOT NULL,
+  `password` varchar(60) NOT NULL,
+  `firstname` varchar(45) NOT NULL,
+  `lastname` varchar(45) NOT NULL,
+  `AccountType` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `SSN` varchar(45) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `userLocked` tinyint(1) NOT NULL,
+  `userAccountExpired` tinyint(1) NOT NULL DEFAULT '1',
+  `piiAccess` tinyint(1) NOT NULL,
+  `SupervisorName` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delete_user_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `delete_user_roles` (
+  `user_role_id` int(11) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `role` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `del_user_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `del_user_roles` (
+  `user_role_id` int(11) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `role` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `del_user_roles`
+--
+
+INSERT INTO `del_user_roles` (`user_role_id`, `username`, `role`) VALUES
+(8, 'sclerk', 'ROLE_CLERK'),
+(2, 'cborde', 'ROLE_MANAGER');
+
+
 DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -185,7 +233,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (5,'jdoes3','ROLE_CLERK'),(3,'jdoes1','ROLE_INDIVIDUAL'),(6,'jdoes4','ROLE_MANAGER'),(4,'jdoes2','ROLE_MERCHANT');
+INSERT INTO `user_roles` VALUES (5,'jdoes3','ROLE_CLERK'),(3,'jdoes1','ROLE_INDIVIDUAL'),(6,'jdoes4','ROLE_MANAGER'),(4,'jdoes2','ROLE_MERCHANT'),(2, 'sadmin', 'ROLE_ADMIN'),(1, 'sgovern', 'ROLE_GOV');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,6 +255,7 @@ CREATE TABLE `users` (
   `enabled` tinyint(1) NOT NULL,
   `userLocked` tinyint(1) NOT NULL,
   `userAccountExpired` tinyint(1) NOT NULL,
+  `piiAccess` tinyint(1) NOT NULL,
   `SupervisorName` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -218,7 +267,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('jdoes1','$2a$10$1lTTbrGzgQYyM.pgKYZ33eqdSB2x4h5Lh2ChbQImBxQDqe3pd8sQK','John','Doe','Individual','jdoes1@asu.com','123456789',1,0,0,'jdoes3'),('jdoes2','$2a$10$Y0TGJCdq/RYdwwOsq0f7Jeyr3xeq9E7Fi6Ny22D4FBtNZzqKnoW9m','John','Does2','Merchant','John2@asu.com','123467899',1,0,0,'jdoes3'),('jdoes3','$2a$10$fW8IrItWy6qUxaGttEyEIuxG2jCRPem9gh4cCqNw5Ssj0OCIl2/ky','John','Does3','Clerk','jdoes3@asu.com','123456896',0,0,0,NULL),('jdoes4','$2a$10$Y8lrY8SB0852aVpHh.ZH7O0He8Yp.ADIB2ggB879W7jJg4FfdOoI2','John','Does4','Manager','jdoes4@asu.com','321654987',1,1,1,NULL);
+INSERT INTO `users` VALUES ('jdoes1','$2a$10$1lTTbrGzgQYyM.pgKYZ33eqdSB2x4h5Lh2ChbQImBxQDqe3pd8sQK','John','Doe','Individual','jdoes1@asu.com','123456789',1,1,1,1,'jdoes3'),('jdoes2','$2a$10$Y0TGJCdq/RYdwwOsq0f7Jeyr3xeq9E7Fi6Ny22D4FBtNZzqKnoW9m','John','Does2','Merchant','John2@asu.com','123467899',1,1,1,1,'jdoes3'),('jdoes3','$2a$10$fW8IrItWy6qUxaGttEyEIuxG2jCRPem9gh4cCqNw5Ssj0OCIl2/ky','John','Does3','Clerk','jdoes3@asu.com','123456896',1,1,1,1,NULL),('jdoes4','$2a$10$Y8lrY8SB0852aVpHh.ZH7O0He8Yp.ADIB2ggB879W7jJg4FfdOoI2','John','Does4','Manager','jdoes4@asu.com','321654987',1,1,1,1,NULL),('sadmin', '$2a$10$TH0VZ3U2pA3ZkoihFRyL.OpivhaNak2O2vhD8aUuCwKSNtRisWDzm', 'sai', 'patcha', 'Admin', 'sai@admin.com', '213546879', 1, 1, 1, 1, NULL),('sgovern', '$2a$10$wtTOeUmqQCYTa1d7cOgDFOWn8f62zv2ZY0DOk15e/FTQjlJ7ISp2u', 'sai', 'patcha', 'Gov', 'sai@govern.com', '978645312', 1, 1, 1, 0, NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

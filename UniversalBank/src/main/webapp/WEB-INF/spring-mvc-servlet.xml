@@ -25,6 +25,7 @@
 	
 	<!-- Declaring beans -->
 	<bean id="UserDAOImpl" class="edu.asu.ss2015.group4.dao.impl.UserDAOImpl" />
+	<bean id="modifyIntUsers" class="edu.asu.ss2015.group4.model.modifyIntUsers" />
 	<bean id="UserServiceImpl" class="edu.asu.ss2015.group4.service.impl.UserServiceImpl" />
 	<bean id="UserInformation" class="edu.asu.ss2015.group4.model.UserInformation" />
 	<bean id="UserInformationDTO" class="edu.asu.ss2015.group4.dto.UserInformationDTO" />

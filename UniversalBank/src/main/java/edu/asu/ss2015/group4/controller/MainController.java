@@ -105,15 +105,6 @@ public class MainController {
 		return model;
 	}
 
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public ModelAndView adminPage() {
-
-		ModelAndView model = new ModelAndView();
-		model.setViewName("welcomeAdmin");
-
-		return model;
-	}
-
 	// for 403 access denied page
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
 	public ModelAndView accessDenied() {

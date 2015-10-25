@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
 		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
-				+ " lastname, AccountType, enabled, userLocked, userAccountExpired,  email, SSN) VALUES (?,?,?,?,?,?,?,?,?,?)";
+				+ " lastname, AccountType, enabled, userLocked, userAccountExpired,  email, SSN,piiAccess) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 		String insertIntoUserRolesTable = "INSERT into user_roles (username, role) " + "VALUES (?,?)";
 
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
@@ -74,6 +74,9 @@ public class UserDAOImpl implements UserDAO {
 				break;
 			case "Clerk":
 				user_role = "ROLE_CLERK";
+				break;
+			case "Gov":
+				user_role = "ROLE_Gov";
 				break;
 			case "Manager":
 				user_role = "ROLE_MANAGER";
@@ -267,5 +270,149 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return false;
 	}
+	
+	public List<UserInformationDTO> retrieveDelUserDetails(String username) {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT username, firstname,lastname, "
+				+ "AccountType, email, SupervisorName " + "from deletedusers where username=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username },
+				new UserTableRows());
+		return customerInformationToDisplay;
+	}
 
+	public List<UserInformationDTO> retrieveDisabledInternalUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email,users.SupervisorName "
+				+ "from users where (users.AccountType='Manager' OR users.AccountType='Clerk') AND users.enabled=false";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+	
+	public List<UserInformationDTO> retrievePiiUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email,users.SupervisorName "
+				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') and userLocked = true";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+	
+	public List<UserInformationDTO> retrieveIntUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT username, firstname, lastname,AccountType, email,SupervisorName from users where (AccountType='Clerk' OR AccountType='Manager') and userLocked = true";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+	
+	public List<UserInformationDTO> retrieveDelIntUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT username, firstname, lastname,AccountType, email,SupervisorName from deletedusers where (AccountType='Clerk' OR AccountType='Manager')";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+	
+	public List<UserInformationDTO> retrieveAuthPiiUserAccounts() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email,users.SSN,users.SupervisorName "
+				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') and piiAccess = true";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+	
+	public List<UserInformationDTO> retrieveAuthPiiUserAccounts1() {
+		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
+				+ "users.AccountType, users.email,users.SSN,users.SupervisorName "
+				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') and piiAccess = true";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return customerInformationToDisplay;
+	}
+	
+	public boolean enableInternalUserAccount(String username) {
+		String sql = "UPDATE users set enabled = true,userLocked = true where enabled = false and (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
+		String sql1 = "UPDATE users set userLocked = true where userLocked = false and (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		int status1 = jdbcTemplate.update(sql1, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		if (status1 == 1) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean enablePiiUserAccount(String username) {
+		String sql = "UPDATE users set piiAccess = true where username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		if (status == 1) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean disablePiiUserAccount(String username) {
+		String sql = "UPDATE users set piiAccess = false where username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		int status = jdbcTemplate.update(sql, new Object[] { username });
+		
+		if (status == 1) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean deleteInternalUserAccount(String username) {
+		String sql = "INSERT into deletedusers SELECT * from users where username =  ?";
+		String sql1 = "INSERT into delete_user_roles SELECT * from user_roles where username =  ?";
+		String sql2 = "DELETE from user_roles where username =  ?";
+		String sql3 = "DELETE from users where username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.update(sql, new Object[] { username });
+		jdbcTemplate.update(sql1, new Object[] { username });
+		jdbcTemplate.update(sql2, new Object[] { username });
+		jdbcTemplate.update(sql3, new Object[] { username });
+		
+		
+		return false;
+	}
+	
+	public boolean addAgainInternalUserAccount(String username) {
+		System.out.println("here");
+		String sql = "INSERT into users SELECT * from deletedusers where username =  ?";
+		String sql1 = "INSERT into user_roles SELECT * from delete_user_roles where username =  ?";
+		String sql2 = "DELETE from delete_user_roles where username =  ?";
+		String sql3 = "DELETE from deletedusers where username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.update(sql, new Object[] { username });
+		 jdbcTemplate.update(sql1, new Object[] { username });
+		 jdbcTemplate.update(sql2, new Object[] { username });
+		jdbcTemplate.update(sql3, new Object[] { username });
+		
+		
+		
+		return false;
+	}
+	
+	public void modifyInternalUser(String accountType,String username) {
+		String sql = "UPDATE users set AccountType = ? where username =  ?";
+		//String sql1 = "UPDATE user_roles set role = ROLE_? where username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		 jdbcTemplate.update(sql, new Object[] { accountType,username });
+		 //jdbcTemplate.update(sql1, new Object[] { accountType,username });
+		
+		
+	}
 }

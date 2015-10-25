@@ -39,5 +39,31 @@ public interface UserDAO {
 	public List<UserRequestsDTO> getAllRequests();
 
 	public boolean deleteAccount(String username);
+	
+	public List<UserInformationDTO> retrieveDelUserDetails(String username);
+	
+	public void modifyInternalUser(String accountType,String username) throws FileNotFoundException, NoSuchAlgorithmException;
+
+public List<UserInformationDTO> retrieveDisabledInternalUserAccounts();
+	
+	public List<UserInformationDTO> retrievePiiUserAccounts();
+	
+	public List<UserInformationDTO> retrieveIntUserAccounts();
+	
+	public List<UserInformationDTO> retrieveDelIntUserAccounts();
+	
+	public List<UserInformationDTO> retrieveAuthPiiUserAccounts();
+	
+	public List<UserInformationDTO> retrieveAuthPiiUserAccounts1();
+	
+public boolean enableInternalUserAccount(String username);
+	
+	public boolean addAgainInternalUserAccount(String username);
+	
+	public boolean enablePiiUserAccount(String username);
+	
+	public boolean disablePiiUserAccount(String username);
+	
+	public boolean deleteInternalUserAccount(String username);
 
 }

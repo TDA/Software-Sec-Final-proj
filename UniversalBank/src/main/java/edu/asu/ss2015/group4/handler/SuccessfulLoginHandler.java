@@ -52,6 +52,8 @@ public class SuccessfulLoginHandler implements AuthenticationSuccessHandler {
 				return "/manager";
 			case "ROLE_CLERK":
 				return "/clerk";
+			case "ROLE_GOV":
+				return "/gov";
 			case "ROLE_ADMIN":
 				return "/admin";
 			default:

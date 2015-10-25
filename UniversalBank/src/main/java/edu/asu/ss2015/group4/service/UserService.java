@@ -32,5 +32,33 @@ public interface UserService {
 	public List<UserRequestsDTO> getAllRequests();
 
 	public boolean deleteAccount(String username);
+	
+public List<UserInformationDTO> fetchDisabledInternalUserDetails();
+	
+	public List<UserInformationDTO> fetchPiiUserDetails();
+	
+	public List<UserInformationDTO> fetchIntUserDetails();
+	
+	public List<UserInformationDTO> fetchDelIntUserDetails();
+	
+	public List<UserInformationDTO> fetchAuthPiiUserDetails();
+	
+	public List<UserInformationDTO> fetchAuthPiiUserDetails1();
+	
+	public List<UserInformationDTO> fetchDelUserDetails(String usernameSearch);
+	
+public boolean activateInternalUserAccount(String username);
+	
+	public boolean addDeletedInternalUserAccount(String username);
+	
+	public boolean activatePiiUserAccount(String username);
+	
+	public boolean deactivatePiiUserAccount(String username);
+	
+	public boolean deleteInternalUserAccount(String username);
+	
+	public void modifyInternalUserAccount(String accountType, String username) throws NoSuchAlgorithmException, FileNotFoundException;
+	
+
 
 }
