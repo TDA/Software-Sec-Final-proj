@@ -176,7 +176,7 @@ public class TransactionController {
 	
 	@RequestMapping(value = "/Debit", params = "generateOTP", method = RequestMethod.POST)
 	public ModelAndView OtpgenerateDebit(){
-		System.out.println("Inside transaction otp generate");
+		System.out.println("Inside debit otp generate");
 		ModelAndView modelandview = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
