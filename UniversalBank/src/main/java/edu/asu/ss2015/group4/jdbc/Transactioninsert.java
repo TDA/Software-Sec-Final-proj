@@ -24,6 +24,7 @@ public class Transactioninsert implements ResultSetExtractor<TransactionDTO> {
 		transacDTO.setApprovedTime(resultSet.getTimestamp(9));
 		transacDTO.setComments(resultSet.getString(10));
 		transacDTO.setAuthoriseBank(resultSet.getInt(11));
+		transacDTO.setSupervisorName(resultSet.getString(12));
 		return transacDTO;
 
 	}

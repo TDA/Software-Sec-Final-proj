@@ -51,7 +51,6 @@ public class SignUpController {
 			}
 			modelAndView.addObject("myList", databaseArrayList);
 
-			System.out.println(uri.toString());
 			modelAndView.setViewName("register");
 
 		}
@@ -65,10 +64,7 @@ public class SignUpController {
 
 		SignUpFormValidator.validateForm(custInfo, result);
 
-		System.out.println(result);
-
 		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
-		System.out.println(gRecaptchaResponse);
 		boolean verify = ValidateCaptcha.validateCaptchaResponse(gRecaptchaResponse);
 
 		if (!verify) {

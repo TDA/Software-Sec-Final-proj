@@ -28,7 +28,6 @@ public class ValidateCaptcha {
 
 		String postParams = "secret=" + "6LeEgw4TAAAAAJOrbfTdmEDIs7vstZyzHfpIJuG8" + "&response=" + gRecaptchaResponse;
 
-		System.out.println("postParams" + postParams);
 		// Send post request
 		con.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -51,7 +50,6 @@ public class ValidateCaptcha {
 		JsonObject jsonObject = jsonReader.readObject();
 		jsonReader.close();
 
-		System.out.println("going to return :" + jsonObject.getBoolean("success"));
 		return jsonObject.getBoolean("success");
 
 	}

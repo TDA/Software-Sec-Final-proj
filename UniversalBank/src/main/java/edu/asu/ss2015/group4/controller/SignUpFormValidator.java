@@ -45,14 +45,12 @@ public class SignUpFormValidator {
 		}
 
 		String ssn = cinfo.getSocialSecurityNumber();
-		System.out.println("SSN CHECK: " + ssn);
 
 		for (char c : ssn.toCharArray()) {
 			if (Character.isDigit(c)) {
 				ssnNum++;
 			}
 		}
-		System.out.println(ssnNum);
 
 		if (ssnNum != 9 || ssn.length() != 9) {
 			errors.rejectValue("socialSecurityNumber",

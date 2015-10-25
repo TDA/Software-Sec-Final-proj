@@ -216,8 +216,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void resetFailAttempts(String username) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		// jdbcTemplate.update(SQL_USER_ATTEMPTS_RESET_ATTEMPTS, new Object[] {
-		// username });
+		jdbcTemplate.update(SQL_USER_ATTEMPTS_RESET_ATTEMPTS, new Object[] { username });
 	}
 
 	private boolean isUserExists(String username) {

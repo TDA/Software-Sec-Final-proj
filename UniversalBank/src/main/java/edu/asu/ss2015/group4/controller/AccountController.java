@@ -43,7 +43,6 @@ public class AccountController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			System.out.println(loggedInUser);
 
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
@@ -69,7 +68,6 @@ public class AccountController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			// System.out.println(loggedInUser);
 
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
@@ -94,19 +92,16 @@ public class AccountController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			editprofileValidator.validateForm(custInfo, result);
-			System.out.println("here"+result);
-			
-		if (result.hasErrors()) {
-			System.out.println(":in displayedit");
-			modelAndView.setViewName("DisplaySignUp"); // This prints errors
-			
-		} else {
-			userService.EditInformation(loggedInUser,custInfo);
-			System.out.println("successinedit");
-			modelAndView.setViewName("success");
-		
+
+			if (result.hasErrors()) {
+				modelAndView.setViewName("DisplaySignUp"); // This prints errors
+
+			} else {
+				userService.EditInformation(loggedInUser, custInfo);
+				modelAndView.setViewName("success");
+
+			}
 		}
-		}	
 		return modelAndView;
 	}
 

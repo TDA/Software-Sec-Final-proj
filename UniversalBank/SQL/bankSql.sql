@@ -94,6 +94,7 @@ CREATE TABLE `transactions` (
   `Authorise_bank` tinyint(1) NOT NULL DEFAULT '1',
   `Critical_transactions` tinyint(1) NOT NULL DEFAULT '0',
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `SupervisorName` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
