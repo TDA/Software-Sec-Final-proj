@@ -31,8 +31,12 @@ body {
 </style>
 
 
-</head>
+
 <body oncontextmenu="return false">
+<% response.setHeader("Cache-Control","no-cache");    
+response.setHeader("Pragma","no-cache"); %>
+
+
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -156,6 +160,7 @@ body {
 		<!-- /#page-wrapper -->
 
 	</div>
+	
 	<!-- /.container -->
 
 	<!-- jQuery Version 1.11.0 -->

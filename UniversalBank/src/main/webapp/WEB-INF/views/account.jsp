@@ -50,7 +50,8 @@ body {
 
 </head>
 <body oncontextmenu="return false">
-
+<% response.setHeader("Cache-Control","no-cache");    
+response.setHeader("Pragma","no-cache"); %>
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
