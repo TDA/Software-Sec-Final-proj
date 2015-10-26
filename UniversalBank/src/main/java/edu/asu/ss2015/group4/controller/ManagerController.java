@@ -30,7 +30,6 @@ import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
 @SessionAttributes("userName")
-@RequestMapping(value = "/manager")
 public class ManagerController {
 
 	@Autowired
@@ -42,14 +41,12 @@ public class ManagerController {
 	@Autowired
 	TransactionService transactionService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/manager", method = RequestMethod.GET)
 	public ModelAndView managerPage() {
 
 		ModelAndView modelAndView = new ModelAndView();
 		List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
 		List<UserInformationDTO> disabledCustInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<TransactionDTO> userTransactionsDTO = new ArrayList<TransactionDTO>();
-		List<UserRequestsDTO> requests = new ArrayList<UserRequestsDTO>();
 
 		// check if user is login
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -61,16 +58,10 @@ public class ManagerController {
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 			disabledCustInfoFromDTO = userService.fetchDisabledExternalUserDetails();
-			userTransactionsDTO = transactionService.fetchCriticalTransactions();
-			requests = userService.getAllRequests();
-
-			List<UserRequest> listrequests = createRequestList(requests);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
 			modelAndView.addObject("disabledCustInfoFromDTO", disabledCustInfoFromDTO);
-			modelAndView.addObject("userTransactions", userTransactionsDTO);
-			modelAndView.addObject("requestFromUser", listrequests);
 
 			modelAndView.setViewName("welcomeManager");
 		} else {
@@ -129,6 +120,66 @@ public class ManagerController {
 		return managerPage();
 	}
 
+	@RequestMapping(value = "/process_requests", method = RequestMethod.GET)
+	public ModelAndView processUserRequests() {
+
+		ModelAndView modelAndView = new ModelAndView();
+		List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+		List<UserRequestsDTO> requests = new ArrayList<UserRequestsDTO>();
+
+		// check if user is login
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			modelAndView.addObject("userName", loggedInUser);
+
+			// Call the DAOImpl layer
+			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
+			requests = userService.getAllRequests();
+
+			List<UserRequest> listrequests = createRequestList(requests);
+
+			// Add it to the model
+			modelAndView.addObject("userInformation", custInfoFromDTO);
+			modelAndView.addObject("requestFromUser", listrequests);
+
+			modelAndView.setViewName("process_requests");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/critical_transaction", method = RequestMethod.GET)
+	public ModelAndView criticalTransactions() {
+
+		ModelAndView modelAndView = new ModelAndView();
+		List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+		List<TransactionDTO> userTransactionsDTO = new ArrayList<TransactionDTO>();
+
+		// check if user is login
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			modelAndView.addObject("userName", loggedInUser);
+
+			// Call the DAOImpl layer
+			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
+			userTransactionsDTO = transactionService.fetchCriticalTransactions();
+
+			// Add it to the model
+			modelAndView.addObject("userInformation", custInfoFromDTO);
+			modelAndView.addObject("userTransactions", userTransactionsDTO);
+
+			modelAndView.setViewName("critical_transaction");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
+	}
+
 	@RequestMapping(value = "/critical_transaction", method = RequestMethod.POST)
 	public ModelAndView manageCriticalTransactionRequests(@RequestParam("approveParam1") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -159,10 +210,10 @@ public class ManagerController {
 		} else {
 			return modelAndView;
 		}
-		return managerPage();
+		return criticalTransactions();
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "/manager", method = RequestMethod.POST)
 	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");

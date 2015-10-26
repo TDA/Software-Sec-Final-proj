@@ -16,7 +16,7 @@
 <meta name="author" content="">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<title>Universal Bank Account Delete Request</title>
+<title>User Request Processing</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -45,46 +45,50 @@
 				name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 		<h2>Welcome, ${userName }</h2>
-		
-		<div class="container">
-			<ul class="nav nav-tabs">
-				<li><a
-					href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/ModifyTransaction">Modify
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/DeleteTransaction">Delete
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/AccountDeleteRequest">Account
-						Delete Request</a></li>
-			</ul>
-		</div>
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Available Delete Account Request</h1>
+				<h1 class="page-header">Process User Requests</h1>
 			</div>
 		</div>
-		<form:form method="POST" action="AccountDeleteRequest"
-			modelAttribute="ApproveForm" autocomplete="off">
-			<table style="width: 80%">
-				<tr>
-					<th>Request ID</th>
-					<th>Request Type</th>
-				</tr>
-				<c:forEach items="${userInformation}" var="request">
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li><a href="${pageContext.request.contextPath}/manager">Pending
+						Account Approvals</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/critical_transaction">Critical
+						Transactions</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/process_requests">Process
+						User Requests</a></li>
+			</ul>
+		</div>
+		<form:form method="POST" action="process_requests">
+			<table id="mytable2" class="table table-bordred table-striped">
+				<thead>
 					<tr>
-						<td><c:out value="${request.requestID}" /></td>
-						<td><c:out value="${request.requestType}" /></td>
-						<td><button type="submit" name="accountDeleteParam"
-								value="approve_${request.requestID}" >Approve
-							</button></td>
+						<th>Request By</th>
+						<th>Request Type</th>
+						<th>Approved By</th>
+						<th></th>
+						<th></th>
 					</tr>
-				</c:forEach>
-
+				</thead>
+				<tbody>
+					<c:forEach var="requestFromUser" items="${requestFromUser}">
+						<tr>
+							<td>${requestFromUser.requesterName}</td>
+							<td>${requestFromUser.requestType}</td>
+							<td>${requestFromUser.approverName}</td>
+							<td><button type="submit" class="btn btn-success"
+									name="approveParam2"
+									value="approveVal_${requestFromUser.requestByUserName}_${requestFromUser.requestType}">Approve</button></td>
+							<td><button type="submit" class="btn btn-danger"
+									name="approveParam2"
+									value="denyVal_${requestFromUser.requestByUserName}_${requestFromUser.requestType}">Deny</button></td>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 		</form:form>
 	</div>
