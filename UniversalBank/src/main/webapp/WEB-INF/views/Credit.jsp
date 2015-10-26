@@ -120,5 +120,7 @@
 	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
 </html>

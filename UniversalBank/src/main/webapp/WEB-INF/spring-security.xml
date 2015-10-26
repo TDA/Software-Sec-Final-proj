@@ -16,6 +16,8 @@
 		
 		<!-- Permit Manager -->
 		<intercept-url pattern="/manager*" access="hasRole('ROLE_MANAGER')" />
+		<intercept-url pattern="/critical_transaction*" access="hasRole('ROLE_MANAGER')" />
+		<intercept-url pattern="/process_requests*" access="hasRole('ROLE_MANAGER')" />
 		
 		<!-- Permit Clerk -->
 		<intercept-url pattern="/clerk*" access="hasRole('ROLE_CLERK')" />

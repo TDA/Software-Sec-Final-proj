@@ -101,6 +101,8 @@ public class AccountController {
 				modelAndView.setViewName("success");
 
 			}
+		} else {
+			modelAndView.setViewName("permission-denied");
 		}
 		return modelAndView;
 	}

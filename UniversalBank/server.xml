@@ -87,7 +87,7 @@
            port="8443" 
            maxThreads="200"
            scheme="https" secure="true" SSLEnabled="true"
-           keystoreFile="/Users/schandramouli/SoftwareSecKeys2/server.jks" 
+           keystoreFile="C:\\Users\\kpbhatt\\SoftwareSecKeys2\\server.jks" 
            keystorePass="123456"
            clientAuth="want"
            />
