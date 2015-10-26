@@ -10,7 +10,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Universal Bank HomePage-User</title>
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <script
@@ -18,7 +22,9 @@
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body oncontextmenu="return false">
+<% response.setHeader("Cache-Control","no-cache");    
+response.setHeader("Pragma","no-cache"); %>
 
 	<div class="container">
 		<c:url var="logoutUrl" value="j_spring_security_logout" />

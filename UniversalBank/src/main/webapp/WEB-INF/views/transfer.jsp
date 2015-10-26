@@ -33,8 +33,10 @@
 	rel="stylesheet" type="text/css">
 
 
-</head>
+
 <body oncontextmenu="return false">
+<% response.setHeader("Cache-Control","no-cache");    
+response.setHeader("Pragma","no-cache"); %>
 	<!-- Page Content -->
 	<div class="container">
 
@@ -138,5 +140,7 @@
 	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
 </html>
