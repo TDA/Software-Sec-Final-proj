@@ -54,7 +54,7 @@
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/page-404.jsp</location>
 	</error-page>
-	<error-page>
+<error-page>
 	<error-code>500</error-code>
 		<location>/WEB-INF/views/page-404.jsp</location>
 	</error-page>
@@ -62,6 +62,14 @@
 	<session-config>
 		<session-timeout>5</session-timeout>
 	</session-config>
-	
-	
+<!-- <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>UniversalBank</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>  -->
+
 </web-app>
