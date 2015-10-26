@@ -16,7 +16,7 @@
 <meta name="author" content="">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<title>Universal Bank Account Delete Request</title>
+<title>Universal Bank Balance-User</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -45,48 +45,47 @@
 				name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 		<h2>Welcome, ${userName }</h2>
-		
+
 		<div class="container">
 			<ul class="nav nav-tabs">
+				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
+				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
 				<li><a
-					href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/ModifyTransaction">Modify
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/DeleteTransaction">Delete
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/AccountDeleteRequest">Account
-						Delete Request</a></li>
+					href="${pageContext.request.contextPath}/ViewTransactions">View
+						My Account</a></li>
+				<li><a href="${pageContext.request.contextPath}/Debit">Debit</a></li>
+				<li><a href="${pageContext.request.contextPath}/DisplaySignUp">EditInfo</a></li>
+				<li><a href="${pageContext.request.contextPath}/UserRequest">Pending
+						Transactions</a></li>
+				<li><a href="${pageContext.request.contextPath}/balance">Balance</a></li>
 			</ul>
 		</div>
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Available Delete Account Request</h1>
+				<h1 class="page-header">Balance</h1>
 			</div>
 		</div>
-		<form:form method="POST" action="AccountDeleteRequest"
-			modelAttribute="ApproveForm" autocomplete="off">
-			<table style="width: 80%">
-				<tr>
-					<th>Request ID</th>
-					<th>Request Type</th>
-				</tr>
-				<c:forEach items="${userInformation}" var="request">
-					<tr>
-						<td><c:out value="${request.requestID}" /></td>
-						<td><c:out value="${request.requestType}" /></td>
-						<td><button type="submit" name="accountDeleteParam" class="btn btn-danger"
-								value="approve_${request.requestID}" >Approve
-							</button></td>
-					</tr>
-				</c:forEach>
-
-			</table>
-		</form:form>
+		<div class="panel-body">
+			<br /> <b>Your Checking Account Balance is: $ ${bal} <br />
+				
+					Your Saving Account Balance is: $ ${bal1} <br />
+				
+					Please Follow the View My Account Link to Check your Transactions <br />
+				<a href="${pageContext.request.contextPath}/ViewTransactions">View My Account</a>
+						 <br /></b> <FONT color="red"> * Please Note that
+				Balance will be Updated after Approval of Transaction by the Bank</FONT>	
+		</div>
 	</div>
+
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
 </html>

@@ -45,12 +45,7 @@
 				name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 		<h2>Welcome, ${userName }</h2>
-		<!-- Page Heading -->
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Critical Transactions</h1>
-			</div>
-		</div>
+		
 		<div class="container">
 			<ul class="nav nav-tabs">
 			<li><a href="${pageContext.request.contextPath}/manager">Pending
@@ -62,6 +57,12 @@
 				href="${pageContext.request.contextPath}/process_requests">Process
 					User Requests</a></li>
 		</ul>
+		</div>
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Critical Transactions</h1>
+			</div>
 		</div>
 		<form:form method="POST" action="critical_transaction"
 			modelAttribute="ApproveForm" autocomplete="off">

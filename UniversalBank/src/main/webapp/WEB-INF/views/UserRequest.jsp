@@ -16,7 +16,7 @@
 <meta name="author" content="">
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
-<title>Universal Bank PendingTransactions-User</title>
+<title>Universal Bank Pending Transactions-User</title>
 
 <!-- Bootstrap Core CSS -->
 <link
@@ -31,111 +31,76 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<style>
-body {
-	padding-top: 70px;
-	/* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-}
-</style>
 
-<script>
-    	function check() {
-    		 document.getElementById("male").checked = true;
-    	}
-    	
-    	function uncheck() {
-   		 document.getElementById("female").checked = false;
-   		}
-    </script>
 
 </head>
 <body oncontextmenu="return false">
-
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Pending transactions for Authorisation</a>
-			</div>
-		</div>
-		<!-- /.container -->
-	</nav>
-
 	<!-- Page Content -->
 	<div class="container">
 
-		<div id="page-wrapper">
+		<c:url var="logoutUrl" value="j_spring_security_logout" />
+		<form action="${logoutUrl}" method="post">
+			<input type="submit" class="btn btn-lg btn-info btn-block"
+				value="Log out" /> <input type="hidden"
+				name="${_csrf.parameterName}" value="${_csrf.token}" />
+		</form>
+		<h2>Welcome, ${userName }</h2>
 
-			<div class="container-fluid">
-
-				<!-- Page Heading -->
-				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">Pending Transactions</h1>
-					</div>
-				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									<i class="fa fa-bar-chart-o fa-fw"></i> <div id="morris-area-chart">
-
-									
-	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
-		</sec:authorize>
 		<div class="container">
-		<ul class="nav nav-tabs">
-			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
-			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
-			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
-			<li><a href="${pageContext.request.contextPath}/Debit" >Debit</a></li>
-			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>
-			<li><a href="${pageContext.request.contextPath}/UserRequest" >pendingRequests</a></li>
-		</ul></div>
-								</h3>
-							</div>
+			<ul class="nav nav-tabs">
+				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
+				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/ViewTransactions">View
+						My Account</a></li>
+				<li><a href="${pageContext.request.contextPath}/Debit">Debit</a></li>
+				<li><a href="${pageContext.request.contextPath}/DisplaySignUp">EditInfo</a></li>
+				<li><a href="${pageContext.request.contextPath}/UserRequest">Pending
+						Transactions</a></li>
+				<li><a href="${pageContext.request.contextPath}/balance">Balance</a></li>
+			</ul>
+		</div>
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Pending Transactions</h1>
+			</div>
+		</div>
+		<div class="panel-body">
+			<form:form method="POST" action="UserRequest"
+				modelAttribute="ApproveForm" autocomplete="off">
+				<table style="width: 80%">
+					<tr>
+						<th>Transaction ID</th>
+						<th>Transaction Type</th>
+						<th>Amount($)</th>
+					</tr>
+					<c:forEach items="${userInformation}" var="transaction">
+						<tr>
+							<td><c:out value="${transaction.transactionID}" /></td>
+							<td><c:out value="${transaction.transactionType}" /></td>
+							<td><c:out value="${transaction.amount}" /></td>
+							<td><button type="submit" name="approveParam"
+									value="approve_${transaction.transactionID}" >Approve
+								</button></td>
+							<td><button type="submit" name="approveParam" value="Deny" >Deny
+								</button></td>
+						</tr>
+					</c:forEach>
 
-							<div class="panel-body">
-								<div id="morris-area-chart">
+				</table>
+			</form:form>
+		</div>
 
-	<style>								
-	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
-		</sec:authorize>
-		
-		<div id="pdf">
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-}
-</style>
-<form:form method="POST" action="UserRequest"
- modelAttribute="ApproveForm" autocomplete="off">
-    <table style="width:80%">
-  			<tr>
-  				<th>Transaction ID</th>
-    			<th>Transaction Type</th>
-    			<th>Amount($)</th>		
-   				  </tr>
-        <c:forEach items="${userInformation}" var="transaction">
-            <tr>
-                <td><c:out value="${transaction.transactionID}" /></td>
-                <td><c:out value="${transaction.transactionType}" /></td>
-                <td><c:out value="${transaction.amount}" /></td>
-                <td><button type="submit" name="approveParam" value="approve_${transaction.transactionID}"/>Approve </button></td>
-                <td><button type="submit"  name="approveParam" value="Deny" />Deny </button></td>
-            </tr>
-        </c:forEach>
-
-    </table>
-    </form:form>
-   </div>
-
+		<script
+			src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
 </html>

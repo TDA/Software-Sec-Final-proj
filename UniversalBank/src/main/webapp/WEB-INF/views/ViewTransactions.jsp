@@ -31,120 +31,109 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+
 <style>
-body {
-	padding-top: 70px;
-	/* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+.table-fixed thead {
+	width: 97%;
 }
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+
+.table-fixed tbody {
+	height: 230px;
+	overflow-y: auto;
+	width: 100%;
 }
-th, td {
-    padding: 5px;
+
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td,
+	.table-fixed th {
+	display: block;
+}
+
+.table-fixed tbody td, .table-fixed thead>tr>th {
+	float: left;
+	border-bottom-width: 0;
 }
 </style>
 
-<script>
-    	function check() {
-    		 document.getElementById("male").checked = true;
-    	}
-    	
-    	function uncheck() {
-   		 document.getElementById("female").checked = false;
-   		}
-    </script>
 
 </head>
 <body oncontextmenu="return false">
-
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Account HomePage</a>
-			</div>
-		</div>
-		<!-- /.container -->
-	</nav>
-
 	<!-- Page Content -->
 	<div class="container">
 
-		<div id="page-wrapper">
+		<c:url var="logoutUrl" value="j_spring_security_logout" />
+		<form action="${logoutUrl}" method="post">
+			<input type="submit" class="btn btn-lg btn-info btn-block"
+				value="Log out" /> <input type="hidden"
+				name="${_csrf.parameterName}" value="${_csrf.token}" />
+		</form>
+		<h2>Welcome, ${userName }</h2>
 
-			<div class="container-fluid">
-
-				<!-- Page Heading -->
-				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">Home</h1>
-					</div>
-				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									<i class="fa fa-bar-chart-o fa-fw"></i> <div id="morris-area-chart">
-
-									
-	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
-		</sec:authorize>
 		<div class="container">
-		<ul class="nav nav-tabs">
-			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
-			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
-			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
-			<li><a href="${pageContext.request.contextPath}/Debit" >Debit</a></li>
-			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>
-			<li><a href="${pageContext.request.contextPath}/UserRequest" >pendingRequests</a></li>
-		</ul></div>
-								</h3>
-							</div>
+			<ul class="nav nav-tabs">
+				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
+				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/ViewTransactions">View
+						My Account</a></li>
+				<li><a href="${pageContext.request.contextPath}/Debit">Debit</a></li>
+				<li><a href="${pageContext.request.contextPath}/DisplaySignUp">EditInfo</a></li>
+				<li><a href="${pageContext.request.contextPath}/UserRequest">Pending
+						Transactions</a></li>
+				<li><a href="${pageContext.request.contextPath}/balance">Balance</a></li>
+			</ul>
+		</div>
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">View Transactions</h1>
+			</div>
+		</div>
+		<div id="printable" data-name="Transactions">
 
-							<div class="panel-body">
-								<div id="morris-area-chart">
 
-	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
-		</sec:authorize>
-		
-<div id="printable" data-name="Transactions">
+			<table class="table table-fixed">
+				<thead>
+					<tr>
+						<th class="col-xs-2">Transaction ID</th>
+						<th class="col-xs-2">Type</th>
+						<th class="col-xs-2">Amount($)</th>
+						<th class="col-xs-2">From Account</th>
+						<th class="col-xs-2">To account</th>
+						<th class="col-xs-2">Time</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${userInformation}" var="transaction">
+						<tr>
+							<td class="col-xs-2"><c:out value="${transaction.transactionID}" /></td>
+							<td class="col-xs-2"><c:out value="${transaction.transactionType}" /></td>
+							<td class="col-xs-2"><c:out value="${transaction.amount}" /></td>
+							<td class="col-xs-2"><c:out value="${transaction.transactionAccountID}" /></td>
+							<td class="col-xs-2"><c:out value="${transaction.totransactionAccountID}" /></td>
+							<td class="col-xs-2"><c:out value="${transaction.transactionTime}" /></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		<input type="button" value="Click to PDF" id="pdfConvertor">
+	</div>
 
-	
-    <table style="width:80%">
-  			<tr>
-  				<th>Transaction ID</th>
-  				<th>Type</th>
-  				<th> Amount($)</th>
-    			<th>From Account</th>
-    			<th>To account</th>	
-    			<th> Time </th>	
-   				  </tr>
-        <c:forEach items="${userInformation}" var="transaction">
-            <tr>
-                <td><c:out value="${transaction.transactionID}" /></td>
-                <td><c:out value="${transaction.transactionType}" /></td>
-                <td><c:out value="${transaction.amount}" /></td>
-                <td><c:out value="${transaction.transactionAccountID}" /></td>
-                <td><c:out value="${transaction.totransactionAccountID}" /></td>
-                <td><c:out value="${transaction.transactionTime}" /></td>
-                
-            </tr>
-            
-        </c:forEach>
-			
-    </table>
-</div>
-<input type="button" value="Click to PDF" id="pdfConvertor">
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="scripts/jquery.js"><\/script>')</script>
-<script src="${pageContext.request.contextPath}/resources/js/jspdfdebug.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/pdf.js"></script>
-
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+		window.jQuery
+				|| document.write('<script src="scripts/jquery.js"><\/script>')
+	</script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/jspdfdebug.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/pdf.js"></script>
 </body>
 </html>
