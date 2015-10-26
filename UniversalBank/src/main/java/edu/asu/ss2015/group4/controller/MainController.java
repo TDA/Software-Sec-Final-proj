@@ -43,10 +43,8 @@ public class MainController {
 					return new ModelAndView("forward:/admin");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
 					return new ModelAndView("forward:/manager");
-
 				} else if (grantedAuthority.getAuthority().equals("ROLE_CLERK")) {
 					return new ModelAndView("forward:/clerk");
-
 				}
 			}
 

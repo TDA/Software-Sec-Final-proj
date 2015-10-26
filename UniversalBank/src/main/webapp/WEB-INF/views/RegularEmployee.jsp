@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,7 +19,19 @@
 <body>
 
 	<div class="container">
+		<c:url var="logoutUrl" value="j_spring_security_logout" />
+		<form action="${logoutUrl}" method="post">
+			<input type="submit" class="btn btn-lg btn-info btn-block"
+				value="Log out" /> <input type="hidden"
+				name="${_csrf.parameterName}" value="${_csrf.token}" />
+		</form>
 		<h2>Welcome, ${userName }</h2>
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Pending Account Approvals</h1>
+			</div>
+		</div>
 		<ul class="nav nav-tabs">
 			<li><a href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View Transaction</a></li>
 			<li><a href="${pageContext.request.contextPath}/ModifyTransaction">Modify Transaction</a></li>
@@ -32,23 +46,7 @@
 					</form:form>
 				</div>
 			</div>
-			<div id="menu1" class="tab-pane fade">
-				<h3>Regular Transaction List</h3>
-				<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-					laboris nisi ut aliquip ex ea commodo consequat.</p>
-			</div>
-			<div id="menu2" class="tab-pane fade">
-				<h3>Menu 2</h3>
-				<p>Sed ut perspiciatis unde omnis iste natus error sit
-					voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-			</div>
-			<div id="menu3" class="tab-pane fade">
-				<h3>Menu 3</h3>
-				<p>Eaque ipsa quae ab illo inventore veritatis et quasi
-					architecto beatae vitae dicta sunt explicabo.</p>
-			</div>
 		</div>
 	</div>
-
 </body>
 </html>
