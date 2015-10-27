@@ -22,7 +22,17 @@
 		<!-- Permit Clerk -->
 		<intercept-url pattern="/clerk*" access="hasRole('ROLE_CLERK')" />
 		
-		<!-- Permit Reg. Employee -->
+		<!-- Permit CUstomer -->
+		<intercept-url pattern="/account" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/balance" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/Credit" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/Debit" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/DisplaySignUp" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/register" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/success" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/transfer" access="hasRole('ROLE_INDIVIDUAL')" />
+		<intercept-url pattern="/ViewTransactions" access="hasRole('ROLE_INDIVIDUAL')" />
+		
 		
 		<access-denied-handler error-page="/403" />
 		<form-login login-page="/index"
