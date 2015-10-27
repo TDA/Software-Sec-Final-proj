@@ -5,7 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.security.*;
+import edu.asu.ss2015.group4.service.impl.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
@@ -33,14 +35,17 @@ import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.TransactionService;
 import edu.asu.ss2015.group4.service.UserService;
+import edu.asu.ss2015.group4.service.impl.KeyGeneratorsPKI;
 
 /*
  * ExternalUserController: accountSummary.jsp
  */
 
 @Controller
+@SessionAttributes("userName")
 public class TransactionController {
-
+	 
+     
 	@Autowired
 	TransactionService trans;
 	@Autowired
@@ -78,8 +83,21 @@ public class TransactionController {
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView returnCustomerPage() {
-
 		ModelAndView modelAndView = new ModelAndView();
+
+		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
+	     keys.generateKeys();
+
+	     // this is the plaintext message that needs to be signed with the private key
+	     String message = "hello sai";
+	     // sign it!
+	     String signedRequest = keys.signRequest(message);
+	     System.out.println("Encoded message: " + signedRequest);
+	     System.out.println();
+	     // check if the message returned is the same? decode using pub key
+	     if (keys.verifySignature(message, signedRequest)) {
+	         // keys are fine, PKI successful yay!
+	         System.out.println("Keys Verified");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			ArrayList<String> arrayList = new ArrayList<String>();
@@ -88,10 +106,12 @@ public class TransactionController {
 			modelAndView.addObject("mylist", arrayList);
 			System.out.println(arrayList.get(0));
 			modelAndView.setViewName("transfer");
-		} else {
-			modelAndView.setViewName("permission-denied");
-		}
-		return modelAndView;
+		} 
+		
+	     }else {
+				modelAndView.setViewName("permission-denied");
+	     		}
+	     return modelAndView;
 	}
 
 	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
@@ -121,11 +141,12 @@ public class TransactionController {
 
 			} else {
 
-				String a = trans.TransferUser(transac);
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
 				transac.setSupervisorName(info.get(0).getSupervisorName());
 				System.out.println("successtransac11");
+				String a = trans.TransferUser(transac);
+
 				modelAndView.setViewName("success");
 
 			}
