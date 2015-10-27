@@ -121,8 +121,8 @@
 							id="Debit" value="Debit" />
 <br/>
 											<br/>
-											<input type="submit" style="margin-right: 5%" name="generateOTP"
-												id="generateOTP" value="generateOTP" />
+											<input type="submit" style="margin-right: 5%" name="Generate OTP"
+												id="Generate OTP" value="Generate OTP" />
 					</h4>
 
 

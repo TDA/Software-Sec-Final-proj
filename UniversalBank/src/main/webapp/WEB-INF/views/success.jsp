@@ -54,6 +54,13 @@ body {
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
+		<c:url var="logoutUrl" value="j_spring_security_logout" />
+		<form action="${logoutUrl}" method="post">
+			<input type="submit" class="btn btn-lg btn-info btn-block"
+				value="Log out" /> <input type="hidden"
+				name="${_csrf.parameterName}" value="${_csrf.token}" />
+		
+		</form>
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">Success</a>
@@ -100,7 +107,7 @@ body {
 		<h4>Your Transaction Was Successful. Thank You for Using Universal Bank</h4>
 			
 			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
-			<li><a href="${pageContext.request.contextPath}/Transfer" >Transfer</a></li>
+			<li><a href="${pageContext.request.contextPath}/transfer" >Transfer</a></li>
 			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
 			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
 			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>

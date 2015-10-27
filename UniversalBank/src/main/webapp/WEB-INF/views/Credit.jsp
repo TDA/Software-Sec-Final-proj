@@ -70,9 +70,9 @@
 			<div id="morris-area-chart">
 
 				<c:if test="${not empty successMsg}">
-<Font Color="green">An OTP has been sent to your email.</Font>
 					<h4>${successMsg}</h4>
 				</c:if>
+				<Font Color="green">An OTP has been sent to your email.</Font>
 				<form:form method="POST" action="Credit" modelAttribute="CreditForm"
 					autocomplete="off">
 					<br />
@@ -112,9 +112,9 @@
 					<br />
 					<h4>
 						<input type="submit" style="margin-right: 5%" name="Credit"
-							id="Credit" value="Credit" />
-<input type="submit" style="margin-right: 5%" name="generateOTP"
-												id="generateOTP" value="generateOTP" />
+							id="Credit" value="Credit" /><br/><br/>
+<input type="submit" style="margin-right: 5%" name="Generate OTP"
+												id="Generate OTP" value="Generate OTP" />
 					</h4>
 
 

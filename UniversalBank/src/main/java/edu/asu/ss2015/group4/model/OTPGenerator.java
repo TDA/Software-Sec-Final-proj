@@ -1,3 +1,4 @@
+//Reference: mkyong
 package edu.asu.ss2015.group4.model;
 
 import java.security.MessageDigest;
@@ -8,7 +9,7 @@ import java.util.Random;
 public class OTPGenerator {
 	public int generateOTP() {
 		Random rand = new Random();
-		int randomNum = rand.nextInt(737568) + 256846;
+		int randomNum = rand.nextInt(737568) + 266999;
 		String IV = Integer.toString(randomNum);
 		String app1Hash;
 		String app1Password;

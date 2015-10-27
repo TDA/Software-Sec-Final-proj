@@ -80,6 +80,9 @@ response.setHeader("Pragma","no-cache"); %>
 					modelAttribute="transferForm" autocomplete="off">
 					<br />
 					<br />
+					<Font Color="green">A new OTP has been sent to your email.</Font>
+					<br />
+					<br />
 					<c:if test="${not empty errorMsg}">
 						<h3>${errorMsg}</h3>
 					</c:if>
@@ -95,8 +98,8 @@ response.setHeader("Pragma","no-cache"); %>
 												<option value="${bankval}">${bankval}</option>
 											</c:forEach> --%>
 					</select>
-					<br />
-
+					<br/>
+					<br/>
 					<b> Enter to AccountId</b>
 					<FONT color="red"><form:errors path="ToTransactionAccountID" /></FONT>
 
@@ -106,14 +109,18 @@ response.setHeader("Pragma","no-cache"); %>
 											style="color: #999;" />
 					<br />
 					<br />
-					<br />
 					<b>Amount</b>
 					<FONT color="red"><form:errors path="amount" /></FONT>
 					<br />
 					<input type="text" name="amount" size="10" class="form-control"
 						id="amount" style="color: #999;" />
 					<br />
-
+					<br />
+					<b>OTP</b>
+					<FONT color="red"><form:errors path="otp" /></FONT>
+					<br />
+					<input type="text" name="otp" size="10" class="form-control"
+						id="otp" style="color: #999;" />
 					<br />
 					<br />
 
@@ -124,6 +131,10 @@ response.setHeader("Pragma","no-cache"); %>
 					<h4>
 						<input type="submit" style="margin-right: 5%" name="Transfer"
 							id="transfer" value="Transfer" />
+						<br/><br/>
+						<input type="submit" style="margin-right: 5%" name="Generate OTP"
+							id="Generate OTP" value="Generate OTP" />
+					
 					</h4>
 
 

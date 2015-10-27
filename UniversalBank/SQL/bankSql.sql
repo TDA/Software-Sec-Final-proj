@@ -3,7 +3,9 @@
 -- Host: localhost    Database: unibank
 -- ------------------------------------------------------
 -- Server version	5.6.26-log
-
+Drop database if exists unibank;
+create database if not exists unibank /*40100 DEFAULT CHARACTER SET utf8 */;
+use unibank;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -18,6 +20,7 @@
 --
 -- Table structure for table `accounts`
 --
+
 
 DROP TABLE IF EXISTS `accounts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

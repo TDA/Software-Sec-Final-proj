@@ -83,39 +83,84 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			ArrayList<String> arrayList = new ArrayList<String>();
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String username = userDetail.getUsername();
 			arrayList.add("checking");
 			arrayList.add("savings");
 			modelAndView.addObject("mylist", arrayList);
 			System.out.println(arrayList.get(0));
 			modelAndView.setViewName("transfer");
+			generateOTP(username);
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
-	public ModelAndView transfer(@Valid @ModelAttribute("transferForm") Transactions transac, BindingResult result,
-			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
+	@RequestMapping(value = "/transfer", params = "Transfer",method = RequestMethod.POST)
+	public ModelAndView transfer(@RequestParam("accountType") String accountType, @RequestParam("ToTransactionAccountID") String ToTransactionAccountID, @RequestParam("amount") String amount, @RequestParam("otp") String otp) throws NoSuchAlgorithmException, FileNotFoundException {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			BankAccount b = new BankAccount();
-			b.setId(transac.getToTransactionAccountID());
+			String username = userDetail.getUsername();
+			Transactions transac = new Transactions();
+			/*b.setId(transac.getToTransactionAccountID());
 			System.out.println("checking" + transac.getAccountType());
-			b.setAccountType(transac.getAccountType());
-			int i = bankAccountService.BankValidate(b);
-			if (i == 1) {
-				double b1 = bankAccountService.BankBalanceValidate(b);
-				System.out.println("balance" + b1);
-				transac.setBalance(b1);
+			b.setAccountType(transac.getAccountType());*/
+			if(accountType!=null && !accountType.equals("")){
+				b.setAccountType(accountType);
+				transac.setAccountType(accountType);
+				transac.setToTransactionAccountID(ToTransactionAccountID);
+				b.setId(ToTransactionAccountID);
+				int i = bankAccountService.BankValidate(b);
+				if (i == 1) {
+					System.out.println("fialcount" + i);
+					transac.setCount(i);
+					String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
+					if(amount!=null && amount.length()>=1 && amount.matches(regex)){
+						double b1 = bankAccountService.BankBalanceValidate(b);
+						if(b1 >= Double.parseDouble(amount)){
+							transac.setBalance(b1);
+							transac.setAmount(amount);
+							if(otp!=null && isOtpValid(username, otp)){
+								if(!hasOtpExpired(username)){
+									String a = trans.TransferUser(transac);
+									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+									info = userService.fetchUserDetails(userDetail.getUsername());
+									transac.setSupervisorName(info.get(0).getSupervisorName());
+									OTPGenerator otp1 = new OTPGenerator();
+									Date date = new Date();
+									userService.insertOTP(Integer.toString(otp1.generateOTP()),
+											Long.toString(date.getTime() + 600000), username);
+									System.out.println("successtransac11");
+									modelAndView.setViewName("success");
+								}
+								else
+									modelAndView.addObject("errorMsg", "OTP has expired.");
+							}
+							else
+								modelAndView.addObject("errorMsg", "Incorrect OTP.");
+						}
+						else
+							modelAndView.addObject("errorMsg", "Insufficient balance.");
+							
+					}
+					else
+						modelAndView.addObject("errorMsg", "Incorrect amount.");
+					
+				}
+				else
+					modelAndView.addObject("errorMsg", "Account ID doesn't exist.");
 			}
-			System.out.println("fialcount" + i);
+			else
+				modelAndView.addObject("errorMsg", "Account type must be chosen.");
+			/*System.out.println("fialcount" + i);
 			transac.setCount(i);
-			transfervalidator1.validateForm(transac, result);
-			System.out.println("here" + result);
-			if (result.hasErrors()) {
+			//transfervalidator1.validateForm(transac, result);
+			//System.out.println("here" + result);
+			/*if (result.hasErrors()) {
 				System.out.println("error");
 				modelAndView.setViewName("transfer"); // This prints errors
 
@@ -128,7 +173,7 @@ public class TransactionController {
 				System.out.println("successtransac11");
 				modelAndView.setViewName("success");
 
-			}
+			}*/
 
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -137,6 +182,22 @@ public class TransactionController {
 		return modelAndView;
 	}
 
+	
+	@RequestMapping(value = "/transfer", params = "Generate OTP", method = RequestMethod.POST)
+	public ModelAndView OtpgenerateTransfer() {
+		System.out.println("Inside transfer otp generate");
+		ModelAndView modelandview = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String username = userDetail.getUsername();
+			generateOTP(username);
+		}
+		return modelandview;
+	}
+
+	
+	
 	@RequestMapping(value = "/ViewTransactions", method = RequestMethod.GET)
 	public ModelAndView ViewPage() {
 		Transactions transac = new Transactions();
@@ -251,7 +312,7 @@ public class TransactionController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/Debit", params = "generateOTP", method = RequestMethod.POST)
+	@RequestMapping(value = "/Debit", params = "Generate OTP", method = RequestMethod.POST)
 	public ModelAndView OtpgenerateDebit() {
 		System.out.println("Inside debit otp generate");
 		ModelAndView modelandview = new ModelAndView();
@@ -271,6 +332,7 @@ public class TransactionController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			Transactions transac = new Transactions();
+			String username = userDetail.getUsername();
 			ArrayList<String> arrayList = new ArrayList<String>();
 			arrayList.add("checking");
 			arrayList.add("savings");
@@ -280,7 +342,7 @@ public class TransactionController {
 			System.out.println("to transfer");
 			modelAndView.setViewName("Credit");
 			System.out.println("the username is: " + userDetail.getUsername());
-			generateOTP(userDetail.getUsername());
+			generateOTP(username);
 		}
 		return modelAndView;
 	}
@@ -335,7 +397,7 @@ public class TransactionController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/Credit", params = "generateOTP", method = RequestMethod.POST)
+	@RequestMapping(value = "/Credit", params = "Generate OTP", method = RequestMethod.POST)
 	public ModelAndView Otpgenerate() {
 		System.out.println("Inside transaction otp generate");
 		ModelAndView modelandview = new ModelAndView();
