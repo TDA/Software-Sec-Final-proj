@@ -88,6 +88,16 @@ public class SignUpController {
 				// Send email to user
 				sendEmailToUser(custInfo);
 
+				ArrayList<String> databaseArrayList = new ArrayList<String>();
+				if (custInfo.getAccountType().equals("Individual") || custInfo.getAccountType().equals("Merchant")) {
+					databaseArrayList.add("Individual");
+					databaseArrayList.add("Merchant");
+				} else {
+					databaseArrayList.add("Clerk");
+					databaseArrayList.add("Manager");
+				}
+				modelAndView.addObject("myList", databaseArrayList);
+
 				modelAndView.setViewName("register");
 			}
 			return modelAndView;

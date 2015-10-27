@@ -65,8 +65,6 @@ public class UserDAOImpl implements UserDAO {
 							userInfo.isUserAccountExpired(), userInfo.getEmailAddress(),
 							userInfo.getSocialSecurityNumber(), userInfo.isPiiAccess(), userInfo.getOTP(),
 							userInfo.getOtpValidity() });
-					
-
 
 			String user_role = "";
 			switch (userInfo.getAccountType()) {
@@ -114,7 +112,7 @@ public class UserDAOImpl implements UserDAO {
 	// Method for checking duplicate details
 	public List<CheckDuplicationDTO> checkDuplicateExternalUser(String username, String email, String SSN) {
 		List<CheckDuplicationDTO> duplicateCheckDetails = new ArrayList<CheckDuplicationDTO>();
-		String getDuplicateDetailsQuery = "SELECT users.username, users.email, users.SSN from users where users.username=? OR users.email=? OR users.SSN=?";
+		String getDuplicateDetailsQuery = "SELECT users.username, users.email, users.SSN, users.otp from users where users.username=? OR users.email=? OR users.SSN=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		duplicateCheckDetails = jdbcTemplate.query(getDuplicateDetailsQuery, new Object[] { username, email, SSN },
 				new CheckDuplicationMapper());

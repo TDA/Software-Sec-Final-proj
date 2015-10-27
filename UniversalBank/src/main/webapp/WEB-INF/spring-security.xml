@@ -13,6 +13,7 @@
 
 		<intercept-url pattern="/index*" access="permitAll" />
 		<intercept-url pattern="/permission-denied*" access="permitAll" />
+		<intercept-url pattern="/register" access="permitAll" />
 		
 		<!-- Permit Manager -->
 		<intercept-url pattern="/manager*" access="hasRole('ROLE_MANAGER')" />
@@ -32,7 +33,6 @@
 		<intercept-url pattern="/Credit" access="hasRole('ROLE_INDIVIDUAL')" />
 		<intercept-url pattern="/Debit" access="hasRole('ROLE_INDIVIDUAL')" />
 		<intercept-url pattern="/DisplaySignUp" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/register" access="hasRole('ROLE_INDIVIDUAL')" />
 		<intercept-url pattern="/success" access="hasRole('ROLE_INDIVIDUAL')" />
 		<intercept-url pattern="/transfer" access="hasRole('ROLE_INDIVIDUAL')" />
 		<intercept-url pattern="/ViewTransactions" access="hasRole('ROLE_INDIVIDUAL')" />
