@@ -86,9 +86,8 @@
 					<br />
 					<select class="selectpicker form-control" name="accountType">
 						<option value="">Select</option>
-						<c:forEach var="bankval" items="${mylist}">
-							<option value="${bankval}">${bankval}</option>
-						</c:forEach>
+						<option value="checking">checking</option>
+						<option value="savings">savings</option>
 					</select>
 					<br />
 					<br />
