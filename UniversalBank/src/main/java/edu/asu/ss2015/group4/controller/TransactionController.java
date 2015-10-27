@@ -44,8 +44,7 @@ import edu.asu.ss2015.group4.service.impl.KeyGeneratorsPKI;
 @Controller
 @SessionAttributes("userName")
 public class TransactionController {
-	 
-     
+
 	@Autowired
 	TransactionService trans;
 	@Autowired
@@ -86,32 +85,33 @@ public class TransactionController {
 		ModelAndView modelAndView = new ModelAndView();
 
 		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
-	     keys.generateKeys();
+		keys.generateKeys();
 
-	     // this is the plaintext message that needs to be signed with the private key
-	     String message = "hello sai";
-	     // sign it!
-	     String signedRequest = keys.signRequest(message);
-	     System.out.println("Encoded message: " + signedRequest);
-	     System.out.println();
-	     // check if the message returned is the same? decode using pub key
-	     if (keys.verifySignature(message, signedRequest)) {
-	         // keys are fine, PKI successful yay!
-	         System.out.println("Keys Verified");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			ArrayList<String> arrayList = new ArrayList<String>();
-			arrayList.add("checking");
-			arrayList.add("savings");
-			modelAndView.addObject("mylist", arrayList);
-			System.out.println(arrayList.get(0));
-			modelAndView.setViewName("transfer");
-		} 
-		
-	     }else {
-				modelAndView.setViewName("permission-denied");
-	     		}
-	     return modelAndView;
+		// this is the plaintext message that needs to be signed with the
+		// private key
+		String message = "hello sai";
+		// sign it!
+		String signedRequest = keys.signRequest(message);
+		System.out.println("Encoded message: " + signedRequest);
+		System.out.println();
+		// check if the message returned is the same? decode using pub key
+		if (keys.verifySignature(message, signedRequest)) {
+			// keys are fine, PKI successful yay!
+			System.out.println("Keys Verified");
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				ArrayList<String> arrayList = new ArrayList<String>();
+				arrayList.add("checking");
+				arrayList.add("savings");
+				modelAndView.addObject("mylist", arrayList);
+				System.out.println(arrayList.get(0));
+				modelAndView.setViewName("transfer");
+			}
+
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
 	}
 
 	@RequestMapping(value = "/transfer", method = RequestMethod.POST)
@@ -583,7 +583,7 @@ public class TransactionController {
 	// Added By Gaurav
 	@RequestMapping(value = "/ModifyTransaction", method = RequestMethod.GET)
 
-	public ModelAndView ModifyTransactionPage() {
+	public ModelAndView ModifyTransactionPage(String errorMsg) {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
@@ -601,6 +601,9 @@ public class TransactionController {
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
 			System.out.println(transac.getTransactionId());
+			if (errorMsg != null)
+				modelAndView.addObject("errorMsg", errorMsg);
+
 			modelAndView.setViewName("ModifyTransaction");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -618,21 +621,36 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();
-
+		BankAccount b = new BankAccount();
+		String errorMsg = "";
 		if (strAmount != null && !strAmount.isEmpty()) {
+
+			String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
 
 			String[] split = strAmount.split("_");
 			String x = split[0];
 			String y = split[1];
+			String z = split[2];
+			Double balance = 0.0;
 
-			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
-			int x1 = Integer.parseInt(y);
-			double x2 = Double.parseDouble(x);
-			String submit = trans.RegularEmployeeModifyTransaction(x1, x2, loggedInUser);
+			if (x != null && x.length() >= 1 && x.matches(regex)) {
+				b.setAccountType(z);
+				int x1 = Integer.parseInt(y);
+				double x2 = Double.parseDouble(x);
+				System.out.println("actual balance entered is " + x2);
+				balance = bankAccountService.BankBalanceValidateForRegularEmployee(b, x1);
+				System.out.println("balance from database " + x2);
+				if (balance >= x2) {
+					List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+					String submit = trans.RegularEmployeeModifyTransaction(x1, x2, loggedInUser);
+				} else
+					errorMsg = "Insufficient balance.";
+			} else
+				errorMsg = "Incorrect amount.";
 		} else {
 			return modelAndView;
 		}
-		return ModifyTransactionPage();
+		return ModifyTransactionPage(errorMsg);
 	}
 
 	// Added By Gaurav

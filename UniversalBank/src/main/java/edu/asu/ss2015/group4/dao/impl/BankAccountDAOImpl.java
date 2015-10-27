@@ -97,11 +97,11 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 	@Override
 	public double CheckingBalance(BankAccount a) {
 		Double count = 0.0;
-			String sql = "SELECT Balance from accounts where username=? AND AccountType=?";
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String sql = "SELECT Balance from accounts where username=? AND AccountType=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-			count = jdbcTemplate.queryForObject(sql, new Object[] { a.getUserName(),"Checking" }, Double.class);
-		
+		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getUserName(), "Checking" }, Double.class);
+
 		return count;
 	}
 
@@ -111,8 +111,23 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 		String sql = "SELECT Balance from accounts where username=? AND AccountType=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getUserName(),"savings" }, Double.class);
-	
-	return count;
+		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getUserName(), "savings" }, Double.class);
+
+		return count;
+	}
+
+	@Override
+	public double ValidateBalanceForRegularEmployee(BankAccount a, int i) {
+		Double count = 0.0;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			String sql = "SELECT Balance from accounts where  AccountID = ( SELECT FromTransactionAccountID from transactions where TransactionID=? AND Transactiontype in ('UserTransfer','Debit'))";
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+			count = jdbcTemplate.queryForObject(sql, new Object[] { i }, Double.class);
+		}
+		return count;
 	}
 }

@@ -21,6 +21,10 @@
 		
 		<!-- Permit Clerk -->
 		<intercept-url pattern="/clerk*" access="hasRole('ROLE_CLERK')" />
+		<intercept-url pattern="/ViewTransactionRegularEmployee*" access="hasRole('ROLE_CLERK')" />
+		<intercept-url pattern="/ModifyTransaction*" access="hasRole('ROLE_CLERK')" />
+		<intercept-url pattern="/DeleteTransaction*" access="hasRole('ROLE_CLERK')" />
+		<intercept-url pattern="/AccountDeleteRequest*" access="hasRole('ROLE_CLERK')" />
 		
 		<!-- Permit CUstomer -->
 		<intercept-url pattern="/account" access="hasRole('ROLE_INDIVIDUAL')" />
