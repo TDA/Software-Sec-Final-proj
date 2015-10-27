@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Manager Portfolio</title>
+<title>Administrator Portfolio - Modify Roles</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link
@@ -41,46 +41,60 @@
 		<h2>Welcome, ${userName }</h2>
 
 		<ul class="nav nav-tabs">
-			<li><a href="${pageContext.request.contextPath}/manager">Pending
+			<li><a href="${pageContext.request.contextPath}/admin">
 					Account Approvals</a></li>
+			<li><a href="${pageContext.request.contextPath}/delete_account">Delete
+					Account</a></li>
+			<li><a href="${pageContext.request.contextPath}/reopen_account">Reopen
+					Account</a></li>
+			<li><a href="${pageContext.request.contextPath}/pii_access">Access
+					PII</a></li>
 			<li><a
-				href="${pageContext.request.contextPath}/critical_transaction">Critical
-					Transactions</a></li>
-			<li><a
-				href="${pageContext.request.contextPath}/process_requests">Process
-					User Requests</a></li>
+				href="${pageContext.request.contextPath}/modify_internal_roles">Modify
+					User Roles</a></li>
+
 		</ul>
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Pending Account Approvals</h1>
+				<h1 class="page-header">Modify Internal User Roles</h1>
 			</div>
 		</div>
 		<div class="tab-content">
 			<div id="home" class="tab-pane fade in active">
 				<div class="table-responsive">
-					<form:form method="POST" action="manager">
+					<form:form method="POST" action="modify_internal_roles">
 						<table id="mytable" class="table table-bordred table-striped">
 							<thead>
 								<tr>
+									<th>Username</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Account Type</th>
-									<th></th>
-									<th></th>
+
+
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="disabledUser" items="${disabledCustInfoFromDTO}">
+								<c:forEach var="disabledUser1" items="${IntInfoFromDTO}">
 									<tr>
-										<td>${disabledUser.firstName}</td>
-										<td>${disabledUser.lastName}</td>
-										<td>${disabledUser.accountType}</td>
+										<td>${disabledUser1.userName}</td>
+										<td>${disabledUser1.firstName}</td>
+										<td>${disabledUser1.lastName}</td>
+										<td><FONT color="red"><form:errors
+													path="accountType" /></FONT> <select
+											class="selectpicker form-control" name="accountType">
+												<option value="">Select</option>
+
+
+												<c:forEach var="listValue" items="${myList1}">
+													<option value="${listValue}">${listValue}</option>
+												</c:forEach>
+										</select></td>
 										<td><button type="submit" class="btn btn-success"
-												name="approveParam"
-												value="approveVal_${disabledUser.userName}">Approve</button></td>
-										<td><button type="submit" class="btn btn-danger"
-												name="approveParam" value="denyVal_${disabledUser.userName}">Deny</button></td>
+												name="approveParam4"
+												value="approveVal2_${disabledUser1.userName}">Add
+												Again</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>

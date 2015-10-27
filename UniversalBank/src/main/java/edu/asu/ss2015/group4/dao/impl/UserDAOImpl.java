@@ -133,7 +133,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveUserDetails(String username) {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email, users.SupervisorName, users.otp, users.otpValidity "
+				+ "users.AccountType, users.email, users.SSN, users.SupervisorName, users.otp, users.otpValidity "
 				+ "from users where users.username=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username },
@@ -144,7 +144,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveDisabledExternalUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email, users.supervisorname, users.otp, users.otpValidity "
+				+ "users.AccountType, users.email, users.SSN, users.supervisorname, users.otp, users.otpValidity "
 				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') AND users.enabled=false";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
@@ -302,7 +302,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public List<UserInformationDTO> retrieveDelUserDetails(String username) {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
-		String retrieveDetailsQuery = "SELECT username, firstname,lastname, " + "AccountType, email, SupervisorName "
+		String retrieveDetailsQuery = "SELECT username, firstname, lastname, AccountType, email, SSN, SupervisorName, otp, otpvalidity "
 				+ "from deletedusers where username=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username },
@@ -313,7 +313,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveDisabledInternalUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email,users.SupervisorName "
+				+ "users.AccountType, users.email, users.SSN, users.SupervisorName, users.otp, users.otpvalidity "
 				+ "from users where (users.AccountType='Manager' OR users.AccountType='Clerk') AND users.enabled=false";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
@@ -323,7 +323,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrievePiiUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email,users.SupervisorName "
+				+ "users.AccountType, users.email, users.SSN users.SupervisorName, users.otp, users.otpvalidity "
 				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') and userLocked = true";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
@@ -332,7 +332,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public List<UserInformationDTO> retrieveIntUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
-		String retrieveDetailsQuery = "SELECT username, firstname, lastname,AccountType, email,SupervisorName from users where (AccountType='Clerk' OR AccountType='Manager') and userLocked = true";
+		String retrieveDetailsQuery = "SELECT username, firstname, lastname, AccountType, email, SSN, SupervisorName, otp, otpvalidity from users where (AccountType='Clerk' OR AccountType='Manager') and userLocked = true";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
 		return customerInformationToDisplay;
@@ -340,7 +340,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public List<UserInformationDTO> retrieveDelIntUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
-		String retrieveDetailsQuery = "SELECT username, firstname, lastname,AccountType, email,SupervisorName from deletedusers where (AccountType='Clerk' OR AccountType='Manager')";
+		String retrieveDetailsQuery = "SELECT username, firstname, lastname, AccountType, email, SSN, SupervisorName, otp, otpvalidity from deletedusers where (AccountType='Clerk' OR AccountType='Manager')";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
 		return customerInformationToDisplay;
@@ -349,7 +349,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveAuthPiiUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email,users.SSN,users.SupervisorName "
+				+ "users.AccountType, users.email,users.SSN,users.SupervisorName, users.otp, users.otpvalidity "
 				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') and piiAccess = true";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
@@ -359,7 +359,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrieveAuthPiiUserAccounts1() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email,users.SSN,users.SupervisorName "
+				+ "users.AccountType, users.email, users.SSN, users.SupervisorName, users.otp, users.otpvalidity "
 				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') and piiAccess = true";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Manager Portfolio</title>
+<title>Administrator Portfolio - PII Access</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link
@@ -41,46 +41,54 @@
 		<h2>Welcome, ${userName }</h2>
 
 		<ul class="nav nav-tabs">
-			<li><a href="${pageContext.request.contextPath}/manager">Pending
+			<li><a href="${pageContext.request.contextPath}/admin">
 					Account Approvals</a></li>
+			<li><a href="${pageContext.request.contextPath}/delete_account">Delete
+					Account</a></li>
+			<li><a href="${pageContext.request.contextPath}/reopen_account">Reopen
+					Account</a></li>
+			<li><a href="${pageContext.request.contextPath}/pii_access">Access
+					PII</a></li>
 			<li><a
-				href="${pageContext.request.contextPath}/critical_transaction">Critical
-					Transactions</a></li>
-			<li><a
-				href="${pageContext.request.contextPath}/process_requests">Process
-					User Requests</a></li>
+				href="${pageContext.request.contextPath}/modify_internal_roles">Modify
+					User Roles</a></li>
+
 		</ul>
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Pending Account Approvals</h1>
+				<h1 class="page-header">Person Information of User</h1>
 			</div>
 		</div>
 		<div class="tab-content">
 			<div id="home" class="tab-pane fade in active">
 				<div class="table-responsive">
-					<form:form method="POST" action="manager">
+					<form:form method="POST" action="pii_access">
 						<table id="mytable" class="table table-bordred table-striped">
 							<thead>
 								<tr>
+									<th>Username</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Account Type</th>
-									<th></th>
-									<th></th>
+									<th>Email</th>
+									<th>SSN</th>
+
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="disabledUser" items="${disabledCustInfoFromDTO}">
+								<c:forEach var="disabledUser1"
+									items="${AuthPiiCustInfoFromDTO1}">
 									<tr>
-										<td>${disabledUser.firstName}</td>
-										<td>${disabledUser.lastName}</td>
-										<td>${disabledUser.accountType}</td>
-										<td><button type="submit" class="btn btn-success"
-												name="approveParam"
-												value="approveVal_${disabledUser.userName}">Approve</button></td>
+										<td>${disabledUser1.userName}</td>
+										<td>${disabledUser1.firstName}</td>
+										<td>${disabledUser1.lastName}</td>
+										<td>${disabledUser1.accountType}</td>
+										<td>${disabledUser1.emailAddress}</td>
+										<td>${disabledUser1.socialSecurityNumber}</td>
 										<td><button type="submit" class="btn btn-danger"
-												name="approveParam" value="denyVal_${disabledUser.userName}">Deny</button></td>
+												name="approveParam1"
+												value="denyVal_${disabledUser1.userName}">Deny</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
