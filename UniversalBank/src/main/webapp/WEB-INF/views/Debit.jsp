@@ -115,9 +115,9 @@ body {
 										<br />
 										<input type="text" name="amount" size="10" class="form-control" id="amount"
 											style="color: #999;" />
+										<br />				
 										<br />
 										
-										<br />
 										 <Font Color="red">I authroise the bank to modify ,delete and access my transactions</Font>
 										<br />
 										<br />
