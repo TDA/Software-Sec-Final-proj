@@ -1,6 +1,8 @@
 package edu.asu.ss2015.group4.controller;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.model.OTPGenerator;
 import edu.asu.ss2015.group4.service.UserService;
 
 @Controller
@@ -70,7 +74,7 @@ public class MainController {
 		if (exception instanceof BadCredentialsException) {
 			error = "Invalid username and password!";
 		} else if (exception instanceof LockedException) {
-			error = "Your account is locke. <a href=\"unlockAccount\">Plese click here to unlock.</a>";
+			error = "Your account is locked. <a href=\"unlockAccount\">Plese click here to unlock.</a>";
 		} else if (exception instanceof SessionAuthenticationException) {
 			error = exception.getMessage();
 		} else if (exception instanceof DisabledException) {
@@ -100,6 +104,73 @@ public class MainController {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("unlockAccount");
+		return model;
+	}
+
+	@RequestMapping(value = "/unlockAccount", params = "Unlock", method = RequestMethod.POST)
+	public ModelAndView validateForm(@RequestParam("userName") String userName, @RequestParam("otp") String otp) {
+		ModelAndView model = new ModelAndView();
+		if (userName != null && !userName.equals("")) {
+			List<UserInformationDTO> userDTO = custService.fetchUserDetails(userName);
+			if (userDTO != null && !userDTO.isEmpty()) {
+				if (validateOTP(userName, userDTO.get(0).getUserName(), otp, userDTO.get(0).getOTP(),
+						userDTO.get(0).getOtpValidity())) {
+					custService.unlockExternalUserAccount(userName);
+					model.addObject("successMessage",
+							"account Unlocked, <a href=\'/UniversalBankingSystem/index\'>login</a> to continue banking.");
+
+				} else
+					model.addObject("errorMessage", "OTP is incorrect or it has expired.");
+			} else
+				model.addObject("errorMessage", "Incorrect Username");
+		} else {
+			model.addObject("errorMessage", "Username cannot be empty.");
+		}
+		return model;
+	}
+
+	public boolean validateOTP(String username, String dbusername, String otp, String dbotp, String otpValidity) {
+		boolean retVal = false;
+		System.out.println("in ValidateOTP");
+		System.out.println("username: " + username + ", from db: " + dbusername);
+		System.out.println("otp: " + otp + ", from db: " + dbotp);
+		if (username.equals(dbusername) && otp.equals(dbotp)) {
+			System.out.println("inside checking");
+			Date date = new Date();
+			Date checkDate = new Date(Long.parseLong(otpValidity));
+			if (date.before(checkDate)) {
+				retVal = true;
+				OTPGenerator OTP = new OTPGenerator();
+				int newOTP = OTP.generateOTP();
+				otpValidity = Long.toString(date.getTime() + 600000);
+				custService.insertOTP(Integer.toString(newOTP), otpValidity, dbusername);
+				System.out.println(date + " is before " + checkDate);
+			} else
+				System.out.println(checkDate + " is before " + date);
+		}
+		return retVal;
+	}
+
+	@RequestMapping(value = "/unlockAccount", params = "generateOTP", method = RequestMethod.POST)
+	public ModelAndView generateOTP(@RequestParam("userName") String UserName) {
+		ModelAndView model = new ModelAndView();
+		if (UserName != null && !UserName.equals("")) {
+			List<UserInformationDTO> user = custService.fetchUserDetails(UserName);
+			if (user != null && !user.isEmpty() && UserName.equals(user.get(0).getUserName())) {
+				Date date = new Date();
+				OTPGenerator OTP = new OTPGenerator();
+				int newOTP = OTP.generateOTP();
+				String otpValidity = Long.toString(date.getTime() + 600000);
+				custService.insertOTP(Integer.toString(newOTP), otpValidity, UserName);
+				ManagerController m = new ManagerController();
+				m.sendOTP(Integer.toString(newOTP), otpValidity, user.get(0).getEmailAddress());
+				model.addObject("successMessage", "New OTP has been sent to your email");
+			} else
+				model.addObject("errorMessage", "Incorrect Username");
+
+		} else {
+			model.addObject("errorMessage", "Username cannot be empty");
+		}
 		return model;
 	}
 

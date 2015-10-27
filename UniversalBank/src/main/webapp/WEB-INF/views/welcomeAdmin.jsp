@@ -8,12 +8,25 @@
 <title>Administrator Portfolio</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom CSS -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/stylish-portfolio.css"
+	rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link
+	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
+	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath}/resources/css/keyboard.css"
+	rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -22,16 +35,16 @@
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#home">Account
 					Approvals</a></li>
-					
+
 			<li><a data-toggle="tab" href="#menu1">PII Access</a></li>
 			<li><a data-toggle="tab" href="#menu2">Delete Accounts</a></li>
 			<li><a data-toggle="tab" href="#menu3">Deleted Accounts</a></li>
 			<li><a data-toggle="tab" href="#menu4">Change Role Accounts</a></li>
-			
+
 		</ul>
 
 		<div class="tab-content">
-			
+
 			<div id="home" class="tab-pane fade in active">
 				<h3>Internal Users Pending Approvals</h3>
 				<div class="table-responsive">
@@ -56,7 +69,8 @@
 												name="approveParam"
 												value="approveVal_${disabledUser1.userName}">Approve</button></td>
 										<td><button type="submit" class="btn btn-danger"
-												name="approveParam" value="denyVal1_${disabledUser1.userName}">Delete</button></td>
+												name="approveParam"
+												value="denyVal1_${disabledUser1.userName}">Delete</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -77,11 +91,12 @@
 									<th>Account Type</th>
 									<th>Email</th>
 									<th>SSN</th>
-									
+
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="disabledUser1" items="${AuthPiiCustInfoFromDTO1}">
+								<c:forEach var="disabledUser1"
+									items="${AuthPiiCustInfoFromDTO1}">
 									<tr>
 										<td>${disabledUser1.userName}</td>
 										<td>${disabledUser1.firstName}</td>
@@ -90,7 +105,8 @@
 										<td>${disabledUser1.emailAddress}</td>
 										<td>${disabledUser1.socialSecurityNumber}</td>
 										<td><button type="submit" class="btn btn-danger"
-												name="approveParam1" value="denyVal_${disabledUser1.userName}">Deny</button></td>
+												name="approveParam1"
+												value="denyVal_${disabledUser1.userName}">Deny</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -109,8 +125,8 @@
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Account Type</th>
-							
-									
+
+
 								</tr>
 							</thead>
 							<tbody>
@@ -121,7 +137,8 @@
 										<td>${disabledUser1.lastName}</td>
 										<td>${disabledUser1.accountType}</td>
 										<td><button type="submit" class="btn btn-danger"
-												name="approveParam2" value="denyVal1_${disabledUser1.userName}">Delete</button></td>
+												name="approveParam2"
+												value="denyVal1_${disabledUser1.userName}">Delete</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -140,8 +157,8 @@
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Account Type</th>
-							
-									
+
+
 								</tr>
 							</thead>
 							<tbody>
@@ -152,7 +169,9 @@
 										<td>${disabledUser1.lastName}</td>
 										<td>${disabledUser1.accountType}</td>
 										<td><button type="submit" class="btn btn-success"
-												name="approveParam3" value="approveVal1_${disabledUser1.userName}">Add Again</button></td>
+												name="approveParam3"
+												value="approveVal1_${disabledUser1.userName}">Add
+												Again</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -171,8 +190,8 @@
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Account Type</th>
-							
-									
+
+
 								</tr>
 							</thead>
 							<tbody>
@@ -181,18 +200,20 @@
 										<td>${disabledUser1.userName}</td>
 										<td>${disabledUser1.firstName}</td>
 										<td>${disabledUser1.lastName}</td>
-										<td><FONT color="red"><form:errors path="accountType" /></FONT>
-										
-										<select class="selectpicker form-control" name="accountType">
-											<option value="">Select</option>
+										<td><FONT color="red"><form:errors
+													path="accountType" /></FONT> <select
+											class="selectpicker form-control" name="accountType">
+												<option value="">Select</option>
 
 
-											<c:forEach var="listValue" items="${myList1}">
-												<option value="${listValue}">${listValue}</option>
-											</c:forEach>
+												<c:forEach var="listValue" items="${myList1}">
+													<option value="${listValue}">${listValue}</option>
+												</c:forEach>
 										</select></td>
 										<td><button type="submit" class="btn btn-success"
-												name="approveParam4" value="approveVal2_${disabledUser1.userName}">Add Again</button></td>
+												name="approveParam4"
+												value="approveVal2_${disabledUser1.userName}">Add
+												Again</button></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -200,10 +221,16 @@
 					</form:form>
 				</div>
 			</div>
-			
-		</div>
-		
-	</div>
 
+		</div>
+
+	</div>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
 </body>
 </html>

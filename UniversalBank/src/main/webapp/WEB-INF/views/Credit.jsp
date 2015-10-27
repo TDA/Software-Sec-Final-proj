@@ -70,6 +70,7 @@
 			<div id="morris-area-chart">
 
 				<c:if test="${not empty successMsg}">
+<Font Color="green">An OTP has been sent to your email.</Font>
 					<h4>${successMsg}</h4>
 				</c:if>
 				<form:form method="POST" action="Credit" modelAttribute="CreditForm"
@@ -98,6 +99,13 @@
 						id="amount" style="color: #999;" />
 					<br />
 					<br />
+<b>OTP</b>
+										<FONT color="red"><form:errors path="otp" /></FONT>
+										<br />
+										<input type="text" name="otp" size="10" class="form-control" id="otp"
+											style="color: #999;" />
+										<br />
+										<br />
 					<Font Color="red">I authroise the bank to modify ,delete and
 						access my transactions</Font>
 					<br />
@@ -105,6 +113,8 @@
 					<h4>
 						<input type="submit" style="margin-right: 5%" name="Credit"
 							id="Credit" value="Credit" />
+<input type="submit" style="margin-right: 5%" name="generateOTP"
+												id="generateOTP" value="generateOTP" />
 					</h4>
 
 
