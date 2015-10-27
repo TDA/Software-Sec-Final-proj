@@ -23,6 +23,7 @@ public class Transactions {
 	private int criticalTransactions;
 	private int count;
 	private Double balance;
+	private String otp;
 	private String supervisorName;
 
 	public int getTransactionId() {
@@ -153,4 +154,12 @@ public class Transactions {
 		this.supervisorName = supervisorName;
 	}
 
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+
+	}
 }

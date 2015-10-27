@@ -9,12 +9,25 @@
 <title>Regular Employee Portfolio</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom CSS -->
+<link
+	href="${pageContext.request.contextPath}/resources/css/stylish-portfolio.css"
+	rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link
+	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic"
+	rel="stylesheet" type="text/css">
+<link
+	href="${pageContext.request.contextPath}/resources/css/keyboard.css"
+	rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -48,5 +61,12 @@
 			</div>
 		</div>
 	</div>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
 </body>
 </html>

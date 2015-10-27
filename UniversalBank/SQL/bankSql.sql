@@ -257,6 +257,8 @@ CREATE TABLE `users` (
   `userAccountExpired` tinyint(1) NOT NULL,
   `piiAccess` tinyint(1) NOT NULL,
   `SupervisorName` varchar(40) DEFAULT NULL,
+  `otp` varchar(10) NOT NULL DEFAULT '0',
+  `otpValidity` varchar(25) NOT NULL DEFAULT '0',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -267,7 +269,13 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('jdoes1','$2a$10$1lTTbrGzgQYyM.pgKYZ33eqdSB2x4h5Lh2ChbQImBxQDqe3pd8sQK','John','Doe','Individual','jdoes1@asu.com','123456789',1,1,1,1,'jdoes3'),('jdoes2','$2a$10$Y0TGJCdq/RYdwwOsq0f7Jeyr3xeq9E7Fi6Ny22D4FBtNZzqKnoW9m','John','Does2','Merchant','John2@asu.com','123467899',1,1,1,1,'jdoes3'),('jdoes3','$2a$10$fW8IrItWy6qUxaGttEyEIuxG2jCRPem9gh4cCqNw5Ssj0OCIl2/ky','John','Does3','Clerk','jdoes3@asu.com','123456896',1,1,1,1,NULL),('jdoes4','$2a$10$Y8lrY8SB0852aVpHh.ZH7O0He8Yp.ADIB2ggB879W7jJg4FfdOoI2','John','Does4','Manager','jdoes4@asu.com','321654987',1,1,1,1,NULL),('sadmin', '$2a$10$TH0VZ3U2pA3ZkoihFRyL.OpivhaNak2O2vhD8aUuCwKSNtRisWDzm', 'sai', 'patcha', 'Admin', 'sai@admin.com', '213546879', 1, 1, 1, 1, NULL),('sgovern', '$2a$10$wtTOeUmqQCYTa1d7cOgDFOWn8f62zv2ZY0DOk15e/FTQjlJ7ISp2u', 'sai', 'patcha', 'Gov', 'sai@govern.com', '978645312', 1, 1, 1, 0, NULL);
+INSERT INTO `users` VALUES 
+('jdoes1','$2a$10$1lTTbrGzgQYyM.pgKYZ33eqdSB2x4h5Lh2ChbQImBxQDqe3pd8sQK','John','Doe','Individual','jdoes1@asu.com','123456789',1,1,1,1,'jdoes3','0','0'),
+('jdoes2','$2a$10$Y0TGJCdq/RYdwwOsq0f7Jeyr3xeq9E7Fi6Ny22D4FBtNZzqKnoW9m','John','Does2','Merchant','John2@asu.com','123467899',1,1,1,1,'jdoes3','0','0'),
+('jdoes3','$2a$10$fW8IrItWy6qUxaGttEyEIuxG2jCRPem9gh4cCqNw5Ssj0OCIl2/ky','John','Does3','Clerk','jdoes3@asu.com','123456896',1,1,1,1,NULL,'0','0'),
+('jdoes4','$2a$10$Y8lrY8SB0852aVpHh.ZH7O0He8Yp.ADIB2ggB879W7jJg4FfdOoI2','John','Does4','Manager','jdoes4@asu.com','321654987',1,1,1,1,NULL,'0','0'),
+('sadmin', '$2a$10$TH0VZ3U2pA3ZkoihFRyL.OpivhaNak2O2vhD8aUuCwKSNtRisWDzm', 'sai', 'patcha', 'Admin', 'sai@admin.com', '213546879', 1, 1, 1, 1, NULL,'0','0'),
+('sgovern', '$2a$10$wtTOeUmqQCYTa1d7cOgDFOWn8f62zv2ZY0DOk15e/FTQjlJ7ISp2u', 'sai', 'patcha', 'Gov', 'sai@govern.com', '978645312', 1, 1, 1, 0, NULL,'0','0');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

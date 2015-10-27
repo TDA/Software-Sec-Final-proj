@@ -121,4 +121,10 @@ public class UserServiceImpl implements UserService {
 		return userDAO.deleteInternalUserAccount(username);
 	}
 
+
+	public void insertOTP(String otp, String otpValidity, String username) {
+		userDAO.insertOTP(otp, otpValidity, username);
+		
+	}	
+
 }

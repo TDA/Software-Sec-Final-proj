@@ -1,6 +1,7 @@
 package edu.asu.ss2015.group4.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -22,6 +23,7 @@ import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.BankAccount;
+import edu.asu.ss2015.group4.model.OTPGenerator;
 import edu.asu.ss2015.group4.model.UserRequest;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.MailingService;
@@ -228,7 +230,20 @@ public class ManagerController {
 				userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
 
 				generateAccountInformation(custInfoFromDTO.get(0));
-				sendEmailToUser(custInfoFromDTO.get(0));
+				/// sendEmailToUser(custInfoFromDTO.get(0));
+				OTPGenerator otp = new OTPGenerator();
+				Date date = new Date();
+				long otpTime = date.getTime() + 600000;
+				String otpValidity = Long.toString(otpTime);
+				int OTP = otp.generateOTP();
+				userService.insertOTP(Integer.toString(OTP), otpValidity, custInfoFromDTO.get(0).getUserName());
+				List<UserInformationDTO> custInfoFromDTO1 = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
+				System.out.println(custInfoFromDTO1.get(0).getOTP() + ", " + custInfoFromDTO1.get(0).getOtpValidity());
+				sendEmailToUser(custInfoFromDTO.get(0), custInfoFromDTO1.get(0).getOTP(),
+						custInfoFromDTO1.get(0).getOtpValidity());
+				sendEmailToUser(custInfoFromDTO.get(0), custInfoFromDTO1.get(0).getOTP(),
+						custInfoFromDTO1.get(0).getOtpValidity());
 			}
 		} else {
 			return modelAndView;
@@ -294,18 +309,33 @@ public class ManagerController {
 		return randomNum;
 	}
 
-	private void sendEmailToUser(UserInformationDTO custInfo) {
+	private void sendEmailToUser(UserInformationDTO custInfo, String otp, String otpValidity) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-
+		System.out.println(otp);
+		Date date = new Date();
+		long otpValid = Long.parseLong(otpValidity);
+		Date validDate = new Date(otpValid);
+		// System.out.println("current date: "+date);
+		// System.out.println("validity date: "+validDate);
 		String message = "Congratulations " + custInfo.getFirstName() + " " + custInfo.getLastName()
-				+ ",\n\nYour bank account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
-				+ "http://localhost:8083/UniversalBankingSystem/unlockAccount"
+
+		+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
+				+ "\n OTP: " + otp + " which is valid till: " + validDate
+				+ "\n http://localhost:8080/UniversalBankingSystem/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 
 		MailingService mm = (MailingService) context.getBean("mailingService");
 		mm.sendMail(mm.getFromAddress(), custInfo.getEmailAddress(), "Universal Bank - Registration Successful.",
 				message);
 
+	}
+
+	public void sendOTP(String otp, String otpValidity, String email) {
+		Date date = new Date(Long.parseLong(otpValidity));
+		String message = "\n Your new OTP: " + otp + ". It is valid till : " + date;
+		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+		MailingService mm = (MailingService) context.getBean("mailingService");
+		mm.sendMail(mm.getFromAddress(), email, "Universal Bank- New OTP", message);
 	}
 
 }

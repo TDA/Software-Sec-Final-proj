@@ -19,11 +19,12 @@ import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.jdbc.RequestTableRow;
 import edu.asu.ss2015.group4.jdbc.TransactionTableRows;
 import edu.asu.ss2015.group4.model.Transactions;
+import edu.asu.ss2015.group4.service.UserService;
 
 public class TransactionDAOImpl implements TransactionDAO {
 	@Autowired
 	DataSource dataSource;
-
+	UserService userService;
 	public List<TransactionDTO> view(String username) {
 		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
 		System.out.println();

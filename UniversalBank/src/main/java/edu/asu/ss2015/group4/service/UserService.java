@@ -59,6 +59,6 @@ public boolean activateInternalUserAccount(String username);
 	
 	public void modifyInternalUserAccount(String accountType, String username) throws NoSuchAlgorithmException, FileNotFoundException;
 	
-
+	public void insertOTP(String otp,String otpValidity, String username);
 
 }

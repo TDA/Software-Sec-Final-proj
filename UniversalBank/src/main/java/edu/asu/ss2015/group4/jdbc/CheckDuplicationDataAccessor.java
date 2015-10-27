@@ -17,6 +17,7 @@ public class CheckDuplicationDataAccessor implements ResultSetExtractor<CheckDup
 		checkDuplicateDTO.setUsername(resultSet.getString(1));
 		checkDuplicateDTO.setEmail(resultSet.getString(2));
 		checkDuplicateDTO.setSsn(resultSet.getString(3));
+		checkDuplicateDTO.setOTP(resultSet.getString(4));
 
 		return checkDuplicateDTO;
 	}
