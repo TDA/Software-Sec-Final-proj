@@ -82,7 +82,7 @@
 						<td><c:out value="${transaction.transactionID}" /></td>
 						<td><c:out value="${transaction.transactionType}" /></td>
 						<td><c:out value="${transaction.amount}" /></td>
-						<td><button type="submit" name="deleteParam"
+						<td><button type="submit" name="deleteParam" class="btn btn-danger"
 								value="delete_${transaction.transactionID}" >Delete
 							</button></td>
 					</tr>

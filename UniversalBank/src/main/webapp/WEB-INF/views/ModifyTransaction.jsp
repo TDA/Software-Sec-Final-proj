@@ -87,7 +87,7 @@
 						<td><input type="text"
 							id="ModifiedAmount_${transaction.transactionID}"></td>
 						<td><c:out value="${transaction.comments}" /></td>
-						<td><button type="submit" name="modifyParamRegularEmployee"
+						<td><button class="btn btn-success" type="submit" name="modifyParamRegularEmployee"
 								onclick="this.value=document.getElementById('ModifiedAmount_${transaction.transactionID}').value + '_' + ${transaction.transactionID};" >Submit
 							</button></td>
 					</tr>

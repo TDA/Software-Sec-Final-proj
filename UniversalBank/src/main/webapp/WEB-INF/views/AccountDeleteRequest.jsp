@@ -79,7 +79,7 @@
 					<tr>
 						<td><c:out value="${request.requestID}" /></td>
 						<td><c:out value="${request.requestType}" /></td>
-						<td><button type="submit" name="accountDeleteParam"
+						<td><button type="submit" name="accountDeleteParam" class="btn btn-danger"
 								value="approve_${request.requestID}" >Approve
 							</button></td>
 					</tr>

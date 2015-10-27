@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
@@ -29,7 +28,6 @@ import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.model.BankBalance;
 import edu.asu.ss2015.group4.model.Transactions;
-import edu.asu.ss2015.group4.model.UserInformation;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.TransactionService;
 import edu.asu.ss2015.group4.service.UserService;
@@ -47,31 +45,31 @@ public class TransactionController {
 	BankAccountService service;
 	@Autowired
 	UserService userService;
-	
+
 	@RequestMapping(value = "/balance", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView returnBalance() {
 		ModelAndView modelAndView = new ModelAndView();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	if (!(auth instanceof AnonymousAuthenticationToken)) {
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		Transactions transac = new Transactions();
-		BankAccount b=new BankAccount();
-		b.setUserName(userDetail.getUsername());
-		double saving=service.BankBalancesaving(b);
-		double checking=service.BankBalancechecking(b);
-		System.out.println("saving"+saving+"checking"+checking);
-		BankBalance bal=new BankBalance();
-		bal.setCheckingAccount(checking);
-		bal.setSavingsAccount(saving);
-		modelAndView.addObject("bal",checking);	
-		modelAndView.addObject("bal1",saving);	
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			BankAccount b = new BankAccount();
+			b.setUserName(userDetail.getUsername());
+			double saving = service.BankBalancesaving(b);
+			double checking = service.BankBalancechecking(b);
+			System.out.println("saving" + saving + "checking" + checking);
+			BankBalance bal = new BankBalance();
+			bal.setCheckingAccount(checking);
+			bal.setSavingsAccount(saving);
+			modelAndView.addObject("bal", checking);
+			modelAndView.addObject("bal1", saving);
 
-		modelAndView.setViewName("balance");
-	}
-	return modelAndView;
-
+			modelAndView.setViewName("balance");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
 
 	}
 
@@ -79,14 +77,18 @@ public class TransactionController {
 	@ResponseBody
 	public ModelAndView returnCustomerPage() {
 
-		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-		ArrayList<String> arrayList = new ArrayList<String>();
-		arrayList.add("checking");
-		arrayList.add("savings");
-		modelAndView.addObject("mylist", arrayList);
-		System.out.println(arrayList.get(0));
-		modelAndView.setViewName("transfer");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add("checking");
+			arrayList.add("savings");
+			modelAndView.addObject("mylist", arrayList);
+			System.out.println(arrayList.get(0));
+			modelAndView.setViewName("transfer");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
 		return modelAndView;
 	}
 
@@ -126,6 +128,8 @@ public class TransactionController {
 
 			}
 
+		} else {
+			modelAndView.setViewName("permission-denied");
 		}
 
 		return modelAndView;
@@ -148,6 +152,8 @@ public class TransactionController {
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
 			modelAndView.setViewName("ViewTransactions");
+		} else {
+			modelAndView.setViewName("permission-denied");
 		}
 
 		return modelAndView;
@@ -158,13 +164,19 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-		ArrayList<String> arrayList = new ArrayList<String>();
-		arrayList.add("checking");
-		arrayList.add("savings");
-		modelAndView.addObject("mylist", arrayList);
-		modelAndView.addObject("transaction", transac);
 
-		modelAndView.setViewName("Debit");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add("checking");
+			arrayList.add("savings");
+			modelAndView.addObject("mylist", arrayList);
+			modelAndView.addObject("transaction", transac);
+
+			modelAndView.setViewName("Debit");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
 
 		return modelAndView;
 	}
@@ -186,22 +198,23 @@ public class TransactionController {
 			double b1 = service.BankBalanceValidate(b);
 			System.out.println("balance" + b1);
 			transac.setBalance(b1);
-		}
 
-		TransferValidator.validateForm1(transac, result);
+			TransferValidator.validateForm1(transac, result);
 
-		if (result.hasErrors()) {
-			System.out.println(":in debet");
-			modelAndView.setViewName("Debit"); // This prints errors
+			if (result.hasErrors()) {
+				System.out.println(":in debet");
+				modelAndView.setViewName("Debit"); // This prints errors
 
+			} else {
+				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+				info = userService.fetchUserDetails(userDetail.getUsername());
+				transac.setSupervisorName(info.get(0).getSupervisorName());
+				trans.DebitUser(transac);
+				System.out.println("successtransac");
+				modelAndView.setViewName("success");
+			}
 		} else {
-			List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
-			info = userService.fetchUserDetails(userDetail.getUsername());
-			transac.setSupervisorName(info.get(0).getSupervisorName());
-			trans.DebitUser(transac);
-			System.out.println("successtransac");
-			modelAndView.setViewName("success");
-
+			modelAndView.setViewName("permission-denied");
 		}
 
 		return modelAndView;
@@ -210,15 +223,21 @@ public class TransactionController {
 	@RequestMapping(value = "/Credit", method = RequestMethod.GET)
 	public ModelAndView CreditPage() {
 
-		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
-		ArrayList<String> arrayList = new ArrayList<String>();
-		arrayList.add("checking");
-		arrayList.add("savings");
-		modelAndView.addObject("mylist", arrayList);
-		modelAndView.addObject("transaction", transac);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			Transactions transac = new Transactions();
 
-		modelAndView.setViewName("Credit");
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add("checking");
+			arrayList.add("savings");
+			modelAndView.addObject("mylist", arrayList);
+			modelAndView.addObject("transaction", transac);
+
+			modelAndView.setViewName("Credit");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
 
 		return modelAndView;
 	}
@@ -247,6 +266,8 @@ public class TransactionController {
 				modelAndView.setViewName("success");
 
 			}
+		} else {
+			modelAndView.setViewName("permission-denied");
 		}
 		return modelAndView;
 	}
@@ -258,7 +279,6 @@ public class TransactionController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("transaction", mtransac);
 		modelAndView.setViewName("MerchantTransfer");
-
 		return modelAndView;
 	}
 

@@ -5,7 +5,8 @@
 <%@ page import="net.tanesha.recaptcha.ReCaptchaFactory"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
+
 <head>
 
 <meta charset="utf-8">
@@ -13,13 +14,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <title>Universal Bank Debit Page</title>
 
 <!-- Bootstrap Core CSS -->
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-	
-<link href="${pageContext.request.contextPath}/resources/css/bootstrap-select.min.css"rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap-select.min.css"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"rel="stylesheet" type="text/css">
@@ -146,14 +152,13 @@ body {
 
 	<!-- jQuery Version 1.11.0 -->
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
 	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-		
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
-
 </body>
-
 </html>

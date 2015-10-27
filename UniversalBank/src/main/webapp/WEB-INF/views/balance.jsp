@@ -31,108 +31,61 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<style>
-body {
-	padding-top: 70px;
-	/* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-}
-</style>
 
-<script>
-    	function check() {
-    		 document.getElementById("male").checked = true;
-    	}
-    	
-    	function uncheck() {
-   		 document.getElementById("female").checked = false;
-   		}
-    </script>
 
 </head>
 <body oncontextmenu="return false">
-
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Account Balance</a>
-			</div>
-		</div>
-		<!-- /.container -->
-	</nav>
-
 	<!-- Page Content -->
 	<div class="container">
 
-		<div id="page-wrapper">
-
-			<div class="container-fluid">
-
-				<!-- Page Heading -->
-				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">Balance</h1>
-					</div>
-				</div>
-				<!-- /.row -->
-
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">
-									
-									
-								</h3>
-							</div>
-
-							<div class="panel-body">
-								<div id="morris-area-chart">
-
-									
-	<sec:authorize access="hasRole('ROLE_INDIVIDUAL')">
-		</sec:authorize>
-		<div class="container">
+		<c:url var="logoutUrl" value="j_spring_security_logout" />
+		<form action="${logoutUrl}" method="post">
+			<input type="submit" class="btn btn-lg btn-info btn-block"
+				value="Log out" /> <input type="hidden"
+				name="${_csrf.parameterName}" value="${_csrf.token}" />
+		</form>
 		<h2>Welcome, ${userName }</h2>
-		<ul class="nav nav-tabs">
-			<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
-			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
-			<li><a href="${pageContext.request.contextPath}/Debit" >Debit</a></li>
-			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>
-			<li><a href="${pageContext.request.contextPath}/UserRequest" >Pending Transactions</a></li>
-		</ul></div>
-		
-	
-		<br/>
-		 <b>Your Checking Account Balance is : ${bal}$
-		<br/>
-		<p>Your Saving 	 Account Balance is :${bal1}$
-		<br/>
-		<p> Please Follow the View My Account Link to Check your Transactions
-		<br/>
-		<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
-		<br/></b>
-		
-		<FONT color="red"> * Please Note that Balance will be Updated after Approval of Transaction by the Bank</FONT  style="color: #999;" />
-	
-		
-				
-					<hr class="small">
-					<p class="text-muted">Copyright &copy; Software Security Group 4 2015</p>
-				</div>
+
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
+				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/ViewTransactions">View
+						My Account</a></li>
+				<li><a href="${pageContext.request.contextPath}/Debit">Debit</a></li>
+				<li><a href="${pageContext.request.contextPath}/DisplaySignUp">EditInfo</a></li>
+				<li><a href="${pageContext.request.contextPath}/UserRequest">Pending
+						Transactions</a></li>
+				<li><a href="${pageContext.request.contextPath}/balance">Balance</a></li>
+			</ul>
+		</div>
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Balance</h1>
 			</div>
 		</div>
-	</section>
+		<div class="panel-body">
+			<br /> <b>Your Checking Account Balance is: $ ${bal} <br />
+				
+					Your Saving Account Balance is: $ ${bal1} <br />
+				
+					Please Follow the View My Account Link to Check your Transactions <br />
+				<a href="${pageContext.request.contextPath}/ViewTransactions">View My Account</a>
+						 <br /></b> <FONT color="red"> * Please Note that
+				Balance will be Updated after Approval of Transaction by the Bank</FONT>	
+		</div>
+	</div>
 
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>	
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
-	
-    
+	<script
+		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
-
 </html>
-		
