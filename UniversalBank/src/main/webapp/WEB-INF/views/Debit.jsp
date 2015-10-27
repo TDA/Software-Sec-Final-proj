@@ -90,6 +90,8 @@ body {
 												${successMsg} <a href="index"> Click here to LogIn!</a>
 											</h4>
 										</c:if>
+										<br/>
+										 <Font Color="green">A new OTP has been sent to your email.</Font>
 									<form:form method="POST" action="Debit"
 										modelAttribute="DebitForm" autocomplete="off">
 										<br />
@@ -133,6 +135,7 @@ body {
 										<h4>
 											<input type="submit" style="margin-right: 5%" name="Debit"
 												id="Debit" value="Debit" />
+											<br/>
 											<br/>
 											<input type="submit" style="margin-right: 5%" name="generateOTP"
 												id="generateOTP" value="generateOTP" />

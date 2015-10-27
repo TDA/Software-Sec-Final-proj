@@ -22,6 +22,7 @@ private String comments;
 private int Authorisebank;
 private int criticalTransactions;
 private String otp;
+private String SupervisorName;
 //@NotEmpty(message = "Please enter a value")
 
 
@@ -130,6 +131,14 @@ public String getOtp() {
 
 public void setOtp(String otp) {
 	this.otp = otp;
+}
+
+public String getSupervisorName() {
+	return SupervisorName;
+}
+
+public void setSupervisorName(String supervisorName) {
+	SupervisorName = supervisorName;
 }
 
 }

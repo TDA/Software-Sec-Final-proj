@@ -19,6 +19,7 @@ public class TransactionDTO {
 	private String comments;
 	private int AuthoriseBank;
 	private int criticalTransactions;
+	private String SupervisorName;
 
 	public int getTransactionID() {
 		return transactionID;
@@ -109,6 +110,14 @@ public class TransactionDTO {
 	}
 	public void setCriticalTransactions(int criticalTransactions) {
 		this.criticalTransactions = criticalTransactions;
+	}
+
+	public String getSupervisorName() {
+		return SupervisorName;
+	}
+
+	public void setSupervisorName(String supervisorName) {
+		SupervisorName = supervisorName;
 	}
 	
 

@@ -18,4 +18,12 @@ public interface BankAccountDAO {
 	public List<BankAccount> find(List<Long> accountIds);
 
 	public List<BankAccount> find(String ownerName);
+	
+	public int Validate(BankAccount a);
+
+	double ValidateBalance(BankAccount a);
+	
+	double CheckingBalance(BankAccount a);
+	
+	double SavingBalance(BankAccount a);
 }

@@ -60,13 +60,13 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 			String registerUserQuery = "INSERT into transactions"
 					+ "(TransactionType,Amount,FromTransactionAccountId,AuthorizedManagerID,TransactionTime,Approved"
-					+ ",ApprovalTime,Comments,critical_transactions) "
-					+ "VALUES (?,?,(select AccountID from accounts where AccountType= ?),?,?,?,?,?,?)";
+					+ ",ApprovalTime,Comments,critical_transactions,SupervisorName) "
+					+ "VALUES (?,?,(select AccountID from accounts where username=? and AccountType= ?),?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { "Debit", transac.getAmount(), transac.getAccountType(),
+					new Object[] { "Debit", transac.getAmount(),loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Withdraw from ATM", criticalTransaction });
+							transac.getApprovedTime(), "Withdraw from ATM", criticalTransaction,transac.getSupervisorName()  });
 			// Bottom is removed in Rajat's branch please verify
 			// if it is correct or not
 			// if (Float.parseFloat(transac.getAmount()) <=

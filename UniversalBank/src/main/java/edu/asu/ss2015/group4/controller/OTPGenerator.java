@@ -1,3 +1,4 @@
+// Referenced from mkyong
 package edu.asu.ss2015.group4.controller;
 
 import java.security.MessageDigest;

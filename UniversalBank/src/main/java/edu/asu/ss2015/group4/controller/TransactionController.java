@@ -148,19 +148,52 @@ public class TransactionController {
 	public ModelAndView Debit(@RequestParam("accountType") String accountType, @RequestParam("amount") String amount, @RequestParam("otp") String otp) {
 		ModelAndView modelAndView = new ModelAndView();
 		System.out.println("debit");
+		BankAccount b = new BankAccount();
+		//b.setAccountType(accountType);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			BindingResult result = null;
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String username = userDetail.getUsername();
+			/*BindingResult result = null;*/
 			Transactions transac = new Transactions();
 			transac.setAccountType(accountType);
 			transac.setAmount(amount);
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			TransferValidator.validateForm(transac, result);
-			System.out.println("here"+result);
+			/*TransferValidator.validateForm(transac, result);
+			System.out.println("here"+result);*/
 			String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
-			BankAccount b = new BankAccount();
+			Double balance = 0.0;
+			if(accountType!=null && !accountType.equals("")){
+				b.setAccountType(accountType);
+				if(amount!=null && amount.length()>=1 && amount.matches(regex)){
+					balance = bankAccountService.BankBalanceValidate(b);
+					System.out.println("balance is: "+balance);
+					if(balance>= Double.parseDouble(amount)){
+						if(otp!=null && otp.length()>=1 && isOtpValid(username, otp)){
+							if(!hasOtpExpired(username)){
+								List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+								info = userService.fetchUserDetails(userDetail.getUsername());
+								transac.setSupervisorName(info.get(0).getSupervisorName());
+								trans.DebitUser(transac);
+								modelAndView.setViewName("success");
+							}
+							else{
+								modelAndView.addObject("errorMsg","OTP has expired.");
+							}
+						}
+						else
+							modelAndView.addObject("errorMsg", "Incorrect OTP.");
+				
+					}
+					else
+						modelAndView.addObject("errorMsg","Insufficient balance.");
+					}
+				else
+					modelAndView.addObject("errorMsg", "Incorrect amount.");
+			}
+			else
+				modelAndView.addObject("errorMsg", "Account type must be chosen.");
 			
-			if (result!=null && result.hasErrors()) {
+			/*if (result!=null && result.hasErrors()) {
 				System.out.println(":in debet");
 				modelAndView.setViewName("Debit"); // This prints errors
 			
@@ -169,7 +202,7 @@ public class TransactionController {
 				System.out.println("successtransac");
 				modelAndView.setViewName("success");
 		
-			}
+			}*/
 		}	
 		return modelAndView;
 	}
