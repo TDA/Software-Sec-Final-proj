@@ -50,14 +50,16 @@ public class transfervalidator1 {
 		Boolean x = amount.matches("^(\\d{1,5}|\\d{0,5}\\.\\d{1,2})$");
 		// Matcher am=p2.matcher(amount.subSequence(0, amount.length()));
 		if (amount.isEmpty() || x == false) {
-			errors.rejectValue("amount", "NotEmpty.Transactions.amount", "Please Enter Only digits is invalid");
+			errors.rejectValue("amount", "NotEmpty.Transactions.amount", "Please Enter Valid Numbers..Maximum Amount for Transaction "
+					+ "$99999.99");
 
 		}
 
 		if (cinfo.getCount() == 1 && x == true && amount.isEmpty() == false) {
 			Double b = Double.parseDouble(cinfo.getAmount());
 			if (cinfo.getBalance() <= b) {
-				errors.rejectValue("amount", "NotEmpty.Transactions.amount", "You Dont Have Sufficient Balance");
+				errors.rejectValue("amount", "NotEmpty.Transactions.amount", "Oops!!You Dont Have Sufficient " 
+						+ "Balance Please Contact Bank 4802971297");
 			}
 		}
 
