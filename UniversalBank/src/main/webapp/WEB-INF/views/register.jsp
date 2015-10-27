@@ -39,14 +39,14 @@ body {
 </style>
 
 <script>
-    	function check() {
-    		 document.getElementById("male").checked = true;
-    	}
-    	
-    	function uncheck() {
-   		 document.getElementById("female").checked = false;
-   		}
-    </script>
+	function check() {
+		document.getElementById("male").checked = true;
+	}
+
+	function uncheck() {
+		document.getElementById("female").checked = false;
+	}
+</script>
 
 </head>
 <body oncontextmenu="return false">
@@ -105,44 +105,52 @@ body {
 										<b>First Name:</b>
 										<FONT color="red"><form:errors path="firstName" /></FONT>
 										<br />
-										<input type="text" name="firstName" size="10"
-											class="form-control" id="f_name" style="color: #999;" />
+										<input data-toggle="tooltip" title="Enter your first name"
+											type="text" name="firstName" size="10" class="form-control"
+											id="f_name" style="color: #999;" />
 										<br />
 										<br />
 										<b>Last Name:</b>
 										<FONT color="red"><form:errors path="lastName" /></FONT>
 										<br />
-										<input type="text" name="lastName" size="10"
-											class="form-control" id="l_name" style="color: #999;" />
+										<input data-toggle="tooltip" title="Enter your last name"
+											type="text" name="lastName" size="10" class="form-control"
+											id="l_name" style="color: #999;" />
 										<br />
 										<br />
 										<b>User Name:</b>
 										<FONT color="red"><form:errors path="userName" /></FONT>
 										<br />
-										<input type="text" name="userName" size="10"
-											class="form-control" id="username" style="color: #999;" />
+										<input data-toggle="tooltip"
+											title="User name can not exceed 15 characters!" type="text"
+											name="userName" size="10" class="form-control" id="username" maxlength="15"
+											style="color: #999;" />
 										<br />
 										<br />
 										<b>Password:</b>
 										<FONT color="red"><form:errors path="password" /></FONT>
 										<br />
-										<input type="password" name="password" size="10"
+										<input data-toggle="tooltip"
+											title="Password criterias: 
+											1. Must contain at least one Uppercase letter, one lowercase letter, one digit, one special character 
+											2. Length must be between 6 and 15 
+											3. Allowed special characters: ! @ # $ { } , % ^ & * + _ . -"
+											type="password" name="password" size="10"
 											class="form-control" id="password" style="color: #999;" />
 										<br />
 										<br />
 										<b>Confirm Password:</b>
 										<br />
-										<input type="password" name="confirmPassword" size="10"
+										<input data-toggle="tooltip"
+											title="Re-enter your password" type="password" name="confirmPassword" size="10"
 											class="form-control" id="cfrm_pwd" style="color: #999;" />
 										<br />
 										<br />
 										<b>Account Type:</b>
 										<FONT color="red"><form:errors path="accountType" /></FONT>
 										<br />
-										<select class="selectpicker form-control" name="accountType">
-											<option value="">Select</option>
-
-
+										<select data-toggle="tooltip"
+											title="Select One Option" class="selectpicker form-control" id="selector" name="accountType">
 											<c:forEach var="listValue" items="${myList}">
 												<option value="${listValue}">${listValue}</option>
 											</c:forEach>
@@ -151,7 +159,8 @@ body {
 										<br />
 										<b>Email Address:</b>
 										<br />
-										<input type="email" name="emailAddress" size="10"
+										<input data-toggle="tooltip"
+											title="Enter a valid email" type="email" name="emailAddress" size="10"
 											class="form-control" id="email" style="color: #999;" />
 										<br />
 										<br />
@@ -159,7 +168,8 @@ body {
 										<FONT color="red"><form:errors
 												path="socialSecurityNumber" /> </FONT>
 										<br />
-										<input type="text" value="" name="socialSecurityNumber"
+										<input data-toggle="tooltip"
+											title="Enter SSN without dashes" type="text" value="" name="socialSecurityNumber"
 											size="10" class="form-control" id="socialSecurityNumber"
 											style="color: #999;" />
 										<br />
@@ -200,6 +210,42 @@ body {
 
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
+
+	<script>
+		$('input[type=text][name=firstName]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=text][name=lastName]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=text][name=userName]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=password][name=password]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=password][name=confirmPassword]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=email][name=emailAddress]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=text][name=socialSecurityNumber]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('select[type=selector][name=accountType]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		
+	</script>
 
 </body>
 

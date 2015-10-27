@@ -29,13 +29,13 @@ public class SignUpFormValidator {
 		String firstName = cinfo.getFirstName();
 		Pattern p1 = Pattern.compile("[!@#${},%^&*+_.-]");
 		Matcher match_fn = p1.matcher(firstName.subSequence(0, firstName.length()));
-		if ((firstName.length()) > 10 || match_fn.find() == true) {
+		if ((firstName.length()) > 15 || match_fn.find() == true) {
 			errors.rejectValue("firstName", "lengthOfFirst.UserInformation.firstName", "First name is invalid");
 		}
 
 		String lastName = cinfo.getLastName();
 		Matcher match_ln = p1.matcher(lastName.subSequence(0, lastName.length()));
-		if ((lastName.length()) > 10 || match_ln.find() == true) {
+		if ((lastName.length()) > 15 || match_ln.find() == true) {
 			errors.rejectValue("lastName", "lengthOfLast.UserInformation.lastName", "Last name is invalid");
 		}
 
@@ -73,7 +73,7 @@ public class SignUpFormValidator {
 		Matcher match = p.matcher(pass.subSequence(0, pass.length()));
 		Matcher match_1 = p.matcher(userName.subSequence(0, userName.length()));
 		if (pass.length() < 6 || pass.length() > 15 || number <= 0 || count <= 0 || match.find() == false
-				|| userName.length() > 10 || userName.length() == 0 || match_1.find() == true) {
+				|| userName.length() > 15 || userName.length() == 0 || match_1.find() == true) {
 			errors.rejectValue("userName", "matchingPassword.UserInformation.username",
 					"User Name or Password is invalid!");
 		}
