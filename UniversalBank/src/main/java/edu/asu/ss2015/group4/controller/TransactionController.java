@@ -222,9 +222,9 @@ public class TransactionController {
 			transac.setAccountType(accountType);
 			transac.setAmount(amount);
 			/*
-			 * TransferValidator.validateForm(transac, result);
-			 * System.out.println("here"+result);
-			 */
+			* TransferValidator.validateForm(transac, result);
+			* System.out.println("here"+result);
+			*/
 			String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
 			Double balance = 0.0;
 			if (accountType != null && !accountType.equals("")) {
@@ -258,16 +258,16 @@ public class TransactionController {
 				modelAndView.addObject("errorMsg", "Account type must be chosen.");
 
 			/*
-			 * if (result!=null && result.hasErrors()) { System.out.println(
-			 * ":in debet"); modelAndView.setViewName("Debit"); // This prints
-			 * errors
-			 * 
-			 * } else { trans.DebitUser(transac);
-			 * System.out.println("successtransac");
-			 * modelAndView.setViewName("success");
-			 * 
-			 * }
-			 */
+			* if (result!=null && result.hasErrors()) { System.out.println(
+			* ":in debet"); modelAndView.setViewName("Debit"); // This prints
+			* errors
+			* 
+			* } else { trans.DebitUser(transac);
+			* System.out.println("successtransac");
+			* modelAndView.setViewName("success");
+			* 
+			* }
+			*/
 		}
 		return modelAndView;
 	}
@@ -400,26 +400,69 @@ public class TransactionController {
 		m.sendOTP(user1.get(0).getOTP(), user1.get(0).getOtpValidity(), user1.get(0).getEmailAddress());
 	}
 
+	//Added by Rajat
 	@RequestMapping(value = "/MerchantTransfer", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView MerchantTransferPage() throws NoSuchAlgorithmException, FileNotFoundException {
-		Transactions mtransac = new Transactions();
+	public ModelAndView returnMerchantTransferPage() {
+
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("transaction", mtransac);
-		modelAndView.setViewName("MerchantTransfer");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add("checking");
+			arrayList.add("savings");
+			modelAndView.addObject("mylist", arrayList);
+			System.out.println(arrayList.get(0));
+			modelAndView.setViewName("MerchantTransfer");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/MerchantTransfer", method = RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView MerchantTransfer(@Valid @ModelAttribute("MerchantTransferForm") Transactions transac,
-			BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
+	public ModelAndView MerchantTransfer(@Valid @ModelAttribute("MerchantTransferForm") Transactions transac, BindingResult result,
+			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("transaction", transac);
-		modelAndView.setViewName("MerchantTransfer");
-		trans.MerchantPaymentUser(transac);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			BankAccount b = new BankAccount();
+			b.setId(transac.getFromTransactionAccountID());
+			System.out.println("checking" + transac.getAccountType());
+			b.setAccountType(transac.getAccountType());
+			int i = bankAccountService.BankValidate(b);
+			if (i == 1) {
+				double b1 = bankAccountService.BankBalanceValidate(b);
+				System.out.println("balance" + b1);
+				transac.setBalance(b1);
+			}
+			System.out.println("fialcount" + i);
+			transac.setCount(i);
+			MerchantTransferValidator.validateForm(transac, result);
+			System.out.println("here" + result);
+			if (result.hasErrors()) {
+				System.out.println("error");
+				modelAndView.setViewName("transfer"); // This prints errors
+
+			} else {
+
+				String a = trans.MerchantPaymentUser(transac);
+				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+				info = userService.fetchUserDetails(userDetail.getUsername());
+				transac.setSupervisorName(info.get(0).getSupervisorName());
+				System.out.println("successtransac11");
+				modelAndView.setViewName("success");
+
+			}
+
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
+
 		return modelAndView;
 	}
+
 
 	@RequestMapping(value = "/UserRequest", method = RequestMethod.GET)
 	public ModelAndView RequestPage() {
@@ -712,3 +755,19 @@ public class TransactionController {
 		this.userService = userService;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

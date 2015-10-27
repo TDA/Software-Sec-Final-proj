@@ -28,16 +28,17 @@ public class TransactionDAOImpl implements TransactionDAO {
 	public List<TransactionDTO> view(String username) {
 		List<TransactionDTO> customerInformationToDisplay = new ArrayList<TransactionDTO>();
 		System.out.println();
-		String retrieveDetailsQuery =
-		"SELECT * From Transactions where FromTransactionAccountID IN (Select AccountID from accounts where username=? ) OR"
+		String retrieveDetailsQuery = "SELECT * From Transactions where FromTransactionAccountID IN (Select AccountID from accounts where username=? ) OR"
 				+ " ToTransactionAccountID IN (Select AccountID from accounts where username=? )";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
-	customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username,username},new TransactionTableRows());
-			for (TransactionDTO a : customerInformationToDisplay)
-				System.out.println("id"+a.getTransactionID()+"type"+a.getTransactionType()+"anount"+a.getAmount()+"from"+a.getTransactionAccountID()+"to"+a.getTotransactionAccountID());
-	
-	return customerInformationToDisplay;
+
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { username, username },
+				new TransactionTableRows());
+		for (TransactionDTO a : customerInformationToDisplay)
+			System.out.println("id" + a.getTransactionID() + "type" + a.getTransactionType() + "anount" + a.getAmount()
+					+ "from" + a.getTransactionAccountID() + "to" + a.getTotransactionAccountID());
+
+		return customerInformationToDisplay;
 	}
 
 	public List<TransactionDTO> viewTransactionByTransactionID(String id) {
@@ -114,22 +115,21 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
 
+			int criticalTransaction = 0;
+			if (Float.parseFloat(transac.getAmount()) >= 10000.0)
+				criticalTransaction = 1;
+
 			String registerUserQuery = "INSERT into transactions"
-					+ "(TransactionID,TransactionType,Amount,FromTransactionAccountId,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments,critical_transactions, SupervisorName) "
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?)";
+					+ "(TransactionType,Amount,FromTransactionAccountId,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
+					+ ",Comments,Authorise_bank,critical_transactions, SupervisorName) " + "VALUES (?,?,?,"
+					+ "(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { transac.getTransactionId(), "Debit", transac.getAmount(),
-							transac.getFromTransactionAccountID(), transac.getToTransactionAccountID(),
+					new Object[] { "MerchantInitiatedTransfer", transac.getAmount(),
+							transac.getFromTransactionAccountID(), loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Merchant initiated transaction", 0,
+							transac.getApprovedTime(), "Merchant Initiated transfer", 0,criticalTransaction,
 							transac.getSupervisorName() });
-			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { transac.getTransactionId(), "Credit", transac.getAmount(), loggedInUser,
-							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Merchant getting credited for merchant initiated transaction",
-							0, transac.getSupervisorName() });
-
 		}
 
 	}
@@ -158,7 +158,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 							transac.getToTransactionAccountID(), transac.getAuthorizedManagerID(),
 							transac.getTransactionTime(), transac.isApproved(), transac.getApprovedTime(),
 							"User transfer Debit", criticalTransaction, transac.getSupervisorName() });
-
 		}
 	}
 
@@ -239,7 +238,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
 		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and SupervisorName=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0,Username},
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username },
 				new TransactionTableRows());
 		return transactionToDisplay;
 	}
@@ -301,8 +300,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { 1, b, userName, a });
 		}
 	}
-	
-	
+
 	// added by Gaurav
 	@Override
 	public List<UserRequestsDTO> viewAcoountDeletionRequestToRegularEmployee(String Username) {
@@ -311,12 +309,11 @@ public class TransactionDAOImpl implements TransactionDAO {
 		List<UserRequestsDTO> viewAcoountDeletionToDisplay = new ArrayList<UserRequestsDTO>();
 		String retrieveDetailsQuery = "SELECT * from user_requests where ApprovedBy=? and Approved=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		viewAcoountDeletionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] {Username,0},
+		viewAcoountDeletionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { Username, 0 },
 				new RequestTableRow());
 		return viewAcoountDeletionToDisplay;
 	}
-	
-	
+
 	// added by Gaurav
 	@Override
 	public void approveUserReq(int a, String userName) {
@@ -329,7 +326,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 			modelAndView.addObject("userName", loggedInUser);
 			String registerUserQuery = "Update user_requests SET Approved= ?  where requestID=?";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
-			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { 1,a });
+			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { 1, a });
 		}
 	}
 

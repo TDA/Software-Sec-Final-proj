@@ -43,7 +43,11 @@ public class MainController {
 			for (GrantedAuthority grantedAuthority : authorities) {
 				if (grantedAuthority.getAuthority().equals("ROLE_INDIVIDUAL")) {
 					return new ModelAndView("forward:/account");
-				} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
+				} 
+				else if (grantedAuthority.getAuthority().equals("ROLE_MERCHANT")) {
+					return new ModelAndView("forward:/MerchantTransfer");
+				}
+				else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
 					return new ModelAndView("forward:/admin");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
 					return new ModelAndView("forward:/manager");
