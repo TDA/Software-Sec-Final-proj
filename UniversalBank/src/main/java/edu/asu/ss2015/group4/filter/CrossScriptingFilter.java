@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
+/* Reference for preventing xss attack https://jeevanpatil.wordpress.com/2011/07/22/prevention_of_xss/ */
 public class CrossScriptingFilter implements Filter {
     private FilterConfig filterConfig;
 
