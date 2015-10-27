@@ -100,7 +100,7 @@ body {
 		<h4>Your Transaction Was Successful. Thank You for Using Universal Bank</h4>
 			
 			<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
-			<li><a href="${pageContext.request.contextPath}/Transfer" >Transfer</a></li>
+			<li><a href="${pageContext.request.contextPath}/transfer" >Transfer</a></li>
 			<li><a href="${pageContext.request.contextPath}/ViewTransactions" >View My Account</a></li>
 			<li><a href="${pageContext.request.contextPath}/Credit" >Credit</a></li>
 			<li><a href="${pageContext.request.contextPath}/DisplaySignUp" >EditInfo</a></li>

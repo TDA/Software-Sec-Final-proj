@@ -50,15 +50,11 @@ response.setHeader("Pragma","no-cache"); %>
 		
 		<div class="container">
 			<ul class="nav nav-tabs">
-				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
+				<li><a href="${pageContext.request.contextPath}/account">Home</a></li>
 				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/ViewTransactions">View
-						My Account</a></li>
+				<li><a href="${pageContext.request.contextPath}/ViewTransactions">View My Account</a></li>
 				<li><a href="${pageContext.request.contextPath}/Debit">Debit</a></li>
 				<li><a href="${pageContext.request.contextPath}/DisplaySignUp">EditInfo</a></li>
-				<li><a href="${pageContext.request.contextPath}/UserRequest">Pending
-						Transactions</a></li>
 				<li><a href="${pageContext.request.contextPath}/balance">Balance</a></li>
 			</ul>
 		</div>

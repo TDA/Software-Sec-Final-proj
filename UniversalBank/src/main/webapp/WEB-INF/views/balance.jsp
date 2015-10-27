@@ -57,7 +57,6 @@
 				<li><a href="${pageContext.request.contextPath}/DisplaySignUp">EditInfo</a></li>
 				<li><a href="${pageContext.request.contextPath}/UserRequest">Pending
 						Transactions</a></li>
-				<li><a href="${pageContext.request.contextPath}/balance">Balance</a></li>
 			</ul>
 		</div>
 		<!-- Page Heading -->
