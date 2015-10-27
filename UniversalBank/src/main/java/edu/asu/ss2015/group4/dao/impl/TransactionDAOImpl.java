@@ -116,22 +116,21 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
 
+			int criticalTransaction = 0;
+			if (Float.parseFloat(transac.getAmount()) >= 10000.0)
+				criticalTransaction = 1;
+
 			String registerUserQuery = "INSERT into transactions"
-					+ "(TransactionID,TransactionType,Amount,FromTransactionAccountId,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime,Comments,critical_transactions, SupervisorName) "
-					+ "VALUES (?,?,?,?,?,?,?,?,?,?)";
+					+ "(TransactionType,Amount,FromTransactionAccountId,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
+					+ ",Comments,Authorise_bank,critical_transactions, SupervisorName) " + "VALUES (?,?,?,"
+					+ "(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { transac.getTransactionId(), "Debit", transac.getAmount(),
-							transac.getFromTransactionAccountID(), transac.getToTransactionAccountID(),
+					new Object[] { "MerchantInitiatedTransfer", transac.getAmount(),
+							transac.getFromTransactionAccountID(), loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Merchant initiated transaction", 0,
+							transac.getApprovedTime(), "Merchant Initiated transfer", 0,criticalTransaction,
 							transac.getSupervisorName() });
-			jdbcTemplateForTransaction.update(registerUserQuery,
-					new Object[] { transac.getTransactionId(), "Credit", transac.getAmount(), loggedInUser,
-							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Merchant getting credited for merchant initiated transaction",
-							0, transac.getSupervisorName() });
-
 		}
 
 	}
@@ -160,7 +159,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 							transac.getToTransactionAccountID(), transac.getAuthorizedManagerID(),
 							transac.getTransactionTime(), transac.isApproved(), transac.getApprovedTime(),
 							"User transfer Debit", criticalTransaction, transac.getSupervisorName() });
-
 		}
 	}
 

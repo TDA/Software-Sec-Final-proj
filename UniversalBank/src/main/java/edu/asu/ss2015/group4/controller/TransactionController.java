@@ -5,7 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.security.*;
+import edu.asu.ss2015.group4.service.impl.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.TransactionDTO;
@@ -33,12 +35,14 @@ import edu.asu.ss2015.group4.model.Transactions;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.TransactionService;
 import edu.asu.ss2015.group4.service.UserService;
+import edu.asu.ss2015.group4.service.impl.KeyGeneratorsPKI;
 
 /*
  * ExternalUserController: accountSummary.jsp
  */
 
 @Controller
+@SessionAttributes("userName")
 public class TransactionController {
 
 	@Autowired
@@ -78,19 +82,35 @@ public class TransactionController {
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView returnCustomerPage() {
-
 		ModelAndView modelAndView = new ModelAndView();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			ArrayList<String> arrayList = new ArrayList<String>();
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+
+		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
+		keys.generateKeys();
+
+		// this is the plaintext message that needs to be signed with the
+		// private key
+		String message = "hello sai";
+		// sign it!
+		String signedRequest = keys.signRequest(message);
+		System.out.println("Encoded message: " + signedRequest);
+		System.out.println();
+		// check if the message returned is the same? decode using pub key
+		if (keys.verifySignature(message, signedRequest)) {
+			// keys are fine, PKI successful yay!
+			System.out.println("Keys Verified");
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				ArrayList<String> arrayList = new ArrayList<String>();
+UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String username = userDetail.getUsername();
-			arrayList.add("checking");
-			arrayList.add("savings");
-			modelAndView.addObject("mylist", arrayList);
-			System.out.println(arrayList.get(0));
-			modelAndView.setViewName("transfer");
-			generateOTP(username);
+				arrayList.add("checking");
+				arrayList.add("savings");
+				modelAndView.addObject("mylist", arrayList);
+				System.out.println(arrayList.get(0));
+				modelAndView.setViewName("transfer");
+generateOTP(username);
+			}
+
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
@@ -166,11 +186,12 @@ public class TransactionController {
 
 			} else {
 
-				String a = trans.TransferUser(transac);
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
 				transac.setSupervisorName(info.get(0).getSupervisorName());
 				System.out.println("successtransac11");
+				String a = trans.TransferUser(transac);
+
 				modelAndView.setViewName("success");
 
 			}*/
@@ -262,9 +283,9 @@ public class TransactionController {
 			transac.setAccountType(accountType);
 			transac.setAmount(amount);
 			/*
-			 * TransferValidator.validateForm(transac, result);
-			 * System.out.println("here"+result);
-			 */
+			* TransferValidator.validateForm(transac, result);
+			* System.out.println("here"+result);
+			*/
 			String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
 			Double balance = 0.0;
 			if (accountType != null && !accountType.equals("")) {
@@ -298,16 +319,16 @@ public class TransactionController {
 				modelAndView.addObject("errorMsg", "Account type must be chosen.");
 
 			/*
-			 * if (result!=null && result.hasErrors()) { System.out.println(
-			 * ":in debet"); modelAndView.setViewName("Debit"); // This prints
-			 * errors
-			 * 
-			 * } else { trans.DebitUser(transac);
-			 * System.out.println("successtransac");
-			 * modelAndView.setViewName("success");
-			 * 
-			 * }
-			 */
+			* if (result!=null && result.hasErrors()) { System.out.println(
+			* ":in debet"); modelAndView.setViewName("Debit"); // This prints
+			* errors
+			* 
+			* } else { trans.DebitUser(transac);
+			* System.out.println("successtransac");
+			* modelAndView.setViewName("success");
+			* 
+			* }
+			*/
 		}
 		return modelAndView;
 	}
@@ -441,26 +462,69 @@ public class TransactionController {
 		m.sendOTP(user1.get(0).getOTP(), user1.get(0).getOtpValidity(), user1.get(0).getEmailAddress());
 	}
 
+	//Added by Rajat
 	@RequestMapping(value = "/MerchantTransfer", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView MerchantTransferPage() throws NoSuchAlgorithmException, FileNotFoundException {
-		Transactions mtransac = new Transactions();
+	public ModelAndView returnMerchantTransferPage() {
+
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("transaction", mtransac);
-		modelAndView.setViewName("MerchantTransfer");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add("checking");
+			arrayList.add("savings");
+			modelAndView.addObject("mylist", arrayList);
+			System.out.println(arrayList.get(0));
+			modelAndView.setViewName("MerchantTransfer");
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/MerchantTransfer", method = RequestMethod.POST)
-	@ResponseBody
-	public ModelAndView MerchantTransfer(@Valid @ModelAttribute("MerchantTransferForm") Transactions transac,
-			BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
+	public ModelAndView MerchantTransfer(@Valid @ModelAttribute("MerchantTransferForm") Transactions transac, BindingResult result,
+			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("transaction", transac);
-		modelAndView.setViewName("MerchantTransfer");
-		trans.MerchantPaymentUser(transac);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			BankAccount b = new BankAccount();
+			b.setId(transac.getFromTransactionAccountID());
+			System.out.println("checking" + transac.getAccountType());
+			b.setAccountType(transac.getAccountType());
+			int i = bankAccountService.BankValidate(b);
+			if (i == 1) {
+				double b1 = bankAccountService.BankBalanceValidate(b);
+				System.out.println("balance" + b1);
+				transac.setBalance(b1);
+			}
+			System.out.println("fialcount" + i);
+			transac.setCount(i);
+			MerchantTransferValidator.validateForm(transac, result);
+			System.out.println("here" + result);
+			if (result.hasErrors()) {
+				System.out.println("error");
+				modelAndView.setViewName("transfer"); // This prints errors
+
+			} else {
+
+				String a = trans.MerchantPaymentUser(transac);
+				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+				info = userService.fetchUserDetails(userDetail.getUsername());
+				transac.setSupervisorName(info.get(0).getSupervisorName());
+				System.out.println("successtransac11");
+				modelAndView.setViewName("success");
+
+			}
+
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
+
 		return modelAndView;
 	}
+
 
 	@RequestMapping(value = "/UserRequest", method = RequestMethod.GET)
 	public ModelAndView RequestPage() {
@@ -624,7 +688,7 @@ public class TransactionController {
 	// Added By Gaurav
 	@RequestMapping(value = "/ModifyTransaction", method = RequestMethod.GET)
 
-	public ModelAndView ModifyTransactionPage() {
+	public ModelAndView ModifyTransactionPage(String errorMsg) {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
@@ -642,6 +706,9 @@ public class TransactionController {
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
 			System.out.println(transac.getTransactionId());
+			if (errorMsg != null)
+				modelAndView.addObject("errorMsg", errorMsg);
+
 			modelAndView.setViewName("ModifyTransaction");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -659,21 +726,36 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();
-
+		BankAccount b = new BankAccount();
+		String errorMsg = "";
 		if (strAmount != null && !strAmount.isEmpty()) {
+
+			String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
 
 			String[] split = strAmount.split("_");
 			String x = split[0];
 			String y = split[1];
+			String z = split[2];
+			Double balance = 0.0;
 
-			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
-			int x1 = Integer.parseInt(y);
-			double x2 = Double.parseDouble(x);
-			String submit = trans.RegularEmployeeModifyTransaction(x1, x2, loggedInUser);
+			if (x != null && x.length() >= 1 && x.matches(regex)) {
+				b.setAccountType(z);
+				int x1 = Integer.parseInt(y);
+				double x2 = Double.parseDouble(x);
+				System.out.println("actual balance entered is " + x2);
+				balance = bankAccountService.BankBalanceValidateForRegularEmployee(b, x1);
+				System.out.println("balance from database " + x2);
+				if (balance >= x2) {
+					List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
+					String submit = trans.RegularEmployeeModifyTransaction(x1, x2, loggedInUser);
+				} else
+					errorMsg = "Insufficient balance.";
+			} else
+				errorMsg = "Incorrect amount.";
 		} else {
 			return modelAndView;
 		}
-		return ModifyTransactionPage();
+		return ModifyTransactionPage(errorMsg);
 	}
 
 	// Added By Gaurav
@@ -735,3 +817,19 @@ public class TransactionController {
 		this.userService = userService;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

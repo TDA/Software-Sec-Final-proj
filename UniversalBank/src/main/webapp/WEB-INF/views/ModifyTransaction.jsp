@@ -68,8 +68,14 @@
 				<h1 class="page-header">Available Transactions For Modification</h1>
 			</div>
 		</div>
+		
+
 		<form:form method="POST" action="ModifyTransaction"
 			modelAttribute="ApproveForm" autocomplete="off">
+			
+			<c:if test="${not empty errorMsg}">
+						<h3>${errorMsg}</h3>
+					</c:if>
 			<table style="width: 80%">
 				<tr>
 					<th>Transaction ID</th>
@@ -87,12 +93,12 @@
 						<td><input type="text"
 							id="ModifiedAmount_${transaction.transactionID}"></td>
 						<td><c:out value="${transaction.comments}" /></td>
-						<td><button class="btn btn-success" type="submit" name="modifyParamRegularEmployee"
-								onclick="this.value=document.getElementById('ModifiedAmount_${transaction.transactionID}').value + '_' + ${transaction.transactionID};" >Submit
-							</button></td>
+				<td><button type="submit" name="modifyParamRegularEmployee" onclick="this.value=document.getElementById('ModifiedAmount_${transaction.transactionID}').value + '_' + ${transaction.transactionID} + '_' + ${transaction.transactionID};"/>Submit</button></td>
 					</tr>
 				</c:forEach>
-
+			
+						
+				
 			</table>
 		</form:form>
 	</div>

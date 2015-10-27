@@ -65,6 +65,8 @@ public class UserDAOImpl implements UserDAO {
 							userInfo.isUserAccountExpired(), userInfo.getEmailAddress(),
 							userInfo.getSocialSecurityNumber(), userInfo.isPiiAccess(), userInfo.getOTP(),
 							userInfo.getOtpValidity() });
+					
+
 
 			String user_role = "";
 			switch (userInfo.getAccountType()) {

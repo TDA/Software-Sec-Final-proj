@@ -70,9 +70,9 @@
 			<div id="morris-area-chart">
 
 				<c:if test="${not empty successMsg}">
+<Font Color="green">An OTP has been sent to your email.</Font>
 					<h4>${successMsg}</h4>
 				</c:if>
-				<Font Color="green">An OTP has been sent to your email.</Font>
 				<form:form method="POST" action="Credit" modelAttribute="CreditForm"
 					autocomplete="off">
 					<br />
@@ -86,9 +86,8 @@
 					<br />
 					<select class="selectpicker form-control" name="accountType">
 						<option value="">Select</option>
-						<c:forEach var="bankval" items="${mylist}">
-							<option value="${bankval}">${bankval}</option>
-						</c:forEach>
+						<option value="checking">checking</option>
+						<option value="savings">savings</option>
 					</select>
 					<br />
 					<br />
