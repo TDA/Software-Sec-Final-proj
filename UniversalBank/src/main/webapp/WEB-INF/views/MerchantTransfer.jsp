@@ -31,12 +31,11 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-
-
-
 <body oncontextmenu="return false">
-<% response.setHeader("Cache-Control","no-cache");    
-response.setHeader("Pragma","no-cache"); %>
+	<%
+		response.setHeader("Cache-Control", "no-cache");
+		response.setHeader("Pragma", "no-cache");
+	%>
 	<!-- Page Content -->
 	<div class="container">
 
@@ -47,11 +46,13 @@ response.setHeader("Pragma","no-cache"); %>
 				name="${_csrf.parameterName}" value="${_csrf.token}" />
 		</form>
 		<h2>Welcome, ${userName }</h2>
-		
+
 		<div class="container">
 			<ul class="nav nav-tabs">
 				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
-				<li><a href="${pageContext.request.contextPath}/MerchantTransfer"> Merchant Transfer</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/MerchantTransfer">
+						Merchant Transfer</a></li>
 				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
 				<li><a
 					href="${pageContext.request.contextPath}/ViewTransactions">View
@@ -66,7 +67,7 @@ response.setHeader("Pragma","no-cache"); %>
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header"> Merchant Transfer</h1>
+				<h1 class="page-header">Merchant Transfer</h1>
 			</div>
 		</div>
 		<div class="panel-body">
@@ -99,12 +100,13 @@ response.setHeader("Pragma","no-cache"); %>
 					<br />
 
 					<b> Enter customer AccountId</b>
-					<FONT color="red"><form:errors path="FromTransactionAccountID" /></FONT>
+					<FONT color="red"><form:errors
+							path="FromTransactionAccountID" /></FONT>
 
 					<br />
 					<input type="text" name="FromTransactionAccountID" size="10"
 						class="form-control" id="fromTransactionAccountID"
-											style="color: #999;" />
+						style="color: #999;" />
 					<br />
 					<br />
 					<br />
@@ -123,8 +125,9 @@ response.setHeader("Pragma","no-cache"); %>
 					<br />
 					<br />
 					<h4>
-						<input type="submit" style="margin-right: 5%" name="MerchantTransfer"
-							id="MerchantTransfer" value="Request payment" />
+						<input type="submit" style="margin-right: 5%"
+							name="MerchantTransfer" id="MerchantTransfer"
+							value="Request payment" />
 					</h4>
 
 
@@ -133,7 +136,7 @@ response.setHeader("Pragma","no-cache"); %>
 			</div>
 		</div>
 	</div>
-	
+
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
@@ -141,7 +144,7 @@ response.setHeader("Pragma","no-cache"); %>
 	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
-<script
+	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
 </html>

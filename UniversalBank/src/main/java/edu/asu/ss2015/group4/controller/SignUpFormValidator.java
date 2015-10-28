@@ -87,7 +87,8 @@ public class SignUpFormValidator {
 		}
 
 		String add = cinfo.getAddress();
-		Matcher match_add = p1.matcher(add.subSequence(0, add.length()));
+		Pattern p2 = Pattern.compile("[!@#${}%^&*+_.-]");
+		Matcher match_add = p2.matcher(add.subSequence(0, add.length()));
 		if ((add.length()) > 50 || match_add.find() == true) {
 			errors.rejectValue("address", "lengthOfAddress.UserInformation.address", "Address is invalid");
 		}

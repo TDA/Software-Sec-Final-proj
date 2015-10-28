@@ -95,11 +95,9 @@ public class AccountController {
 
 			if (result.hasErrors()) {
 				modelAndView.setViewName("DisplaySignUp"); // This prints errors
-
 			} else {
 				userService.EditInformation(loggedInUser, custInfo);
 				modelAndView.setViewName("success");
-
 			}
 		} else {
 			modelAndView.setViewName("permission-denied");

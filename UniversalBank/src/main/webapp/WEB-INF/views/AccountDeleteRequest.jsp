@@ -4,6 +4,8 @@
 <%@ page import="net.tanesha.recaptcha.ReCaptcha"%>
 <%@ page import="net.tanesha.recaptcha.ReCaptchaFactory"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,58 +37,60 @@
 
 </head>
 <body oncontextmenu="return false">
-	<!-- Page Content -->
-	<div class="container">
-
-		<c:url var="logoutUrl" value="j_spring_security_logout" />
-		<form action="${logoutUrl}" method="post">
-			<input type="submit" class="btn btn-lg btn-info btn-block"
-				value="Log out" /> <input type="hidden"
-				name="${_csrf.parameterName}" value="${_csrf.token}" />
-		</form>
-		<h2>Welcome, ${userName }</h2>
-		
+	<sec:authorize access="hasRole('ROLE_CLERK')">
+		<!-- Page Content -->
 		<div class="container">
-			<ul class="nav nav-tabs">
-				<li><a
-					href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/ModifyTransaction">Modify
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/DeleteTransaction">Delete
-						Transaction</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/AccountDeleteRequest">Account
-						Delete Request</a></li>
-			</ul>
-		</div>
-		<!-- Page Heading -->
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Available Delete Account Request</h1>
-			</div>
-		</div>
-		<form:form method="POST" action="AccountDeleteRequest"
-			modelAttribute="ApproveForm" autocomplete="off">
-			<table style="width: 80%">
-				<tr>
-					<th>Request ID</th>
-					<th>Request Type</th>
-				</tr>
-				<c:forEach items="${userInformation}" var="request">
-					<tr>
-						<td><c:out value="${request.requestID}" /></td>
-						<td><c:out value="${request.requestType}" /></td>
-						<td><button type="submit" name="accountDeleteParam" class="btn btn-danger"
-								value="approve_${request.requestID}" >Approve
-							</button></td>
-					</tr>
-				</c:forEach>
 
-			</table>
-		</form:form>
-	</div>
+			<c:url var="logoutUrl" value="j_spring_security_logout" />
+			<form action="${logoutUrl}" method="post">
+				<input type="submit" class="btn btn-lg btn-info btn-block"
+					value="Log out" /> <input type="hidden"
+					name="${_csrf.parameterName}" value="${_csrf.token}" />
+			</form>
+			<h2>Welcome, ${userName }</h2>
+
+			<div class="container">
+				<ul class="nav nav-tabs">
+					<li><a
+						href="${pageContext.request.contextPath}/ViewTransactionRegularEmployee">View
+							Transaction</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/ModifyTransaction">Modify
+							Transaction</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/DeleteTransaction">Delete
+							Transaction</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/AccountDeleteRequest">Account
+							Delete Request</a></li>
+				</ul>
+			</div>
+			<!-- Page Heading -->
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Available Delete Account Request</h1>
+				</div>
+			</div>
+			<form:form method="POST" action="AccountDeleteRequest"
+				modelAttribute="ApproveForm" autocomplete="off">
+				<table style="width: 80%">
+					<tr>
+						<th>Request ID</th>
+						<th>Request Type</th>
+					</tr>
+					<c:forEach items="${userInformation}" var="request">
+						<tr>
+							<td><c:out value="${request.requestID}" /></td>
+							<td><c:out value="${request.requestType}" /></td>
+							<td><button type="submit" name="accountDeleteParam"
+									class="btn btn-danger" value="approve_${request.requestID}">Approve
+								</button></td>
+						</tr>
+					</c:forEach>
+
+				</table>
+			</form:form>
+		</div>
+	</sec:authorize>
 </body>
 </html>

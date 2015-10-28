@@ -10,6 +10,9 @@ public class UserInformationDTO {
 	private String supervisorName;
 	private String otp;
 	private String otpValidity;
+	private String phoneNumber;
+	private String address;
+	private String sex;
 
 	public String getOTP() {
 		return otp;
@@ -18,7 +21,7 @@ public class UserInformationDTO {
 	public void setOTP(String otp) {
 		this.otp = otp;
 	}
-	
+
 	public String getUserName() {
 		return userName;
 	}
@@ -81,5 +84,29 @@ public class UserInformationDTO {
 
 	public void setOtpValidity(String otpValidity) {
 		this.otpValidity = otpValidity;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 }

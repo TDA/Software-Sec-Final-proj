@@ -81,25 +81,38 @@
 					<c:if test="${not empty errorMsg}">
 						<h3>${errorMsg}</h3>
 					</c:if>
+					<b>Address:</b>
+					<FONT color="red"><form:errors path="address" /> </FONT>
+					<br />
+					<input data-toggle="tooltip"
+						title="Should not exceed 50 characters!" type="text" value=""
+						name="address" size="10" class="form-control" id="address"
+						maxlength="50" style="color: #999;" />
+					<br />
+					<br />
+					<b>Phone Number:</b>
+					<FONT color="red"><form:errors path="phoneNumber" /> </FONT>
+					<br />
+					<input data-toggle="tooltip"
+						title="10 digit phone number without dashes" type="text" value=""
+						name="phoneNumber" size="10" class="form-control" id="phoneNumber"
+						maxlength="10" style="color: #999;" />
+					<br />
+					<br />
+					<b>Gender:</b>
+					<FONT color="red"><form:errors path="sex" /></FONT>
+					<br />
+					<select data-toggle="tooltip" title="Select One Option"
+						class="selectpicker form-control" id="selector2" name="sex">
+						<option value="male">Male</option>
+						<option value="female">Female</option>
+					</select>
+					<br />
+					<br />
 
-					<b>Email Address:</b>
-					<br />
-					<input type="text" name="emailAddress" size="10"
-						class="form-control" id="email" style="color: #999;" />
-					<br />
-					<br />
-					<b>SSN</b>
-					<input type="text" name="socialSecurityNumber" size="10"
-						class="form-control" id="socialSecurityNumber"
-						style="color: #999;" />
-					<br />
-
-					<br />
 					<h4>
 						<input type="submit" style="margin-right: 5%" name="edit"
 							id="edit" value="edit" />
-
-
 					</h4>
 
 				</form:form>

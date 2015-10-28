@@ -21,6 +21,9 @@ public class UserGenerator implements ResultSetExtractor<UserInformationDTO> {
 		userInfoDTO.setSupervisorName(resultSet.getString(7));
 		userInfoDTO.setOTP(resultSet.getString(8));
 		userInfoDTO.setOtpValidity(resultSet.getString(9));
+		userInfoDTO.setPhoneNumber(resultSet.getString(10));
+		userInfoDTO.setAddress(resultSet.getString(11));
+		userInfoDTO.setSex(resultSet.getString(12));
 		return userInfoDTO;
 	}
 }
