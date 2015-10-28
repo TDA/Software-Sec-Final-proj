@@ -79,7 +79,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 			String loggedInUser = userDetail.getUsername();
 		String sql = "SELECT COUNT(*) from accounts where AccountID=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId(),loggedInUser }, Integer.class);}
+		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);}
 		return count;
 	}
 

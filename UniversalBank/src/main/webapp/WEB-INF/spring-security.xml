@@ -27,15 +27,17 @@
 		<intercept-url pattern="/DeleteTransaction*" access="hasRole('ROLE_CLERK')" />
 		<intercept-url pattern="/AccountDeleteRequest*" access="hasRole('ROLE_CLERK')" />
 		
-		<!-- Permit CUstomer -->
-		<intercept-url pattern="/account" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/balance" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/Credit" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/Debit" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/DisplaySignUp" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/success" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/transfer" access="hasRole('ROLE_INDIVIDUAL')" />
-		<intercept-url pattern="/ViewTransactions" access="hasRole('ROLE_INDIVIDUAL')" />
+		<!-- Permit CUstomer & Merchant -->
+		<intercept-url pattern="/account" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/balance" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/Credit" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/Debit" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/DisplaySignUp" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/success" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/transfer" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/ViewTransactions" access="hasAnyRole('ROLE_INDIVIDUAL','ROLE_MERCHANT')" />
+		<intercept-url pattern="/MerchantTransfer" access="hasRole('ROLE_MERCHANT')" />
+	
 		
 		
 		<access-denied-handler error-page="/403" />

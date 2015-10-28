@@ -49,10 +49,13 @@
 
 		<div class="container">
 			<ul class="nav nav-tabs">
+				
 				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/MerchantTransfer">
-						Merchant Transfer</a></li>
+
+				<c:if test="${role=='ROLE_MERCHANT'}">
+				<li><a href="${pageContext.request.contextPath}/MerchantTransfer"> Merchant Transfer</a></li>
+				</c:if>
+				
 				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
 				<li><a
 					href="${pageContext.request.contextPath}/ViewTransactions">View

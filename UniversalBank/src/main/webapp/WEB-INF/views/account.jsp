@@ -52,11 +52,17 @@
 		<h2>Welcome, ${userName }</h2>
 
 		<ul class="nav nav-tabs">
-			<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
+		
+		 	<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
+		 		<c:if test="${role=='ROLE_MERCHANT'}">
+				<li><a href="${pageContext.request.contextPath}/MerchantTransfer"> Merchant Transfer</a></li>
+				</c:if>
+			
 			<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
 			<li><a
 				href="${pageContext.request.contextPath}/ViewTransactions">View
 					My Account</a></li>
+			
 			<li><a href="${pageContext.request.contextPath}/Debit">Debit</a></li>
 			<li><a href="${pageContext.request.contextPath}/DisplaySignUp">EditInfo</a></li>
 			<li><a href="${pageContext.request.contextPath}/UserRequest">Pending
