@@ -145,7 +145,7 @@ public class TransactionController {
 					String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
 					if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
 						double b1 = bankAccountService.BankBalanceValidate(b);
-						if (b1 >= Double.parseDouble(amount)) {
+						if (b1 >= Double.parseDouble(amount) && Double.parseDouble(amount)> 0.0 ) {
 							transac.setBalance(b1);
 							transac.setAmount(amount);
 							if (otp != null && isOtpValid(username, otp)) {
@@ -163,7 +163,7 @@ public class TransactionController {
 								} else
 									modelAndView.addObject("errorMsg", "OTP has expired.");
 							} else
-								modelAndView.addObject("errorMsg", "Incorrect OTP.");
+								modelAndView.addObject("errorMsg", "Incorrect OTP.Enter Proper Amount between 0 to 99999.99");
 						} else
 							modelAndView.addObject("errorMsg", "Insufficient balance.");
 
@@ -171,7 +171,7 @@ public class TransactionController {
 						modelAndView.addObject("errorMsg", "Incorrect amount.");
 
 				} else
-					modelAndView.addObject("errorMsg", "Account ID doesn't exist.");
+					modelAndView.addObject("errorMsg", "Account ID doesn't exist or Select a proper Account Id");
 			} else
 				modelAndView.addObject("errorMsg", "Account type must be chosen.");
 			/*
