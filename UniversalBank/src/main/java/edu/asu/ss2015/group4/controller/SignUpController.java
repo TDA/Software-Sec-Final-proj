@@ -68,7 +68,7 @@ public class SignUpController {
 		boolean verify = ValidateCaptcha.validateCaptchaResponse(gRecaptchaResponse);
 
 		if (!verify) {
-			String invalidCaptcha = "Captcha Not Matched ,Please Try Again";
+			String invalidCaptcha = "<FONT color=\"red\">Captcha Not Matched, Please Try Again.</FONT>";
 			modelAndView.addObject("errorMsg", invalidCaptcha);
 			modelAndView.setViewName("register");
 			return modelAndView;

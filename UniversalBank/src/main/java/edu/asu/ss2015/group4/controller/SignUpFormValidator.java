@@ -20,6 +20,7 @@ public class SignUpFormValidator {
 		int count = 0;
 		int number = 0;
 		int ssnNum = 0;
+		int phNum = 0;
 
 		UserInformation cinfo = (UserInformation) info;
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "socialSecurityNumber",
@@ -30,13 +31,13 @@ public class SignUpFormValidator {
 		Pattern p1 = Pattern.compile("[!@#${},%^&*+_.-]");
 		Matcher match_fn = p1.matcher(firstName.subSequence(0, firstName.length()));
 		if ((firstName.length()) > 15 || match_fn.find() == true) {
-			errors.rejectValue("firstName", "lengthOfFirst.UserInformation.firstName", "First name is invalid");
+			errors.rejectValue("f_name", "lengthOfFirst.UserInformation.firstName", "First name is invalid");
 		}
 
 		String lastName = cinfo.getLastName();
 		Matcher match_ln = p1.matcher(lastName.subSequence(0, lastName.length()));
 		if ((lastName.length()) > 15 || match_ln.find() == true) {
-			errors.rejectValue("lastName", "lengthOfLast.UserInformation.lastName", "Last name is invalid");
+			errors.rejectValue("l_name", "lengthOfLast.UserInformation.lastName", "Last name is invalid");
 		}
 
 		String accountType = cinfo.getAccountType();
@@ -69,6 +70,28 @@ public class SignUpFormValidator {
 			}
 		}
 
+		if (cinfo.getPhoneNumber() == null) {
+			errors.rejectValue("phoneNumber", "lengthOfPhoneNumber.UserInformation.phoneNumber",
+					"Phone number is invalid");
+		}
+
+		String pNumber = cinfo.getPhoneNumber();
+		for (char c : pNumber.toCharArray()) {
+			if (Character.isDigit(c)) {
+				phNum++;
+			}
+		}
+		if (phNum != 10 || pNumber.length() != 10) {
+			errors.rejectValue("phoneNumber", "lengthOfPhoneNumber.UserInformation.phoneNumber",
+					"Phone number is invalid");
+		}
+
+		String add = cinfo.getAddress();
+		Matcher match_add = p1.matcher(add.subSequence(0, add.length()));
+		if ((add.length()) > 50 || match_add.find() == true) {
+			errors.rejectValue("address", "lengthOfAddress.UserInformation.address", "Address is invalid");
+		}
+
 		Pattern p = Pattern.compile("[!@#${},%^&*+_.-]");
 		Matcher match = p.matcher(pass.subSequence(0, pass.length()));
 		Matcher match_1 = p.matcher(userName.subSequence(0, userName.length()));
@@ -81,6 +104,11 @@ public class SignUpFormValidator {
 		if (!(cinfo.getPassword()).equals(cinfo.getConfirmPassword())) {
 			errors.rejectValue("password", "matchingPassword.UserInformation.password",
 					"Password and Confirm Password Not match.");
+		}
+
+		String sex = cinfo.getSex();
+		if (sex == null || sex.isEmpty()) {
+			errors.rejectValue("sex", "NotEmpty.UserInformation.sex", "Select at least one option");
 		}
 	}
 }

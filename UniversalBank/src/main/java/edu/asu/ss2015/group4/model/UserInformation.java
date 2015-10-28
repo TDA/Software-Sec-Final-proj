@@ -28,8 +28,30 @@ public class UserInformation {
 	private boolean userLocked;
 	private boolean piiAccess;
 	private boolean userAccountExpired;
-private String otp="0";
-	private String otpValidity="0";
+	private String otp = "0";
+	private String otpValidity = "0";
+	@Size(min = 10, max = 10, message = "Enter a valid Phone Number")
+	private String phoneNumber;
+	@NotEmpty(message = "Please enter a valid address.")
+	private String address;
+	@NotNull(message = "Select atleast an account type.")
+	private String sex;
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public boolean isPiiAccess() {
 		return piiAccess;
@@ -126,6 +148,7 @@ private String otp="0";
 	public void setUserAccountExpired(boolean userAccountExpired) {
 		this.userAccountExpired = userAccountExpired;
 	}
+
 	public String getOTP() {
 		return otp;
 	}
@@ -140,6 +163,14 @@ private String otp="0";
 
 	public void setOtpValidity(String otpValidity) {
 		this.otpValidity = otpValidity;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 }

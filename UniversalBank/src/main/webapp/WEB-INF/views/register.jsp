@@ -174,7 +174,36 @@ body {
 											style="color: #999;" />
 										<br />
 										<br />
-
+										<b>Address:</b>
+										<FONT color="red"><form:errors
+												path="address" /> </FONT>
+										<br />
+										<input data-toggle="tooltip"
+											title="Should not exceed 50 characters!" type="text" value="" name="address"
+											size="10" class="form-control" id="address" maxlength="50"
+											style="color: #999;" />
+										<br />
+										<br />
+										<b>Phone Number:</b>
+										<FONT color="red"><form:errors
+												path="phoneNumber" /> </FONT>
+										<br />
+										<input data-toggle="tooltip"
+											title="10 digit phone number without dashes" type="text" value="" name="phoneNumber"
+											size="10" class="form-control" id="phoneNumber" maxlength="10"
+											style="color: #999;" />
+										<br />
+										<br />
+										<b>Gender:</b>
+										<FONT color="red"><form:errors path="sex" /></FONT>
+										<br />
+										<select data-toggle="tooltip"
+											title="Select One Option" class="selectpicker form-control" id="selector2" name="sex">
+												<option value="male">Male</option>
+												<option value="female">Female</option>
+										</select>
+										<br />
+										<br />
 										<br />
 
 										<div class="g-recaptcha"
@@ -244,7 +273,18 @@ body {
 			placement : "left",
 			trigger : "focus"
 		});
-		
+		$('select[type=selector1][name=gender]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=text][name=phoneNumber]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=text][name=address]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
 	</script>
 
 </body>
