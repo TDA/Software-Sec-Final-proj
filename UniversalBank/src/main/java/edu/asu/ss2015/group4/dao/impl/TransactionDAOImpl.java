@@ -191,7 +191,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> fetchCriticalTransaction(String managerName) {
 		List<TransactionDTO> criticalTransactions = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and (transactions.SupervisorName IN (Select users.username from unibank.users where SupervisorName=?)";
+		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and (transactions.SupervisorName IN (Select users.username from unibank.users where SupervisorName=?))";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 1, 0, managerName },
 				new TransactionTableRows());

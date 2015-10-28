@@ -30,7 +30,7 @@ public interface UserDAO {
 
 	void resetFailAttempts(String username);
 
-	AccountLoginAttempts getUserAttempts(String username);
+	public AccountLoginAttempts getUserAttempts(String username);
 
 	public List<UserInformationDTO> fetchAllRegularEmployees();
 
@@ -68,5 +68,7 @@ public interface UserDAO {
 	public boolean disablePiiUserAccount(String username);
 
 	public boolean deleteInternalUserAccount(String username);
+
+	public List<UserInformationDTO> fetchAllManagerEmployees();
 
 }

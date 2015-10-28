@@ -272,6 +272,15 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
+	public List<UserInformationDTO> fetchAllManagerEmployees() {
+		List<UserInformationDTO> regulareEmployees = new ArrayList<UserInformationDTO>();
+		String retrieveDetailsQuery = "SELECT * from users where users.AccountType like 'Manager'";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		regulareEmployees = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
+		return regulareEmployees;
+	}
+
+	@Override
 	public void assignSupervisor(String userName, String employeeName) {
 		String sql = "UPDATE users set SupervisorName = ? where username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);

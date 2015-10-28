@@ -94,16 +94,23 @@ public class AdminController {
 				System.out.println("=============> Account Approved <=================");
 
 				userService.activateInternalUserAccount(custInfoFromDTO.get(0).getUserName());
-				String employeeName = getRandomRegularEmployee();
-				userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
 
+				if (custInfoFromDTO.get(0).getAccountType().equals("Clerk")) {
+					String employeeName = getRandomManagerEmployee();
+					userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
+				}
 			}
 
-		} else {
+		} else
+
+		{
 			return modelAndView;
 		}
 		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
-		return adminPage();
+		return
+
+		adminPage();
+
 	}
 
 	@RequestMapping(value = "/pii_access", method = RequestMethod.GET)
@@ -393,10 +400,10 @@ public class AdminController {
 		return modify_internal_roles();
 	}
 
-	private String getRandomRegularEmployee() {
+	private String getRandomManagerEmployee() {
 		List<UserInformationDTO> regEmployees = new ArrayList<UserInformationDTO>();
-		regEmployees = userService.fetchRegularEmployees();
-		int random = randInt(0, regEmployees.size());
+		regEmployees = userService.fetchManagerEmployees();
+		int random = randInt(0, regEmployees.size() - 1);
 		System.out.println(random);
 		return regEmployees.get(random).getUserName();
 	}
