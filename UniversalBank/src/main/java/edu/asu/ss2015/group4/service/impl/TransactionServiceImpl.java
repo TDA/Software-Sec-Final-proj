@@ -64,8 +64,8 @@ public class TransactionServiceImpl implements TransactionService {
 		return transac.viewCondition(Username);
 	}
 
-	public List<TransactionDTO> fetchCriticalTransactions() {
-		return transac.fetchCriticalTransaction();
+	public List<TransactionDTO> fetchCriticalTransactions(String userName) {
+		return transac.fetchCriticalTransaction(userName);
 	}
 
 	@Override

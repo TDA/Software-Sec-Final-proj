@@ -8,8 +8,6 @@ import edu.asu.ss2015.group4.model.Transactions;
 
 public interface TransactionDAO {
 
-
-
 	public List<TransactionDTO> view(String Username);
 
 	public List<TransactionDTO> viewCondition(String Username);
@@ -24,21 +22,27 @@ public interface TransactionDAO {
 
 	void approval(int a);
 
-	public List<TransactionDTO> fetchCriticalTransaction();
+	public List<TransactionDTO> fetchCriticalTransaction(String userName);
 
 	public void updateTransaction(TransactionDTO transaction, String managerId);
 
 	public List<TransactionDTO> viewTransactionByTransactionID(String id);
 
-	//added by gaurav
-	public List <TransactionDTO>viewTransactionForDeletion (String Username);
+	// added by gaurav
+	public List<TransactionDTO> viewTransactionForDeletion(String Username);
+
 	public void deleteTransaction(int a, String userName);
+
 	public List<TransactionDTO> viewTransactionToRegularEmployee(String Username);
-	public void approveTransactionRegularEmployee(int a,double b, String userName);
+
+	public void approveTransactionRegularEmployee(int a, double b, String userName);
+
 	public void denyTransactionRegularEmployee(int a, String userName);
+
 	public void modifyTransaction(int a, double b, String userName);
+
 	public List<UserRequestsDTO> viewAcoountDeletionRequestToRegularEmployee(String Username);
+
 	public void approveUserReq(int a, String userName);
 
 }
-

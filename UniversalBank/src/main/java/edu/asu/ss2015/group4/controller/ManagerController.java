@@ -169,7 +169,7 @@ public class ManagerController {
 
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
-			userTransactionsDTO = transactionService.fetchCriticalTransactions();
+			userTransactionsDTO = transactionService.fetchCriticalTransactions(loggedInUser);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);

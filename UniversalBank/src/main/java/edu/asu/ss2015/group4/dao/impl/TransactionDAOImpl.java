@@ -129,7 +129,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 					new Object[] { "MerchantInitiatedTransfer", transac.getAmount(),
 							transac.getFromTransactionAccountID(), loggedInUser, transac.getAccountType(),
 							transac.getAuthorizedManagerID(), transac.getTransactionTime(), transac.isApproved(),
-							transac.getApprovedTime(), "Merchant Initiated transfer", 0,criticalTransaction,
+							transac.getApprovedTime(), "Merchant Initiated transfer", 0, criticalTransaction,
 							transac.getSupervisorName() });
 		}
 
@@ -189,11 +189,12 @@ public class TransactionDAOImpl implements TransactionDAO {
 	}
 
 	@Override
-	public List<TransactionDTO> fetchCriticalTransaction() {
+	public List<TransactionDTO> fetchCriticalTransaction(String managerName) {
 		List<TransactionDTO> criticalTransactions = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=1 and Approved=0";
+		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and (transactions.SupervisorName IN (Select users.username from unibank.users where SupervisorName=?)";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new TransactionTableRows());
+		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 1, 0, managerName },
+				new TransactionTableRows());
 		return criticalTransactions;
 	}
 

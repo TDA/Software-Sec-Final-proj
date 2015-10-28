@@ -8,7 +8,6 @@ import edu.asu.ss2015.group4.dto.TransactionDTO;
 import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.Transactions;
 
-
 public interface TransactionService {
 
 	public String insertUserTransaction(Transactions transaction)
@@ -29,20 +28,27 @@ public interface TransactionService {
 	public String TransferUser(Transactions transaction);
 
 	public String Approve(int i);
-	//added by gaurav
-	public List<TransactionDTO> DisplayTransactionInfo(String Username);
-	public List<TransactionDTO> fetchCriticalTransactions();
-	public List<TransactionDTO> viewTransactionByTransactionID(String id);
-	
-	//added by gaurav
-	public List<TransactionDTO> DisplayTransactionInfoToRegularEmployee(String Username);
-	public String RegularEmployeeAprroveTransaction(int i,double j, String userName);
-	public String RegularEmployeeDeleteTransaction(int i, String userName);
-	public String Delete(int i, String userName);
-	public String RegularEmployeeModifyTransaction(int i, double j, String userName);
-	public List<UserRequestsDTO> DisplayUserRequest(String Username);
-	public String ApproveUserRequestRegularEmployee(int i, String userName);
-	
 
+	// added by gaurav
+	public List<TransactionDTO> DisplayTransactionInfo(String Username);
+
+	public List<TransactionDTO> fetchCriticalTransactions(String userName);
+
+	public List<TransactionDTO> viewTransactionByTransactionID(String id);
+
+	// added by gaurav
+	public List<TransactionDTO> DisplayTransactionInfoToRegularEmployee(String Username);
+
+	public String RegularEmployeeAprroveTransaction(int i, double j, String userName);
+
+	public String RegularEmployeeDeleteTransaction(int i, String userName);
+
+	public String Delete(int i, String userName);
+
+	public String RegularEmployeeModifyTransaction(int i, double j, String userName);
+
+	public List<UserRequestsDTO> DisplayUserRequest(String Username);
+
+	public String ApproveUserRequestRegularEmployee(int i, String userName);
 
 }
