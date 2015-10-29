@@ -57,6 +57,25 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
+	<!--  Clickjacking OWASP -->
+	<display-name>OWASP ClickjackFilter</display-name>
+    
+    <filter>
+        <filter-name>ClickjackFilterSameOrigin</filter-name>
+        <filter-class>org.owasp.filters.ClickjackFilter</filter-class>
+        <init-param>
+            <param-name>mode</param-name>
+            <param-value>SAMEORIGIN</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping> 
+        <filter-name>ClickjackFilterSameOrigin</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
 
 	<error-page>
 		<error-code>404</error-code>

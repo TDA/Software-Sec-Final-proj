@@ -1,17 +1,21 @@
 package edu.asu.ss2015.group4.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import edu.asu.ss2015.group4.dao.BankAccountDAO;
+import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.BankAccount;
 
 /* adding a sample comment */
@@ -65,17 +69,27 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 	}
 
 	@Override
-	public int Validate(BankAccount a) {
+	public int Validate(BankAccount a,String AccountType) {
 		int count = 0;
+		String count1=null;
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
-			String sql = "SELECT COUNT(*) from accounts where AccountID=?";
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);
+			JdbcTemplate jdbcTemplate1 = new JdbcTemplate(dataSource);
+
+			String Sql1="SELECT AccountID from accounts where username=? and AccountType=?";
+			count1 = jdbcTemplate1.queryForObject(Sql1, new Object[] {loggedInUser,AccountType }, String.class);
+			System.out.println("count1"+count1);
+			System.out.println("getid"+a.getId());
+		if(!count1.equals(a.getId())){
+		String sql = "SELECT COUNT(*) from accounts where AccountID=?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);
 		}
+		else
+			count=-1;}
 		return count;
 	}
 

@@ -78,5 +78,7 @@
 		<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 
 	</sec:authorize>
+<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
+<script>if (top != self) top.location=location</script>
 </body>
 </html>

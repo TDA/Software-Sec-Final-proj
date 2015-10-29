@@ -154,7 +154,7 @@ public class TransactionController {
 					transac.setAccountType(accountType);
 					transac.setToTransactionAccountID(ToTransactionAccountID);
 					b.setId(ToTransactionAccountID);
-					int i = bankAccountService.BankValidate(b);
+					int i = bankAccountService.BankValidate(b, accountType);
 					if (i == 1) {
 						transac.setCount(i);
 						String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
@@ -189,6 +189,26 @@ public class TransactionController {
 						modelAndView.addObject("errorMsg", "Account ID doesn't exist or Select a proper Account Id");
 				} else
 					modelAndView.addObject("errorMsg", "Account type must be chosen.");
+				/*
+				 * System.out.println("fialcount" + i); transac.setCount(i);
+				 * //transfervalidator1.validateForm(transac, result);
+				 * //System.out.println("here" + result); /*if
+				 * (result.hasErrors()) { System.out.println("error");
+				 * modelAndView.setViewName("transfer"); // This prints errors
+				 * 
+				 * } else {
+				 * 
+				 * List<UserInformationDTO> info = new
+				 * ArrayList<UserInformationDTO>(); info =
+				 * userService.fetchUserDetails(userDetail.getUsername());
+				 * transac.setSupervisorName(info.get(0).getSupervisorName());
+				 * System.out.println("successtransac11"); String a =
+				 * trans.TransferUser(transac);
+				 * 
+				 * modelAndView.setViewName("success");
+				 * 
+				 * }
+				 */
 
 			}
 		} else {
@@ -536,7 +556,7 @@ public class TransactionController {
 			BankAccount b = new BankAccount();
 			b.setId(transac.getFromTransactionAccountID());
 			b.setAccountType(transac.getAccountType());
-			int i = bankAccountService.BankValidate(b);
+			int i = bankAccountService.BankValidate(b, transac.getAccountType());
 			if (i == 1) {
 				double b1 = bankAccountService.BankBalanceValidate(b);
 				transac.setBalance(b1);
