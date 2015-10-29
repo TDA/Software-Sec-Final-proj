@@ -77,7 +77,7 @@ public class TransactionController {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			modelAndView.setViewName("balance");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -119,7 +119,7 @@ public class TransactionController {
 					roleAuth = auth12.getAuthority();
 					break;
 				}
-				modelAndView.addObject("role",roleAuth);
+				modelAndView.addObject("role", roleAuth);
 				System.out.println(arrayList.get(0));
 				modelAndView.setViewName("transfer");
 				generateOTP(username);
@@ -160,7 +160,7 @@ public class TransactionController {
 					String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
 					if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
 						double b1 = bankAccountService.BankBalanceValidate(b);
-						if (b1 >= Double.parseDouble(amount) && Double.parseDouble(amount)> 0.0 ) {
+						if (b1 >= Double.parseDouble(amount) && Double.parseDouble(amount) > 0.0) {
 							transac.setBalance(b1);
 							transac.setAmount(amount);
 							if (otp != null && isOtpValid(username, otp)) {
@@ -178,7 +178,8 @@ public class TransactionController {
 								} else
 									modelAndView.addObject("errorMsg", "OTP has expired.");
 							} else
-								modelAndView.addObject("errorMsg", "Incorrect OTP.Enter Proper Amount between 0 to 99999.99");
+								modelAndView.addObject("errorMsg",
+										"Incorrect OTP.Enter Proper Amount between 0 to 99999.99");
 						} else
 							modelAndView.addObject("errorMsg", "Insufficient balance.");
 
@@ -252,7 +253,7 @@ public class TransactionController {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			modelAndView.setViewName("ViewTransactions");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -282,7 +283,7 @@ public class TransactionController {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			generateOTP(username);
 			modelAndView.setViewName("Debit");
 		} else {
@@ -391,7 +392,7 @@ public class TransactionController {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			System.out.println("to transfer");
 			modelAndView.setViewName("Credit");
 			System.out.println("the username is: " + userDetail.getUsername());
@@ -513,7 +514,7 @@ public class TransactionController {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			modelAndView.setViewName("MerchantTransfer");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -588,7 +589,7 @@ public class TransactionController {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			modelAndView.setViewName("UserRequest");
 		} else {
 			modelAndView.setViewName("permission-denied");

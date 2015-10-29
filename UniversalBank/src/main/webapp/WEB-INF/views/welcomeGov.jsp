@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -103,8 +104,8 @@
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+
+
 </body>
 </html>
+>>>>>>> branch 'master' of https://github.com/TDA/Software-Sec-Final-proj.git

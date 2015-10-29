@@ -31,11 +31,7 @@
 <!-- Custom Fonts -->
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
-
-
-
-<body oncontextmenu="return false">
+	rel="stylesheet" type="text/css"><body oncontextmenu="return false">
 <% response.setHeader("Cache-Control","no-cache");    
 response.setHeader("Pragma","no-cache"); %>
 	<!-- Page Content -->
@@ -153,9 +149,8 @@ response.setHeader("Pragma","no-cache"); %>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+
+
 <script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
