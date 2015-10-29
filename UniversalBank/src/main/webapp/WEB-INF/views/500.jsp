@@ -71,6 +71,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<h1 class="page-header">Account Home Page</h1>
+				<h4>Postgres Error: 03000	sql_statement_not_yet_complete</h4>
 			</div>
 		</div>
 	</div>
