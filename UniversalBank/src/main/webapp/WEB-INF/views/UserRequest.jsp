@@ -87,12 +87,15 @@
 							<td><button type="submit" name="approveParam"
 									value="approve_${transaction.transactionID}" >Approve
 								</button></td>
-							<td><button type="submit" name="approveParam" value="Deny" >Deny
-								</button></td>
+							
 						</tr>
 					</c:forEach>
 
 				</table>
+				<br />
+				<br />
+		<Font Color="red">Note:To deny or dispute a transaction please contact your nearest branch </Font>
+					<br />
 			</form:form>
 		</div>
 

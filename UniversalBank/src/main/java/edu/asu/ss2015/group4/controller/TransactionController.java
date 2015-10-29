@@ -548,10 +548,11 @@ public class TransactionController {
 
 			} else {
 
-				String a = trans.MerchantPaymentUser(transac);
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
 				transac.setSupervisorName(info.get(0).getSupervisorName());
+				String a = trans.MerchantPaymentUser(transac);
+
 				System.out.println("successtransac11");
 				modelAndView.setViewName("success");
 

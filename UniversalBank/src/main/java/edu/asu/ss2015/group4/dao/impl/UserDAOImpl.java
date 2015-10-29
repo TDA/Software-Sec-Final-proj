@@ -176,7 +176,7 @@ public class UserDAOImpl implements UserDAO {
 		String registerUserQuery = "INSERT into edit_info (phonenumber,address,sex) VALUES (?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		jdbcTemplateForExternalUser.update(registerUserQuery,
-				new Object[] { username, userInfo.getPhoneNumber(), userInfo.getAddress(), userInfo.getSex() });
+				new Object[] { userInfo.getPhoneNumber(), userInfo.getAddress(), userInfo.getSex() });
 		return "Request received! <br/> Please check you email for account approval notification!";
 	}
 

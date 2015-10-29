@@ -122,7 +122,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 			String registerUserQuery = "INSERT into transactions"
 					+ "(TransactionType,Amount,FromTransactionAccountId,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
-					+ ",Comments,Authorise_bank,critical_transactions, SupervisorName) " + "VALUES (?,?,?,"
+					+ ",Comments,AuthoriseBank,critical_transactions, SupervisorName) " + "VALUES (?,?,?,"
 					+ "(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,
@@ -191,9 +191,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> fetchCriticalTransaction(String managerName) {
 		List<TransactionDTO> criticalTransactions = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and (transactions.SupervisorName IN (Select users.username from unibank.users where SupervisorName=?))";
+		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=?  and AuthoriseBank=? and Approved=? and (transactions.SupervisorName IN (Select users.username from unibank.users where SupervisorName=?))";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 1, 0, managerName },
+		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 1,1, 0, managerName },
 				new TransactionTableRows());
 		return criticalTransactions;
 	}
@@ -202,9 +202,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> viewTransactionForDeletion(String Username) {
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Approved=? and IsDeleted=? and SupervisorName=? and Critical_transactions=? ";
+		String retrieveDetailsQuery = "SELECT * from transactions where Approved=? and IsDeleted=? and SupervisorName=? and Critical_transactions=? and AuthoriseBank=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username, 0 },
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username, 0,1},
 				new TransactionTableRows());
 		return transactionToDisplay;
 	}
@@ -238,9 +238,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> viewTransactionToRegularEmployee(String Username) {
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and SupervisorName=?";
+		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and SupervisorName=? and AuthoriseBank=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username },
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username,1 },
 				new TransactionTableRows());
 		return transactionToDisplay;
 	}

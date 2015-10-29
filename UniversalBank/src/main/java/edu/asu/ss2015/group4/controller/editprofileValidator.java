@@ -17,7 +17,7 @@ public class editprofileValidator {
 	}
 
 	public static void validateForm(Object info, Errors errors) {
-		UserInformation cinfo = (UserInformation) info;
+		editProfile cinfo = (editProfile) info;
 		if (cinfo.getPhoneNumber() == null) {
 			errors.rejectValue("phoneNumber", "lengthOfPhoneNumber.UserInformation.phoneNumber",
 					"Phone number is invalid");
