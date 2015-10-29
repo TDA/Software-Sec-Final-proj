@@ -41,7 +41,7 @@
 
 </head>
 
-<body>
+<body oncontextmenu="return false">
 
 	<!-- Navigation -->
 	<a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i
