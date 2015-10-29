@@ -33,6 +33,7 @@ import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.model.BankBalance;
 import edu.asu.ss2015.group4.model.OTPGenerator;
 import edu.asu.ss2015.group4.model.Transactions;
+import edu.asu.ss2015.group4.model.log;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.TransactionService;
 import edu.asu.ss2015.group4.service.UserService;
@@ -175,6 +176,13 @@ public class TransactionController {
 										String a = trans.TransferUser(transac);
 										List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 										info = userService.fetchUserDetails(userDetail.getUsername());
+String content = "Transfer Request from " + username + "for amount"+amount+" To user "+
+											 userDetail.getUsername();
+									log lg = new log();
+									lg.setid(username);
+									lg.settime(new Date());
+									lg.setcontent(content);
+									userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 										transac.setSupervisorName(info.get(0).getSupervisorName());
 										OTPGenerator otp1 = new OTPGenerator();
 										Date date = new Date();
@@ -351,6 +359,13 @@ public class TransactionController {
 								if (!hasOtpExpired(username)) {
 									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 									info = userService.fetchUserDetails(userDetail.getUsername());
+									String content = "Debit Request by " + username + " for amount "
+											+ amount+" to be transferred to "+userDetail.getUsername();
+									log lg = new log();
+									lg.setid(username);
+									lg.settime(new Date());
+									lg.setcontent(content);
+									userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 									transac.setSupervisorName(info.get(0).getSupervisorName());
 									trans.DebitUser(transac);
 									OTPGenerator otp1 = new OTPGenerator();
@@ -456,6 +471,13 @@ public class TransactionController {
 						if (otp != null && !otp.equals("")) {
 							if (isOtpValid(username, otp)) {
 								if (!hasOtpExpired(username)) {
+									String content = "Credit Request by " + username + " for amount "
+											+ amount;
+									log lg = new log();
+									lg.setid(username);
+									lg.settime(new Date());
+									lg.setcontent(content);
+									userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 									trans.CreditUser(transac);
 									OTPGenerator otp1 = new OTPGenerator();
 									Date date = new Date();
@@ -561,6 +583,7 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
 			BankAccount b = new BankAccount();
 			b.setId(transac.getFromTransactionAccountID());
 			b.setAccountType(transac.getAccountType());
@@ -579,6 +602,13 @@ public class TransactionController {
 
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
+				String content = "Transfer Request from " + loggedInUser + "for amount"+transac.getAmount()+" To user "+
+						 userDetail.getUsername();
+				log lg = new log();
+				lg.setid(loggedInUser);
+				lg.settime(new Date());
+				lg.setcontent(content);
+				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 				transac.setSupervisorName(info.get(0).getSupervisorName());
 				String a = trans.MerchantPaymentUser(transac);
 
@@ -685,6 +715,12 @@ public class TransactionController {
 			String[] split = strDelete.split("_");
 			String x = split[0];
 			String y = split[1];
+			String content = " Transaction Deletion by " + loggedInUser + " on Transaction ID "+ y;
+			log lg = new log();
+			lg.setid(loggedInUser);
+			lg.settime(new Date());
+			lg.setcontent(content);
+			userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 			if (split[0].equals("delete")) {
 				int x1 = Integer.parseInt(y);
@@ -742,6 +778,12 @@ public class TransactionController {
 			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 
 			if (split[0].equals("approve")) {
+				String content = " Transaction Approval from " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				log lg = new log();
+				lg.setid(loggedInUser);
+				lg.settime(new Date());
+				lg.setcontent(content);
+				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 				int x1 = Integer.parseInt(y);
 				System.out.println("xhere" + x1);
 				double x2 = Double.parseDouble(z);
@@ -749,6 +791,12 @@ public class TransactionController {
 			}
 
 			else {
+				String content = " Transaction Denial by " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				log lg = new log();
+				lg.setid(loggedInUser);
+				lg.settime(new Date());
+				lg.setcontent(content);
+				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 				int x1 = Integer.parseInt(y);
 				approve = trans.RegularEmployeeDeleteTransaction(x1, loggedInUser);
 			}
@@ -874,6 +922,12 @@ public class TransactionController {
 			String y = split[1];
 			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 			if (split[0].equals("approve")) {
+				String content = "Account Deletion approved by " + loggedInUser + " on the id "+split[1];
+				log lg = new log();
+				lg.setid(loggedInUser);
+				lg.settime(new Date());
+				lg.setcontent(content);
+				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 				int x1 = Integer.parseInt(y);
 				String approve = trans.ApproveUserRequestRegularEmployee(x1, loggedInUser);
 			}

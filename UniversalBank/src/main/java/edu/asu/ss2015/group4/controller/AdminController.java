@@ -42,9 +42,6 @@ public class AdminController {
 		// ArrayList<UserInformationDTO>();
 
 		List<UserInformationDTO> disabledIntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> AuthPiiCustInfoFromDTO1 = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> IntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> DelIntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		ArrayList<String> databaseArrayList1 = new ArrayList<String>();
 		databaseArrayList1.add("Clerk");
 		databaseArrayList1.add("Manager");
@@ -61,16 +58,9 @@ public class AdminController {
 
 			disabledIntInfoFromDTO = userService.fetchDisabledInternalUserDetails();
 
-			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
-			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
-			IntInfoFromDTO = userService.fetchIntUserDetails();
-
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
-			modelAndView.addObject("DelIntInfoFromDTO", DelIntInfoFromDTO);
 			modelAndView.addObject("disabledIntInfoFromDTO", disabledIntInfoFromDTO);
-			modelAndView.addObject("AuthPiiCustInfoFromDTO1", AuthPiiCustInfoFromDTO1);
-			modelAndView.addObject("IntInfoFromDTO", IntInfoFromDTO);
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("welcomeAdmin");
@@ -131,10 +121,7 @@ public class AdminController {
 		// List<UserInformationDTO> custInfoFromDTO = new
 		// ArrayList<UserInformationDTO>();
 
-		List<UserInformationDTO> disabledIntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		List<UserInformationDTO> AuthPiiCustInfoFromDTO1 = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> IntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> DelIntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		ArrayList<String> databaseArrayList1 = new ArrayList<String>();
 		databaseArrayList1.add("Clerk");
 		databaseArrayList1.add("Manager");
@@ -149,18 +136,11 @@ public class AdminController {
 			// Call the DAOImpl layer
 			// custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
-			disabledIntInfoFromDTO = userService.fetchDisabledInternalUserDetails();
-
 			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
-			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
-			IntInfoFromDTO = userService.fetchIntUserDetails();
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
-			modelAndView.addObject("DelIntInfoFromDTO", DelIntInfoFromDTO);
-			modelAndView.addObject("disabledIntInfoFromDTO", disabledIntInfoFromDTO);
 			modelAndView.addObject("AuthPiiCustInfoFromDTO1", AuthPiiCustInfoFromDTO1);
-			modelAndView.addObject("IntInfoFromDTO", IntInfoFromDTO);
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("pii_access");
@@ -211,10 +191,7 @@ public class AdminController {
 		// List<UserInformationDTO> custInfoFromDTO = new
 		// ArrayList<UserInformationDTO>();
 
-		List<UserInformationDTO> disabledIntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> AuthPiiCustInfoFromDTO1 = new ArrayList<UserInformationDTO>();
 		List<UserInformationDTO> IntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> DelIntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		ArrayList<String> databaseArrayList1 = new ArrayList<String>();
 		databaseArrayList1.add("Clerk");
 		databaseArrayList1.add("Manager");
@@ -229,17 +206,10 @@ public class AdminController {
 			// Call the DAOImpl layer
 			// custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
-			disabledIntInfoFromDTO = userService.fetchDisabledInternalUserDetails();
-
-			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
-			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
 			IntInfoFromDTO = userService.fetchIntUserDetails();
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
-			modelAndView.addObject("DelIntInfoFromDTO", DelIntInfoFromDTO);
-			modelAndView.addObject("disabledIntInfoFromDTO", disabledIntInfoFromDTO);
-			modelAndView.addObject("AuthPiiCustInfoFromDTO1", AuthPiiCustInfoFromDTO1);
 			modelAndView.addObject("IntInfoFromDTO", IntInfoFromDTO);
 			modelAndView.addObject("myList1", databaseArrayList1);
 
@@ -290,9 +260,6 @@ public class AdminController {
 		// List<UserInformationDTO> custInfoFromDTO = new
 		// ArrayList<UserInformationDTO>();
 
-		List<UserInformationDTO> disabledIntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> AuthPiiCustInfoFromDTO1 = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> IntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		List<UserInformationDTO> DelIntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		ArrayList<String> databaseArrayList1 = new ArrayList<String>();
 		databaseArrayList1.add("Clerk");
@@ -308,18 +275,11 @@ public class AdminController {
 			// Call the DAOImpl layer
 			// custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
-			disabledIntInfoFromDTO = userService.fetchDisabledInternalUserDetails();
-
-			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
 			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
-			IntInfoFromDTO = userService.fetchIntUserDetails();
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
 			modelAndView.addObject("DelIntInfoFromDTO", DelIntInfoFromDTO);
-			modelAndView.addObject("disabledIntInfoFromDTO", disabledIntInfoFromDTO);
-			modelAndView.addObject("AuthPiiCustInfoFromDTO1", AuthPiiCustInfoFromDTO1);
-			modelAndView.addObject("IntInfoFromDTO", IntInfoFromDTO);
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("reopen_account");
@@ -371,10 +331,7 @@ public class AdminController {
 		// List<UserInformationDTO> custInfoFromDTO = new
 		// ArrayList<UserInformationDTO>();
 
-		List<UserInformationDTO> disabledIntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> AuthPiiCustInfoFromDTO1 = new ArrayList<UserInformationDTO>();
 		List<UserInformationDTO> IntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> DelIntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		ArrayList<String> databaseArrayList1 = new ArrayList<String>();
 		databaseArrayList1.add("Clerk");
 		databaseArrayList1.add("Manager");
@@ -389,17 +346,10 @@ public class AdminController {
 			// Call the DAOImpl layer
 			// custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
-			disabledIntInfoFromDTO = userService.fetchDisabledInternalUserDetails();
-
-			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
-			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
 			IntInfoFromDTO = userService.fetchIntUserDetails();
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
-			modelAndView.addObject("DelIntInfoFromDTO", DelIntInfoFromDTO);
-			modelAndView.addObject("disabledIntInfoFromDTO", disabledIntInfoFromDTO);
-			modelAndView.addObject("AuthPiiCustInfoFromDTO1", AuthPiiCustInfoFromDTO1);
 			modelAndView.addObject("IntInfoFromDTO", IntInfoFromDTO);
 			modelAndView.addObject("myList1", databaseArrayList1);
 
@@ -473,10 +423,6 @@ public class AdminController {
 		// List<UserInformationDTO> custInfoFromDTO = new
 		// ArrayList<UserInformationDTO>();
 
-		List<UserInformationDTO> disabledIntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> AuthPiiCustInfoFromDTO1 = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> IntInfoFromDTO = new ArrayList<UserInformationDTO>();
-		List<UserInformationDTO> DelIntInfoFromDTO = new ArrayList<UserInformationDTO>();
 		List<log> logdetails = new ArrayList<log>();
 		ArrayList<String> databaseArrayList1 = new ArrayList<String>();
 		databaseArrayList1.add("Clerk");
@@ -492,20 +438,11 @@ public class AdminController {
 			// Call the DAOImpl layer
 			// custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
-			disabledIntInfoFromDTO = userService.fetchDisabledInternalUserDetails();
-
-			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
-			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
-			IntInfoFromDTO = userService.fetchIntUserDetails();
 			logdetails = userService.fetchlogDetails();
 			// System.out.println(IntInfoFromDTO.getUserName());
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
-			modelAndView.addObject("DelIntInfoFromDTO", DelIntInfoFromDTO);
-			modelAndView.addObject("disabledIntInfoFromDTO", disabledIntInfoFromDTO);
-			modelAndView.addObject("AuthPiiCustInfoFromDTO1", AuthPiiCustInfoFromDTO1);
-			modelAndView.addObject("IntInfoFromDTO", IntInfoFromDTO);
 			modelAndView.addObject("myList1", databaseArrayList1);
 			modelAndView.addObject("loglist", logdetails);
 

@@ -25,6 +25,7 @@ import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.model.OTPGenerator;
 import edu.asu.ss2015.group4.model.UserRequest;
+import edu.asu.ss2015.group4.model.log;
 import edu.asu.ss2015.group4.service.BankAccountService;
 import edu.asu.ss2015.group4.service.MailingService;
 import edu.asu.ss2015.group4.service.TransactionService;
@@ -101,6 +102,10 @@ public class ManagerController {
 	public ModelAndView processRequests(@RequestParam("approveParam2") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
 		boolean success = true;
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
@@ -108,9 +113,21 @@ public class ManagerController {
 			if (split[0].equals("approveVal")) {
 				switch (split[2]) {
 				case "Delete Account":
+					String content = "External Account Deletion by " + loggedInUser + " To the customer  "+ split[2];
+					log lg = new log();
+					lg.setid(loggedInUser);
+					lg.settime(new Date());
+					lg.setcontent(content);
+					userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 					success = userService.deleteAccount(split[1]);
 					break;
 				case "Edit Profile":
+					String content1 = "Edit Account Approval by " + loggedInUser + " To the customer  "+ split[2];
+					log lg1 = new log();
+					lg1.setid(loggedInUser);
+					lg1.settime(new Date());
+					lg1.setcontent(content1);
+					userService.savelog(lg1.gettime(), lg1.getid(), lg1.getcontent());
 					success = userService.processEditInfoRequest(split[1]);
 					break;
 				case "REOPEN_ACCOUNT":
@@ -122,6 +139,7 @@ public class ManagerController {
 
 		} else {
 			return modelAndView;
+		}
 		}
 		return managerPage();
 	}
@@ -190,11 +208,12 @@ public class ManagerController {
 	public ModelAndView manageCriticalTransactionRequests(@RequestParam("approveParam1") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();
 		String approve = "";
+		
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
 
@@ -203,12 +222,24 @@ public class ManagerController {
 			String z = split[2];
 
 			if (split[0].equals("approveVal")) {
+				String content = "Critical Transaction Approval from " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				log lg = new log();
+				lg.setid(loggedInUser);
+				lg.settime(new Date());
+				lg.setcontent(content);
+				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 				int x1 = Integer.parseInt(y);
 				double x2 = Double.parseDouble(z);
 				approve = transactionService.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
 			}
 
 			else {
+				String content = "Critical Transaction Denial from " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				log lg = new log();
+				lg.setid(loggedInUser);
+				lg.settime(new Date());
+				lg.setcontent(content);
+				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 				int x1 = Integer.parseInt(y);
 				approve = transactionService.RegularEmployeeDeleteTransaction(x1, loggedInUser);
 			}
@@ -223,12 +254,22 @@ public class ManagerController {
 	public ModelAndView managerExternalUserApproval(@RequestParam("approveParam") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
 			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
 			custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
 			if (split[0].equals("approveVal")) {
+				String content = "Employee Approval from " + loggedInUser + " To "+ custInfoFromDTO.get(0).getUserName();
+				log lg = new log();
+				lg.setid(loggedInUser);
+				lg.settime(new Date());
+				lg.setcontent(content);
+				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 				userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
 				String employeeName = getRandomRegularEmployee();
 				userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
@@ -248,6 +289,7 @@ public class ManagerController {
 			}
 		} else {
 			return modelAndView;
+		}
 		}
 		return managerPage();
 	}
