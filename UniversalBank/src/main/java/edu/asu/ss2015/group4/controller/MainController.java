@@ -78,7 +78,7 @@ public class MainController {
 		if (exception instanceof BadCredentialsException) {
 			error = "Invalid username and password!";
 		} else if (exception instanceof LockedException) {
-			error = "Your account is locked. <a href=\"unlockAccount\">Plese click here to unlock.</a>";
+			error = "Your account is locked. <a href='/unlockAccount'>Plese click here to unlock.</a>";
 		} else if (exception instanceof SessionAuthenticationException) {
 			error = exception.getMessage();
 		} else if (exception instanceof DisabledException) {
@@ -121,7 +121,7 @@ public class MainController {
 						userDTO.get(0).getOtpValidity())) {
 					custService.unlockExternalUserAccount(userName);
 					model.addObject("successMessage",
-							"account Unlocked, <a href=\'/UniversalBankingSystem/index\'>login</a> to continue banking.");
+							"account Unlocked, <a href='/index'>login</a> to continue banking.");
 
 				} else
 					model.addObject("errorMessage", "OTP is incorrect or it has expired.");
