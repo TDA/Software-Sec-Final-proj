@@ -114,7 +114,7 @@
 
 				<form name='loginForm' class="form-signin" role="form"
 					action="<c:url value='/j_spring_security_check' />" method='POST'
-					autocomplete="off">
+					autocomplete="off" htmlEscape="true">
 
 					<input type="text" name="userName" id="userName" size="20" class="form-control"
 						placeholder="Username" required> 

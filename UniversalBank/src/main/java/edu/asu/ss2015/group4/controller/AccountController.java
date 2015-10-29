@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
-import edu.asu.ss2015.group4.model.UserInformation;
 import edu.asu.ss2015.group4.model.editProfile;
 import edu.asu.ss2015.group4.service.UserService;
 
@@ -121,10 +120,8 @@ public class AccountController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/DisplaySignUp/delete", method = RequestMethod.POST)
-	public ModelAndView deleteAccount(@Valid @ModelAttribute("delete") UserInformation custInfo, BindingResult result,
-			HttpServletRequest request) throws NoSuchAlgorithmException, FileNotFoundException {
-
+	@RequestMapping(value = "/DisplaySignUp", params = "delete", method = RequestMethod.POST)
+	public ModelAndView OtpgenerateDebit() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();

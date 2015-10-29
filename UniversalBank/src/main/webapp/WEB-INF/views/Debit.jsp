@@ -84,7 +84,7 @@
 				'Generate OTP' and check your email for password.
 				</Font>
 				<form:form method="POST" action="Debit" modelAttribute="DebitForm"
-					autocomplete="off">
+					autocomplete="off" htmlEscape="true">
 					<br />
 					<br />
 					<c:if test="${not empty errorMsg}">

@@ -67,8 +67,8 @@
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
 					<div class="table-responsive">
-						<form:form method="POST" action="delete_account">
-							<table id="mytable" class="table table-bordred table-striped">
+						<form:form method="POST" action="delete_account" htmlEscape="true">
+							<table id="mytable" class="table table-bordred table-striped" >
 								<thead>
 									<tr>
 										<th>Username</th>

@@ -72,7 +72,7 @@
 		</div>
 		<div class="panel-body">
 			<form:form method="POST" action="UserRequest"
-				modelAttribute="ApproveForm" autocomplete="off">
+				modelAttribute="ApproveForm" autocomplete="off" htmlEscape="true">
 				<table style="width: 80%">
 					<tr>
 						<th>Transaction ID</th>

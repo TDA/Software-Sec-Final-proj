@@ -75,7 +75,7 @@
 
 
 			<form:form method="POST" action="ModifyTransaction"
-				modelAttribute="ApproveForm" autocomplete="off">
+				modelAttribute="ApproveForm" autocomplete="off" htmlEscape="true">
 
 				<c:if test="${not empty errorMsg}">
 					<h3>${errorMsg}</h3>

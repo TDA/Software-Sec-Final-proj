@@ -96,7 +96,7 @@ body {
 										</h4>
 									</c:if>
 									<form:form method="POST" action="register"
-										modelAttribute="registerForm"  autocomplete="off">
+										modelAttribute="registerForm"  autocomplete="off" htmlEscape="true">
 										
 										<input type="hidden" id="newfield" name="newfield" value="${selected}"/>
 										<br />

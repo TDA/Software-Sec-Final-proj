@@ -67,7 +67,7 @@
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
 					<div class="table-responsive">
-						<form:form method="POST" action="viewLogs">
+						<form:form method="POST" action="viewLogs" htmlEscape="true">
 							<table id="mytable" class="table table-bordred table-striped">
 								<thead>
 									<tr>

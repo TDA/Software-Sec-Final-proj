@@ -79,7 +79,7 @@
 				<h2 class="text-warning bg-info">${someMessage}</h2>
 			</div>
 			<form:form method="POST" action="ViewTransactionRegularEmployee"
-				modelAttribute="ApproveForm" autocomplete="off">
+				modelAttribute="ApproveForm" autocomplete="off" htmlEscape="true">
 				<table style="width: 80%">
 					<tr>
 						<th>Transaction ID</th>

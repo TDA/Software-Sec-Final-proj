@@ -58,7 +58,7 @@
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
 					<div class="table-responsive">
-						<form:form method="POST" action="view_piiusers">
+						<form:form method="POST" action="view_piiusers" htmlEscape="true">
 						<table id="mytable" class="table table-bordred table-striped">
 							<thead>
 								<tr>

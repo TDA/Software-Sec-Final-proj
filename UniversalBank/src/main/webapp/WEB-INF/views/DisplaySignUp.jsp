@@ -79,7 +79,7 @@
 					</h4>
 				</c:if>
 				<form:form method="POST" action="DisplaySignUp"
-					modelAttribute="editForm" autocomplete="off">
+					modelAttribute="editForm" autocomplete="off" htmlEscape="true">
 					<br />
 					<br />
 					<c:if test="${not empty errorMsg}">
@@ -117,14 +117,13 @@
 					<h4>
 						<input type="submit" style="margin-right: 5%" name="edit"
 							id="edit" value="edit" />
+							<br /> <br />
+							<input type="submit" style="margin-right: 5%" name="delete"
+						id="delete" value="Delete Account" />
 					</h4>
 
 				</form:form>
-				<form:form method="POST" action="DisplaySignUp/delete"
-					modelAttribute="delete" autocomplete="off">
-					<input type="submit" style="margin-right: 5%" name="delete"
-						id="delete" value="Delete Account" />
-				</form:form>
+				
 			</div>
 		</div>
 	</div>

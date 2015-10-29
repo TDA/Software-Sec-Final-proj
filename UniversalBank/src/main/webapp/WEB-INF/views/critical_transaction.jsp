@@ -72,7 +72,7 @@
 				<h2 class="text-warning bg-info">${someMessage}</h2>
 			</div>
 			<form:form method="POST" action="critical_transaction"
-				modelAttribute="ApproveForm" autocomplete="off">
+				modelAttribute="ApproveForm" autocomplete="off" htmlEscape="true">
 				<table id="mytable1" class="table table-bordred table-striped">
 					<thead>
 						<tr>

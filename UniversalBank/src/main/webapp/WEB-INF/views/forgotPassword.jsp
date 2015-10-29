@@ -81,7 +81,7 @@ body {
                 	${successMessage}
                 </c:if>
                 </FONT>
-				<form:form method="POST" action="forgotPassword" autocomplete="off">
+				<form:form method="POST" action="forgotPassword" autocomplete="off" htmlEscape="true">
 
 					<b>User Name:</b>
 					<FONT color="red"><form:errors path="userName" /></FONT>

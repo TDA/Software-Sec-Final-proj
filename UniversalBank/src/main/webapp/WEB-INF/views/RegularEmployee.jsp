@@ -65,7 +65,7 @@
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
 					<div class="table-responsive">
-						<form:form method="POST" action="clerk">
+						<form:form method="POST" action="clerk" htmlEscape="true">
 						</form:form>
 					</div>
 				</div>

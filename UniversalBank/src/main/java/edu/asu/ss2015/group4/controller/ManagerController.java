@@ -106,40 +106,41 @@ public class ManagerController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
-		boolean success = true;
-		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			String[] split = approveOrDeny.split("_");
+			boolean success = true;
+			if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+				String[] split = approveOrDeny.split("_");
 
-			if (split[0].equals("approveVal")) {
-				switch (split[2]) {
-				case "Delete Account":
-					String content = "External Account Deletion by " + loggedInUser + " To the customer  "+ split[2];
-					log lg = new log();
-					lg.setid(loggedInUser);
-					lg.settime(new Date());
-					lg.setcontent(content);
-					userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
-					success = userService.deleteAccount(split[1]);
-					break;
-				case "Edit Profile":
-					String content1 = "Edit Account Approval by " + loggedInUser + " To the customer  "+ split[2];
-					log lg1 = new log();
-					lg1.setid(loggedInUser);
-					lg1.settime(new Date());
-					lg1.setcontent(content1);
-					userService.savelog(lg1.gettime(), lg1.getid(), lg1.getcontent());
-					success = userService.processEditInfoRequest(split[1]);
-					break;
-				case "REOPEN_ACCOUNT":
-					break;
-				default:
-					break;
+				if (split[0].equals("approveVal")) {
+					switch (split[2]) {
+					case "Delete Account":
+						String content = "External Account Deletion by " + loggedInUser + " To the customer  "
+								+ split[2];
+						log lg = new log();
+						lg.setid(loggedInUser);
+						lg.settime(new Date());
+						lg.setcontent(content);
+						userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+						success = userService.deleteAccount(split[1]);
+						break;
+					case "Edit Profile":
+						String content1 = "Edit Account Approval by " + loggedInUser + " To the customer  " + split[2];
+						log lg1 = new log();
+						lg1.setid(loggedInUser);
+						lg1.settime(new Date());
+						lg1.setcontent(content1);
+						userService.savelog(lg1.gettime(), lg1.getid(), lg1.getcontent());
+						success = userService.processEditInfoRequest(split[1]);
+						break;
+					case "REOPEN_ACCOUNT":
+						break;
+					default:
+						break;
+					}
 				}
-			}
 
-		} else {
-			return modelAndView;
-		}
+			} else {
+				return modelAndView;
+			}
 		}
 		return managerPage();
 	}
@@ -208,12 +209,12 @@ public class ManagerController {
 	public ModelAndView manageCriticalTransactionRequests(@RequestParam("approveParam1") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();
 		String approve = "";
-		
+
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
 
@@ -222,7 +223,8 @@ public class ManagerController {
 			String z = split[2];
 
 			if (split[0].equals("approveVal")) {
-				String content = "Critical Transaction Approval from " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				String content = "Critical Transaction Approval from " + loggedInUser + " To Transaction ID " + y
+						+ "for amount of " + z;
 				log lg = new log();
 				lg.setid(loggedInUser);
 				lg.settime(new Date());
@@ -234,7 +236,8 @@ public class ManagerController {
 			}
 
 			else {
-				String content = "Critical Transaction Denial from " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				String content = "Critical Transaction Denial from " + loggedInUser + " To Transaction ID " + y
+						+ "for amount of " + z;
 				log lg = new log();
 				lg.setid(loggedInUser);
 				lg.settime(new Date());
@@ -258,38 +261,39 @@ public class ManagerController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
-		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			String[] split = approveOrDeny.split("_");
-			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
-			custInfoFromDTO = userService.fetchUserDetails(split[1]);
+			if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+				String[] split = approveOrDeny.split("_");
+				List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
-			if (split[0].equals("approveVal")) {
-				String content = "Employee Approval from " + loggedInUser + " To "+ custInfoFromDTO.get(0).getUserName();
-				log lg = new log();
-				lg.setid(loggedInUser);
-				lg.settime(new Date());
-				lg.setcontent(content);
-				userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
-				userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
-				String employeeName = getRandomRegularEmployee();
-				userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
+				if (split[0].equals("approveVal")) {
+					String content = "Employee Approval from " + loggedInUser + " To "
+							+ custInfoFromDTO.get(0).getUserName();
+					log lg = new log();
+					lg.setid(loggedInUser);
+					lg.settime(new Date());
+					lg.setcontent(content);
+					userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+					userService.activateExternalUserAccount(custInfoFromDTO.get(0).getUserName());
+					String employeeName = getRandomRegularEmployee();
+					userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
 
-				generateAccountInformation(custInfoFromDTO.get(0));
-				/// sendEmailToUser(custInfoFromDTO.get(0));
-				OTPGenerator otp = new OTPGenerator();
-				Date date = new Date();
-				long otpTime = date.getTime() + 600000;
-				String otpValidity = Long.toString(otpTime);
-				int OTP = otp.generateOTP();
-				userService.insertOTP(Integer.toString(OTP), otpValidity, custInfoFromDTO.get(0).getUserName());
-				List<UserInformationDTO> custInfoFromDTO1 = new ArrayList<UserInformationDTO>();
-				custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
-				sendEmailToUser(custInfoFromDTO.get(0), custInfoFromDTO1.get(0).getOTP(),
-						custInfoFromDTO1.get(0).getOtpValidity());
+					generateAccountInformation(custInfoFromDTO.get(0));
+					/// sendEmailToUser(custInfoFromDTO.get(0));
+					OTPGenerator otp = new OTPGenerator();
+					Date date = new Date();
+					long otpTime = date.getTime() + 600000;
+					String otpValidity = Long.toString(otpTime);
+					int OTP = otp.generateOTP();
+					userService.insertOTP(Integer.toString(OTP), otpValidity, custInfoFromDTO.get(0).getUserName());
+					List<UserInformationDTO> custInfoFromDTO1 = new ArrayList<UserInformationDTO>();
+					custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
+					sendEmailToUser(custInfoFromDTO.get(0), custInfoFromDTO1.get(0).getOTP(),
+							custInfoFromDTO1.get(0).getOtpValidity());
+				}
+			} else {
+				return modelAndView;
 			}
-		} else {
-			return modelAndView;
-		}
 		}
 		return managerPage();
 	}
@@ -361,7 +365,7 @@ public class ManagerController {
 
 		+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
 				+ "\n OTP: " + otp + " which is valid till: " + validDate
-				+ "\n http://localhost:8080/UniversalBankingSystem/unlockAccount"
+				+ "\n https://group4.mobicloud.asu.edu/UniversalBank/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 
 		MailingService mm = (MailingService) context.getBean("mailingService");

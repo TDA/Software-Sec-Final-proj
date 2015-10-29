@@ -67,7 +67,7 @@
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
 					<div class="table-responsive">
-						<form:form method="POST" action="reopen_account">
+						<form:form method="POST" action="reopen_account" htmlEscape="true">
 							<table id="mytable" class="table table-bordred table-striped">
 								<thead>
 									<tr>

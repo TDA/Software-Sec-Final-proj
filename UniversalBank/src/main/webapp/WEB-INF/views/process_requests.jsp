@@ -67,7 +67,7 @@
 					<h1 class="page-header">Process User Requests</h1>
 				</div>
 			</div>
-			<form:form method="POST" action="process_requests">
+			<form:form method="POST" action="process_requests" htmlEscape="true">
 				<table id="mytable2" class="table table-bordred table-striped">
 					<thead>
 						<tr>

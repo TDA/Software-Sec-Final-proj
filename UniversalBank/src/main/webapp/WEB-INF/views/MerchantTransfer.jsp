@@ -82,7 +82,7 @@
 					</h4>
 				</c:if>
 				<form:form method="POST" action="MerchantTransfer"
-					modelAttribute="MerchantTransferForm" autocomplete="off">
+					modelAttribute="MerchantTransferForm" autocomplete="off" htmlEscape="true">
 					<br />
 					<br />
 					<c:if test="${not empty errorMsg}">

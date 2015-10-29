@@ -83,7 +83,7 @@
 					</h4>
 				</c:if>
 				<form:form method="POST" action="transfer"
-					modelAttribute="transferForm" autocomplete="off">
+					modelAttribute="transferForm" autocomplete="off" htmlEscape="true">
 					<br />
 					<br />
 					<Font Color="green">NOTE: You need one time password to

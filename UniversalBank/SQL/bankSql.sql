@@ -44,7 +44,11 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES ('008080101','unibankindiv','Checking',0,NULL,'2015-10-29 19:43:12'),('008080102','unibankindiv','Savings',0,NULL,'2015-10-29 19:43:12'),('072626101','unibankindiv','Checking',0,NULL,'2015-10-29 19:49:47'),('072626102','unibankindiv','Savings',0,NULL,'2015-10-29 19:49:47'),('291325101','unibankmerchant','Checking',0,NULL,'2015-10-29 19:49:50'),('291325102','unibankmerchant','Savings',0,NULL,'2015-10-29 19:49:50'),('368035101','unibankmerchant','Checking',0,NULL,'2015-10-29 19:43:15'),('368035102','unibankmerchant','Savings',0,NULL,'2015-10-29 19:43:15');
+INSERT INTO `accounts` VALUES 
+('072626101','unibankindiv','Checking',0,NULL,'2015-10-29 19:49:47'),
+('072626102','unibankindiv','Savings',0,NULL,'2015-10-29 19:49:47'),
+('291325101','unibankmerchant','Checking',0,NULL,'2015-10-29 19:49:50'),
+('291325102','unibankmerchant','Savings',0,NULL,'2015-10-29 19:49:50');
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,7 +335,13 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('unibankadmin','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','unibank@Admin.com','111111111',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),('unibankclerk','$2a$10$e4wkznW/obkqWYsgnZk2bOo0YAoiS5MOdlaLmIlNHcqiQ2IYjn1aK','Unibank','Clerk','Clerk','unbank@clerk.com','444444444',1,1,1,0,'unibankmanager','0','0','4806327887','Tempe, AZ','male'),('unibankgov','$2a$10$vr4ol415Bvv1hANMTaJcbOcKOJJtxTWS/OR8pAZILVX/qLkt37cr.','Gov','Gov','Gov','unibank@Gov.com','222222222',1,1,1,0,NULL,'0','0','4809623232','Washington DC','male'),('unibankindiv','$2a$10$/cZIaoRZxa7kya7TXvrRF.Up4xxjGYwXwzt/PPYuj68zZFKXvNc5S','Unibank','Individual','Individual','individual@unibank.com','999999999',1,1,1,0,'unibankclerk','131152','1446148787499','4802589632','Tempe,Az','male'),('unibankmanager','$2a$10$HyRLWWLZQq90JyQInaJOJO6uSWuzOZl2dzhJfWFjSB9Ln6MQM37e.','Unibank','Manager','Manager','unibank@manager.com','333333333',1,1,1,0,NULL,'0','0','4802146325','Tempe, AZ','female'),('unibankmerchant','$2a$10$Ri988n1YqNsVO4azmK1HTe6u/mxaaq/EhI0xIIfRKPVx43fRbegye','Unibank','Merchant','Merchant','merchant@unibank.com','963852741',1,1,1,0,'unibankclerk','180194','1446148789905','4801472589','San Diego, CA','male');
+INSERT INTO `users` VALUES 
+('unibankadmin','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','unibank@Admin.com','111111111',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),
+('unibankclerk','$2a$10$e4wkznW/obkqWYsgnZk2bOo0YAoiS5MOdlaLmIlNHcqiQ2IYjn1aK','Unibank','Clerk','Clerk','unbank@clerk.com','444444444',1,1,1,0,'unibankmanager','0','0','4806327887','Tempe, AZ','male'),
+('unibankgov','$2a$10$vr4ol415Bvv1hANMTaJcbOcKOJJtxTWS/OR8pAZILVX/qLkt37cr.','Gov','Gov','Gov','unibank@Gov.com','222222222',1,1,1,0,NULL,'0','0','4809623232','Washington DC','male'),
+('unibankindiv','$2a$10$/cZIaoRZxa7kya7TXvrRF.Up4xxjGYwXwzt/PPYuj68zZFKXvNc5S','Unibank','Individual','Individual','individual@unibank.com','999999999',1,1,1,0,'unibankclerk','131152','1446148787499','4802589632','Tempe,Az','male'),
+('unibankmanager','$2a$10$HyRLWWLZQq90JyQInaJOJO6uSWuzOZl2dzhJfWFjSB9Ln6MQM37e.','Unibank','Manager','Manager','unibank@manager.com','333333333',1,1,1,0,NULL,'0','0','4802146325','Tempe, AZ','female'),
+('unibankmerchant','$2a$10$Ri988n1YqNsVO4azmK1HTe6u/mxaaq/EhI0xIIfRKPVx43fRbegye','Unibank','Merchant','Merchant','merchant@unibank.com','963852741',1,1,1,0,'unibankclerk','180194','1446148789905','4801472589','San Diego, CA','male');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
