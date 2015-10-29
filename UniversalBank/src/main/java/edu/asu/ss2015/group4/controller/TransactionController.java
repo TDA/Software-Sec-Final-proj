@@ -179,10 +179,10 @@ public class TransactionController {
 							transac.setAmount(amount);
 							if (otp != null && isOtpValid(username, otp)) {
 								if (!hasOtpExpired(username)) {
+									
 									String a = trans.TransferUser(transac);
 									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 									info = userService.fetchUserDetails(userDetail.getUsername());
-									transac.setSupervisorName(info.get(0).getSupervisorName());
 									OTPGenerator otp1 = new OTPGenerator();
 									Date date = new Date();
 									userService.insertOTP(Integer.toString(otp1.generateOTP()),

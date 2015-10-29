@@ -64,8 +64,18 @@
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-INF/views/page-404.jsp</location>
+		<location>/WEB-INF/views/500.jsp</location>
 	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/WEB-INF/views/permission-denied.jsp</location>
+	</error-page>
+	<error-page>
+	<exception-type>java.lang.Throwable</exception-type>
+	<location>/page-404.jsp</location>
+	</error-page>
+
+	
 
 	<session-config>
 		<session-timeout>5</session-timeout>
