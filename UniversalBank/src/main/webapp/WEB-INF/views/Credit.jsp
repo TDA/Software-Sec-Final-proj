@@ -49,10 +49,12 @@
 		<div class="container">
 			<ul class="nav nav-tabs">
 				<li><a href="${pageContext.request.contextPath}/transfer">Transfer</a></li>
-					<c:if test="${role=='ROLE_MERCHANT'}">
-				<li><a href="${pageContext.request.contextPath}/MerchantTransfer"> Merchant Transfer</a></li>
+				<c:if test="${role=='ROLE_MERCHANT'}">
+					<li><a
+						href="${pageContext.request.contextPath}/MerchantTransfer">
+							Merchant Transfer</a></li>
 				</c:if>
-			
+
 				<li><a href="${pageContext.request.contextPath}/Credit">Credit</a></li>
 				<li><a
 					href="${pageContext.request.contextPath}/ViewTransactions">View
@@ -74,7 +76,7 @@
 			<div id="morris-area-chart">
 
 				<c:if test="${not empty successMsg}">
-<Font Color="green">An OTP has been sent to your email.</Font>
+					<Font Color="green">An OTP has been sent to your email.</Font>
 					<h4>${successMsg}</h4>
 				</c:if>
 				<form:form method="POST" action="Credit" modelAttribute="CreditForm"
@@ -102,22 +104,22 @@
 						id="amount" style="color: #999;" />
 					<br />
 					<br />
-<b>OTP</b>
-										<FONT color="red"><form:errors path="otp" /></FONT>
-										<br />
-										<input type="text" name="otp" size="10" class="form-control" id="otp"
-											style="color: #999;" />
-										<br />
-										<br />
+					<b>OTP</b>
+					<FONT color="red"><form:errors path="otp" /></FONT>
+					<br />
+					<input type="text" name="otp" size="10" class="form-control"
+						id="otp" style="color: #999;" />
+					<br />
+					<br />
 					<Font Color="red">I authroise the bank to modify ,delete and
 						access my transactions</Font>
 					<br />
 					<br />
 					<h4>
 						<input type="submit" style="margin-right: 5%" name="Credit"
-							id="Credit" value="Credit" /><br/><br/>
-<input type="submit" style="margin-right: 5%" name="Generate OTP"
-												id="Generate OTP" value="Generate OTP" />
+							id="Credit" value="Credit" /><br />
+						<br /> <input type="submit" style="margin-right: 5%"
+							name="Generate OTP" id="Generate OTP" value="Generate OTP" />
 					</h4>
 
 
@@ -132,7 +134,7 @@
 	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
-<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
-<script>if (top != self) top.location=location</script>
+	<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
+	<script>if (top != self) top.location=location</script>
 </body>
 </html>

@@ -96,7 +96,9 @@ body {
 										</h4>
 									</c:if>
 									<form:form method="POST" action="register"
-										modelAttribute="registerForm" autocomplete="off">
+										modelAttribute="registerForm"  autocomplete="off">
+										
+										<input type="hidden" id="newfield" name="newfield" value="${selected}"/>
 										<br />
 										<br />
 										<c:if test="${not empty errorMsg}">
@@ -210,7 +212,7 @@ body {
 											data-sitekey="6LeEgw4TAAAAADc61x3-K3YTvtsq3ajLtstzmEMd">
 										</div>
 										<h4>
-											<input type="submit" style="margin-right: 5%" name="login"
+											<input type="submit"  style="margin-right: 5%" name="login"
 												id="log_in" value="Register" />
 										</h4>
 									</form:form>

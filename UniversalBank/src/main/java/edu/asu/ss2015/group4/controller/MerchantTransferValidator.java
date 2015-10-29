@@ -3,16 +3,10 @@ package edu.asu.ss2015.group4.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 
-import edu.asu.ss2015.group4.model.BankAccount;
 import edu.asu.ss2015.group4.model.Transactions;
-import edu.asu.ss2015.group4.model.UserInformation;
-import edu.asu.ss2015.group4.service.BankAccountService;
-
 
 @Component("MerchantTransferValidator")
 public class MerchantTransferValidator {
@@ -55,10 +49,13 @@ public class MerchantTransferValidator {
 		}
 
 		if (cinfo.getCount() == 1 && x == true && amount.isEmpty() == false) {
-			Double b = Double.parseDouble(cinfo.getAmount());
-			if (cinfo.getBalance() <= b) {
-				errors.rejectValue("amount", "NotEmpty.Transactions.amount", "You Dont Have Sufficient Balance");
-			}
+			// Double b = Double.parseDouble(cinfo.getAmount());
+			// if (cinfo.getBalance() <= b) {
+			System.out.println("Success");
+
+			// }
+		} else {
+			errors.rejectValue("amount", "NotEmpty.Transactions.amount", "You Dont Have Sufficient Balance");
 		}
 
 	}

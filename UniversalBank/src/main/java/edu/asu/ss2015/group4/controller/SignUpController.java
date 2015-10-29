@@ -36,20 +36,13 @@ public class SignUpController {
 		modelAndView.addObject("customer", custInfo);
 
 		String uri = request.getQueryString();
+		modelAndView.addObject("selected", uri);
 
 		if (uri == null || uri.isEmpty()) {
 			modelAndView.setViewName("forward:/index");
 		} else {
 
-			ArrayList<String> databaseArrayList = new ArrayList<String>();
-			if (uri.toString().equals("customer")) {
-				databaseArrayList.add("Individual");
-				databaseArrayList.add("Merchant");
-			} else {
-				databaseArrayList.add("Clerk");
-				databaseArrayList.add("Manager");
-			}
-			modelAndView.addObject("myList", databaseArrayList);
+			setselection(modelAndView, uri);
 
 			modelAndView.setViewName("register");
 
@@ -63,24 +56,27 @@ public class SignUpController {
 		ModelAndView modelAndView = new ModelAndView();
 
 		SignUpFormValidator.validateForm(custInfo, result);
-
+		String uri = request.getParameter("newfield");
 		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
 		boolean verify = ValidateCaptcha.validateCaptchaResponse(gRecaptchaResponse);
 
 		if (!verify) {
 			String invalidCaptcha = "<FONT color=\"red\">Captcha Not Matched, Please Try Again.</FONT>";
 			modelAndView.addObject("errorMsg", invalidCaptcha);
+			setselection(modelAndView, uri);
 			modelAndView.setViewName("register");
 			return modelAndView;
 		}
 
 		if (result.hasErrors()) {
+			setselection(modelAndView, uri);
 			modelAndView.setViewName("register"); // This prints errors
 			return modelAndView;
 		} else {
 			String error = userService.insertUserInformation(custInfo);
 			if (error.equalsIgnoreCase("UserName, Email and SSN must be unique!")) {
 				modelAndView.addObject("errorMsg", error);
+				setselection(modelAndView, uri);
 				modelAndView.setViewName("register");
 			} else {
 				modelAndView.addObject("successMsg", error);
@@ -102,6 +98,18 @@ public class SignUpController {
 			}
 			return modelAndView;
 		}
+	}
+
+	private void setselection(ModelAndView modelAndView, String uri) {
+		ArrayList<String> databaseArrayList = new ArrayList<String>();
+		if (uri.toString().equals("customer")) {
+			databaseArrayList.add("Individual");
+			databaseArrayList.add("Merchant");
+		} else {
+			databaseArrayList.add("Clerk");
+			databaseArrayList.add("Manager");
+		}
+		modelAndView.addObject("myList", databaseArrayList);
 	}
 
 	private void sendEmailToUser(UserInformation custInfo) {

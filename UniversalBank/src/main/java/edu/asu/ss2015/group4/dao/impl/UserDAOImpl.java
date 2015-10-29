@@ -344,7 +344,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserInformationDTO> retrievePiiUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
 		String retrieveDetailsQuery = "SELECT users.username, users.firstname, users.lastname, "
-				+ "users.AccountType, users.email, users.SSN users.SupervisorName, users.otp, users.otpvalidity, users.phonenumber, users.address, users.sex "
+				+ "users.AccountType, users.email, users.SSN, users.SupervisorName, users.otp, users.otpvalidity, users.phonenumber, users.address, users.sex "
 				+ "from users where (users.AccountType='Individual' OR users.AccountType='Merchant') and userLocked = true";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
@@ -358,12 +358,12 @@ public class UserDAOImpl implements UserDAO {
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
 		return customerInformationToDisplay;
 	}
-	
+
 	public List<log> retrievelogAccounts() {
 		List<log> customerInformationToDisplay = new ArrayList<log>();
 		String retrieveDetailsQuery = "SELECT * from LOGS";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery,new UserTableRows1());
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows1());
 		return customerInformationToDisplay;
 	}
 
@@ -496,21 +496,20 @@ public class UserDAOImpl implements UserDAO {
 		return false;
 	}
 
-public void modifyInternalUser1(String accountType,String username) {
-		//String sql = "UPDATE users set AccountType = ? where username =  ?";
-		//System.out.println("Hello "+accountType);
+	public void modifyInternalUser1(String accountType, String username) {
+		// String sql = "UPDATE users set AccountType = ? where username = ?";
+		// System.out.println("Hello "+accountType);
 		String sql1 = "UPDATE user_roles set role = ? where username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		 //jdbcTemplate.update(sql, new Object[] { accountType,username });
-		 jdbcTemplate.update(sql1, new Object[] { accountType,username });
-		
-		
+		// jdbcTemplate.update(sql, new Object[] { accountType,username });
+		jdbcTemplate.update(sql1, new Object[] { accountType, username });
+
 	}
-	
-	public void savelog(Date gettime, String getid, String getcontent){
+
+	public void savelog(Date gettime, String getid, String getcontent) {
 		String sql = "INSERT INTO LOGS (DATED,USER_ID,MESSAGE) VALUES(?,?,?)";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		jdbcTemplate.update(sql, new Object[] { gettime,getid,getcontent });
-		
+		jdbcTemplate.update(sql, new Object[] { gettime, getid, getcontent });
+
 	}
 }
