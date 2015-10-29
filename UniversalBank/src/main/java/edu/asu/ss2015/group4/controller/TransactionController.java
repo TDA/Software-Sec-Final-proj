@@ -143,44 +143,52 @@ public class TransactionController {
 		// check if the message returned is the same? decode using pub key
 		if (keys.verifySignature(message, signedRequest)) {
 			// keys are fine, PKI successful yay!
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (!(auth instanceof AnonymousAuthenticationToken)) {
-				UserDetails userDetail = (UserDetails) auth.getPrincipal();
-				BankAccount b = new BankAccount();
-				String username = userDetail.getUsername();
-				Transactions transac = new Transactions();
-				if (accountType != null && !accountType.equals("")) {
-					b.setAccountType(accountType);
-					transac.setAccountType(accountType);
-					transac.setToTransactionAccountID(ToTransactionAccountID);
-					b.setId(ToTransactionAccountID);
-					int i = bankAccountService.BankValidate(b, accountType);
-					if (i == 1) {
-						transac.setCount(i);
-						String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
-						if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
-							double b1 = bankAccountService.BankBalanceValidate(b);
-							if (b1 >= Double.parseDouble(amount) && Double.parseDouble(amount) > 0.0) {
-								transac.setBalance(b1);
-								transac.setAmount(amount);
-								if (otp != null && isOtpValid(username, otp)) {
-									if (!hasOtpExpired(username)) {
-										List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
-										info = userService.fetchUserDetails(userDetail.getUsername());
-										transac.setSupervisorName(info.get(0).getSupervisorName());
-										OTPGenerator otp1 = new OTPGenerator();
-										Date date = new Date();
-										userService.insertOTP(Integer.toString(otp1.generateOTP()),
-												Long.toString(date.getTime() + 600000), username);
-										String a = trans.TransferUser(transac);
-										modelAndView.setViewName("success");
-									} else
-										modelAndView.addObject("errorMsg", "OTP has expired.");
+			System.out.println("Keys Verified");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			BankAccount b = new BankAccount();
+			String username = userDetail.getUsername();
+			Transactions transac = new Transactions();
+			/*
+			 * b.setId(transac.getToTransactionAccountID());
+			 * System.out.println("checking" + transac.getAccountType());
+			 * b.setAccountType(transac.getAccountType());
+			 */
+			if (accountType != null && !accountType.equals("")) {
+				b.setAccountType(accountType);
+				transac.setAccountType(accountType);
+				transac.setToTransactionAccountID(ToTransactionAccountID);
+				b.setId(ToTransactionAccountID);
+				int i = bankAccountService.BankValidate(b,accountType);
+				if (i == 1) {
+					System.out.println("fialcount" + i);
+					transac.setCount(i);
+					String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
+					if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
+						double b1 = bankAccountService.BankBalanceValidate(b);
+						if (b1 >= Double.parseDouble(amount) && Double.parseDouble(amount) > 0.0) {
+							transac.setBalance(b1);
+							transac.setAmount(amount);
+							if (otp != null && isOtpValid(username, otp)) {
+								if (!hasOtpExpired(username)) {
+									String a = trans.TransferUser(transac);
+									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+									info = userService.fetchUserDetails(userDetail.getUsername());
+									transac.setSupervisorName(info.get(0).getSupervisorName());
+									OTPGenerator otp1 = new OTPGenerator();
+									Date date = new Date();
+									userService.insertOTP(Integer.toString(otp1.generateOTP()),
+											Long.toString(date.getTime() + 600000), username);
+									System.out.println("successtransac11");
+									modelAndView.setViewName("success");
 								} else
-									modelAndView.addObject("errorMsg",
-											"Incorrect OTP.Enter Proper Amount between 0 to 99999.99");
+									modelAndView.addObject("errorMsg", "OTP has expired.");
 							} else
-								modelAndView.addObject("errorMsg", "Insufficient balance.");
+								modelAndView.addObject("errorMsg",
+										"Incorrect OTP.Enter Proper Amount between 0 to 99999.99");
+						} else
+							modelAndView.addObject("errorMsg", "Insufficient balance.");
 
 						} else
 							modelAndView.addObject("errorMsg", "Incorrect amount.");
