@@ -555,7 +555,6 @@ public class TransactionController {
 				String a = trans.MerchantPaymentUser(transac);
 
 				System.out.println("successtransac11");
-				String a = trans.MerchantPaymentUser(transac);
 				modelAndView.setViewName("success");
 
 			}
