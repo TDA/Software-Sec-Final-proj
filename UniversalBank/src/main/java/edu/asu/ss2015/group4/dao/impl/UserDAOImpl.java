@@ -18,9 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import edu.asu.ss2015.group4.dao.UserDAO;
 import edu.asu.ss2015.group4.dto.CheckDuplicationDTO;
+import edu.asu.ss2015.group4.dto.EditInfoDTO;
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.jdbc.CheckDuplicationMapper;
+import edu.asu.ss2015.group4.jdbc.EditInfoTableRows;
 import edu.asu.ss2015.group4.jdbc.RequestTableRow;
 import edu.asu.ss2015.group4.jdbc.UserTableRows;
 import edu.asu.ss2015.group4.model.AccountLoginAttempts;
@@ -177,13 +179,20 @@ public class UserDAOImpl implements UserDAO {
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		jdbcTemplateForExternalUser.update(registerUserQuery,
 				new Object[] { username, userInfo.getPhoneNumber(), userInfo.getAddress(), userInfo.getSex() });
+		addEditInfoRequest("Edit Profile", username, "");
 		return "Request received! <br/> Please check you email for account approval notification!";
 	}
 
-	public void addEditInfoRequest(String requestType, String requestBy, String approveBy) {
+	public void addDeleteAccountInfoRequest(String requestType, String requestBy, String approveBy) {
 		String registerUserQuery = "INSERT into user_requests (requestBy,requstType,approvedBy) VALUES (?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { requestBy, requestType, approveBy });
+	}
+
+	public void addEditInfoRequest(String requestType, String requestBy, String approveBy) {
+		String registerUserQuery = "INSERT into user_requests (requestBy,requstType,approvedBy,approved) VALUES (?,?,?,?)";
+		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
+		jdbcTemplateForExternalUser.update(registerUserQuery, new Object[] { requestBy, requestType, approveBy, 1 });
 	}
 
 	@Override
@@ -376,12 +385,15 @@ public class UserDAOImpl implements UserDAO {
 		return customerInformationToDisplay;
 	}
 
+	// bug fixed by Indraneel: approval by manager
 	public boolean enableInternalUserAccount(String username) {
 		String sql = "UPDATE users set enabled = true,userLocked = true where enabled = false and (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
 		String sql1 = "UPDATE users set userLocked = true where userLocked = false and (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
+		String sql2 = "UPDATE users set userAccountExpired = true where (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int status = jdbcTemplate.update(sql, new Object[] { username });
 		int status1 = jdbcTemplate.update(sql1, new Object[] { username });
+		jdbcTemplate.update(sql2, new Object[] { username });
 		if (status == 1) {
 			return true;
 		}
@@ -450,5 +462,27 @@ public class UserDAOImpl implements UserDAO {
 		jdbcTemplate.update(sql, new Object[] { accountType, username });
 		// jdbcTemplate.update(sql1, new Object[] { accountType,username });
 
+	}
+
+	@Override
+	public boolean processEditInfoRequest(String userName) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		List<EditInfoDTO> customerInformationToDisplay = new ArrayList<EditInfoDTO>();
+		String sql = "SELECT phonenumber, address, sex from edit_info where edit_info.username =?";
+		String sql2 = "UPDATE user_requests set completed = true, approvedtime=now() where approved = true  and requestby = ?";
+		int status2 = jdbcTemplate.update(sql2, new Object[] { userName });
+		customerInformationToDisplay = jdbcTemplate.query(sql, new Object[] { userName }, new EditInfoTableRows());
+		String sql3 = "UPDATE users set phonenumber=?, address=?, sex=? where  username = ?";
+		String sql4 = "UPDATE edit_info set completed=1 where  username = ?";
+
+		int status4 = jdbcTemplate.update(sql4, new Object[] { userName });
+		int status3 = jdbcTemplate.update(sql3,
+				new Object[] { customerInformationToDisplay.get(0).getPhoneNumber(),
+						customerInformationToDisplay.get(0).getAddress(), customerInformationToDisplay.get(0).getSex(),
+						userName });
+		if (status2 > 0 && status3 > 0 && status4 > 0) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -65,7 +65,6 @@ public class TransactionController {
 			b.setUserName(userDetail.getUsername());
 			double saving = bankAccountService.BankBalancesaving(b);
 			double checking = bankAccountService.BankBalancechecking(b);
-			System.out.println("saving" + saving + "checking" + checking);
 			BankBalance bal = new BankBalance();
 			bal.setCheckingAccount(checking);
 			bal.setSavingsAccount(saving);
@@ -99,12 +98,9 @@ public class TransactionController {
 		String message = "hello sai";
 		// sign it!
 		String signedRequest = keys.signRequest(message);
-		System.out.println("Encoded message: " + signedRequest);
-		System.out.println();
 		// check if the message returned is the same? decode using pub key
 		if (keys.verifySignature(message, signedRequest)) {
 			// keys are fine, PKI successful yay!
-			System.out.println("Keys Verified");
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (!(auth instanceof AnonymousAuthenticationToken)) {
 				ArrayList<String> arrayList = new ArrayList<String>();
@@ -120,7 +116,6 @@ public class TransactionController {
 					break;
 				}
 				modelAndView.addObject("role", roleAuth);
-				System.out.println(arrayList.get(0));
 				modelAndView.setViewName("transfer");
 				generateOTP(username);
 			}
@@ -145,8 +140,6 @@ public class TransactionController {
 		String message = "hello sai";
 		// sign it!
 		String signedRequest = keys.signRequest(message);
-		System.out.println("Encoded message: " + signedRequest);
-		System.out.println();
 		// check if the message returned is the same? decode using pub key
 		if (keys.verifySignature(message, signedRequest)) {
 			// keys are fine, PKI successful yay!
@@ -179,10 +172,10 @@ public class TransactionController {
 							transac.setAmount(amount);
 							if (otp != null && isOtpValid(username, otp)) {
 								if (!hasOtpExpired(username)) {
-									
 									String a = trans.TransferUser(transac);
 									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 									info = userService.fetchUserDetails(userDetail.getUsername());
+									transac.setSupervisorName(info.get(0).getSupervisorName());
 									OTPGenerator otp1 = new OTPGenerator();
 									Date date = new Date();
 									userService.insertOTP(Integer.toString(otp1.generateOTP()),
@@ -197,35 +190,36 @@ public class TransactionController {
 						} else
 							modelAndView.addObject("errorMsg", "Insufficient balance.");
 
+						} else
+							modelAndView.addObject("errorMsg", "Incorrect amount.");
+
 					} else
-						modelAndView.addObject("errorMsg", "Incorrect amount.");
-
+						modelAndView.addObject("errorMsg", "Account ID doesn't exist or Select a proper Account Id");
 				} else
-					modelAndView.addObject("errorMsg", "Account ID doesn't exist or Select a proper Account Id.You cannot use same Account ID for from and to");
-			} else
-				modelAndView.addObject("errorMsg", "Account type must be chosen.");
-			/*
-			 * System.out.println("fialcount" + i); transac.setCount(i);
-			 * //transfervalidator1.validateForm(transac, result);
-			 * //System.out.println("here" + result); /*if (result.hasErrors())
-			 * { System.out.println("error");
-			 * modelAndView.setViewName("transfer"); // This prints errors
-			 * 
-			 * } else {
-			 * 
-			 * List<UserInformationDTO> info = new
-			 * ArrayList<UserInformationDTO>(); info =
-			 * userService.fetchUserDetails(userDetail.getUsername());
-			 * transac.setSupervisorName(info.get(0).getSupervisorName());
-			 * System.out.println("successtransac11"); String a =
-			 * trans.TransferUser(transac);
-			 * 
-			 * modelAndView.setViewName("success");
-			 * 
-			 * }
-			 */
+					modelAndView.addObject("errorMsg", "Account type must be chosen.");
+				/*
+				 * System.out.println("fialcount" + i); transac.setCount(i);
+				 * //transfervalidator1.validateForm(transac, result);
+				 * //System.out.println("here" + result); /*if
+				 * (result.hasErrors()) { System.out.println("error");
+				 * modelAndView.setViewName("transfer"); // This prints errors
+				 * 
+				 * } else {
+				 * 
+				 * List<UserInformationDTO> info = new
+				 * ArrayList<UserInformationDTO>(); info =
+				 * userService.fetchUserDetails(userDetail.getUsername());
+				 * transac.setSupervisorName(info.get(0).getSupervisorName());
+				 * System.out.println("successtransac11"); String a =
+				 * trans.TransferUser(transac);
+				 * 
+				 * modelAndView.setViewName("success");
+				 * 
+				 * }
+				 */
 
-		}} else {
+			}
+		} else {
 			modelAndView.setViewName("permission-denied");
 		}
 
@@ -234,7 +228,6 @@ public class TransactionController {
 
 	@RequestMapping(value = "/transfer", params = "Generate OTP", method = RequestMethod.POST)
 	public ModelAndView OtpgenerateTransfer() {
-		System.out.println("Inside transfer otp generate");
 		ModelAndView modelandview = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -289,31 +282,29 @@ public class TransactionController {
 		String message = "hello sai";
 		// sign it!
 		String signedRequest = keys.signRequest(message);
-		System.out.println("Encoded message: " + signedRequest);
-		System.out.println();
 		// check if the message returned is the same? decode using pub key
 		if (keys.verifySignature(message, signedRequest)) {
 			// keys are fine, PKI successful yay!
-			System.out.println("Keys Verified");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			String username = userDetail.getUsername();
-			ArrayList<String> arrayList = new ArrayList<String>();
-			arrayList.add("checking");
-			arrayList.add("savings");
-			modelAndView.addObject("mylist", arrayList);
-			modelAndView.addObject("transaction", transac);
-			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
-			String roleAuth = "";
-			for (GrantedAuthority auth12 : role) {
-				roleAuth = auth12.getAuthority();
-				break;
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetail = (UserDetails) auth.getPrincipal();
+				String username = userDetail.getUsername();
+				ArrayList<String> arrayList = new ArrayList<String>();
+				arrayList.add("checking");
+				arrayList.add("savings");
+				modelAndView.addObject("mylist", arrayList);
+				modelAndView.addObject("transaction", transac);
+				Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+				String roleAuth = "";
+				for (GrantedAuthority auth12 : role) {
+					roleAuth = auth12.getAuthority();
+					break;
+				}
+				modelAndView.addObject("role", roleAuth);
+				generateOTP(username);
+				modelAndView.setViewName("Debit");
 			}
-			modelAndView.addObject("role", roleAuth);
-			generateOTP(username);
-			modelAndView.setViewName("Debit");
-		} }else {
+		} else {
 			modelAndView.setViewName("permission-denied");
 		}
 
@@ -324,7 +315,6 @@ public class TransactionController {
 	public ModelAndView Debit(@RequestParam("accountType") String accountType, @RequestParam("amount") String amount,
 			@RequestParam("otp") String otp) {
 		ModelAndView modelAndView = new ModelAndView();
-		System.out.println("debit");
 		BankAccount b = new BankAccount();
 		// b.setAccountType(accountType);
 		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
@@ -335,74 +325,59 @@ public class TransactionController {
 		String message = "hello sai";
 		// sign it!
 		String signedRequest = keys.signRequest(message);
-		System.out.println("Encoded message: " + signedRequest);
-		System.out.println();
 		// check if the message returned is the same? decode using pub key
 		if (keys.verifySignature(message, signedRequest)) {
 			// keys are fine, PKI successful yay!
-			System.out.println("Keys Verified");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			String username = userDetail.getUsername();
-			/* BindingResult result = null; */
-			Transactions transac = new Transactions();
-			transac.setAccountType(accountType);
-			transac.setAmount(amount);
-			/*
-			 * TransferValidator.validateForm(transac, result);
-			 * System.out.println("here"+result);
-			 */
-			String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
-			Double balance = 0.0;
-			if (accountType != null && !accountType.equals("")) {
-				b.setAccountType(accountType);
-				if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
-					balance = bankAccountService.BankBalanceValidate(b);
-					System.out.println("balance is: " + balance);
-					if (balance >= Double.parseDouble(amount)) {
-						if (otp != null && otp.length() >= 1 && isOtpValid(username, otp)) {
-							if (!hasOtpExpired(username)) {
-								List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
-								info = userService.fetchUserDetails(userDetail.getUsername());
-								transac.setSupervisorName(info.get(0).getSupervisorName());
-								trans.DebitUser(transac);
-								OTPGenerator otp1 = new OTPGenerator();
-								Date date = new Date();
-								userService.insertOTP(Integer.toString(otp1.generateOTP()),
-										Long.toString(date.getTime() + 600000), username);
-								modelAndView.setViewName("success");
-							} else {
-								modelAndView.addObject("errorMsg", "OTP has expired.");
-							}
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetail = (UserDetails) auth.getPrincipal();
+				String username = userDetail.getUsername();
+				/* BindingResult result = null; */
+				Transactions transac = new Transactions();
+				transac.setAccountType(accountType);
+				transac.setAmount(amount);
+				/*
+				 * TransferValidator.validateForm(transac, result);
+				 * System.out.println("here"+result);
+				 */
+				String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
+				Double balance = 0.0;
+				if (accountType != null && !accountType.equals("")) {
+					b.setAccountType(accountType);
+					if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
+						balance = bankAccountService.BankBalanceValidate(b);
+						if (balance >= Double.parseDouble(amount)) {
+							if (otp != null && otp.length() >= 1 && isOtpValid(username, otp)) {
+								if (!hasOtpExpired(username)) {
+									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+									info = userService.fetchUserDetails(userDetail.getUsername());
+									transac.setSupervisorName(info.get(0).getSupervisorName());
+									trans.DebitUser(transac);
+									OTPGenerator otp1 = new OTPGenerator();
+									Date date = new Date();
+									userService.insertOTP(Integer.toString(otp1.generateOTP()),
+											Long.toString(date.getTime() + 600000), username);
+									modelAndView.setViewName("success");
+								} else {
+									modelAndView.addObject("errorMsg", "OTP has expired.");
+								}
+							} else
+								modelAndView.addObject("errorMsg", "Incorrect OTP.");
+
 						} else
-							modelAndView.addObject("errorMsg", "Incorrect OTP.");
-
+							modelAndView.addObject("errorMsg", "Insufficient balance.");
 					} else
-						modelAndView.addObject("errorMsg", "Insufficient balance.");
+						modelAndView.addObject("errorMsg", "Incorrect amount.");
 				} else
-					modelAndView.addObject("errorMsg", "Incorrect amount.");
-			} else
-				modelAndView.addObject("errorMsg", "Account type must be chosen.");
+					modelAndView.addObject("errorMsg", "Account type must be chosen.");
 
-			/*
-			 * if (result!=null && result.hasErrors()) { System.out.println(
-			 * ":in debet"); modelAndView.setViewName("Debit"); // This prints
-			 * errors
-			 * 
-			 * } else { trans.DebitUser(transac);
-			 * System.out.println("successtransac");
-			 * modelAndView.setViewName("success");
-			 * 
-			 * }
-			 */
-		}}
+			}
+		}
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/Debit", params = "Generate OTP", method = RequestMethod.POST)
 	public ModelAndView OtpgenerateDebit() {
-		System.out.println("Inside debit otp generate");
 		ModelAndView modelandview = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -424,35 +399,30 @@ public class TransactionController {
 		String message = "hello sai";
 		// sign it!
 		String signedRequest = keys.signRequest(message);
-		System.out.println("Encoded message: " + signedRequest);
-		System.out.println();
 		// check if the message returned is the same? decode using pub key
 		if (keys.verifySignature(message, signedRequest)) {
 			// keys are fine, PKI successful yay!
-			System.out.println("Keys Verified");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			Transactions transac = new Transactions();
-			String username = userDetail.getUsername();
-			ArrayList<String> arrayList = new ArrayList<String>();
-			arrayList.add("checking");
-			arrayList.add("savings");
-			modelAndView.addObject("mylist", arrayList);
-			System.out.println(arrayList.get(0));
-			modelAndView.addObject("transaction", transac);
-			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
-			String roleAuth = "";
-			for (GrantedAuthority auth12 : role) {
-				roleAuth = auth12.getAuthority();
-				break;
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetail = (UserDetails) auth.getPrincipal();
+				Transactions transac = new Transactions();
+				String username = userDetail.getUsername();
+				ArrayList<String> arrayList = new ArrayList<String>();
+				arrayList.add("checking");
+				arrayList.add("savings");
+				modelAndView.addObject("mylist", arrayList);
+				modelAndView.addObject("transaction", transac);
+				Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+				String roleAuth = "";
+				for (GrantedAuthority auth12 : role) {
+					roleAuth = auth12.getAuthority();
+					break;
+				}
+				modelAndView.addObject("role", roleAuth);
+				modelAndView.setViewName("Credit");
+				generateOTP(username);
 			}
-			modelAndView.addObject("role", roleAuth);
-			System.out.println("to transfer");
-			modelAndView.setViewName("Credit");
-			System.out.println("the username is: " + userDetail.getUsername());
-			generateOTP(username);
-		}}
+		}
 		return modelAndView;
 	}
 
@@ -469,60 +439,56 @@ public class TransactionController {
 		String message = "hello sai";
 		// sign it!
 		String signedRequest = keys.signRequest(message);
-		System.out.println("Encoded message: " + signedRequest);
-		System.out.println();
 		// check if the message returned is the same? decode using pub key
 		if (keys.verifySignature(message, signedRequest)) {
 			// keys are fine, PKI successful yay!
-			System.out.println("Keys Verified");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			transac.setAccountType(accountType);
-			transac.setAmount(amount);
-			String username = userDetail.getUsername();
-			// TransferValidator.validateForm(transac, result);
-			// System.out.println("here"+result);
-			String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
-			if (accountType != null && !accountType.equals("")) {
-				if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
-					if (otp != null && !otp.equals("")) {
-						if (isOtpValid(username, otp)) {
-							if (!hasOtpExpired(username)) {
-								trans.CreditUser(transac);
-								OTPGenerator otp1 = new OTPGenerator();
-								Date date = new Date();
-								userService.insertOTP(Integer.toString(otp1.generateOTP()),
-										Long.toString(date.getTime() + 600000), username);
-								modelAndView.setViewName("success");
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (!(auth instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetail = (UserDetails) auth.getPrincipal();
+				transac.setAccountType(accountType);
+				transac.setAmount(amount);
+				String username = userDetail.getUsername();
+				// TransferValidator.validateForm(transac, result);
+				// System.out.println("here"+result);
+				String regex = "[0-9]+|[0-9]+.[0-9]{1,2}";
+				if (accountType != null && !accountType.equals("")) {
+					if (amount != null && amount.length() >= 1 && amount.matches(regex)) {
+						if (otp != null && !otp.equals("")) {
+							if (isOtpValid(username, otp)) {
+								if (!hasOtpExpired(username)) {
+									trans.CreditUser(transac);
+									OTPGenerator otp1 = new OTPGenerator();
+									Date date = new Date();
+									userService.insertOTP(Integer.toString(otp1.generateOTP()),
+											Long.toString(date.getTime() + 600000), username);
+									modelAndView.setViewName("success");
+								} else {
+									modelAndView.addObject("errorMsg", "OTP has expired.");
+									// modelAndView.setViewName("credit");
+								}
 							} else {
-								modelAndView.addObject("errorMsg", "OTP has expired.");
+								modelAndView.addObject("errorMsg", "OTP doesn't match.");
 								// modelAndView.setViewName("credit");
 							}
 						} else {
-							modelAndView.addObject("errorMsg", "OTP doesn't match.");
+							modelAndView.addObject("errorMsg", "OTP cannot be empty.");
 							// modelAndView.setViewName("credit");
 						}
 					} else {
-						modelAndView.addObject("errorMsg", "OTP cannot be empty.");
+						modelAndView.addObject("errorMsg", "Amount is incorrect.");
 						// modelAndView.setViewName("credit");
 					}
 				} else {
-					modelAndView.addObject("errorMsg", "Amount is incorrect.");
-					// modelAndView.setViewName("credit");
+					modelAndView.addObject("errorMsg", "Account type should be selected");
+					// modelAndView.setViewName("Credit"); // This prints errors
 				}
-			} else {
-				System.out.println(":in credit");
-				modelAndView.addObject("errorMsg", "Account type should be selected");
-				// modelAndView.setViewName("Credit"); // This prints errors
 			}
-		}}
+		}
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/Credit", params = "Generate OTP", method = RequestMethod.POST)
 	public ModelAndView Otpgenerate() {
-		System.out.println("Inside transaction otp generate");
 		ModelAndView modelandview = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -534,7 +500,6 @@ public class TransactionController {
 	}
 
 	public boolean hasOtpExpired(String username) {
-		System.out.println("checking otp expiration");
 		boolean retVal = true;
 		List<UserInformationDTO> user = userService.fetchUserDetails(username);
 		Date current = new Date();
@@ -545,7 +510,6 @@ public class TransactionController {
 	}
 
 	public boolean isOtpValid(String username, String otp) {
-		System.out.println("checking otp validation");
 		boolean retVal = false;
 		List<UserInformationDTO> user = userService.fetchUserDetails(username);
 		if (user.get(0).getOTP().equals(otp))
@@ -554,7 +518,6 @@ public class TransactionController {
 	}
 
 	public void generateOTP(String username) {
-		System.out.println("Inside transaction generateOTP");
 		List<UserInformationDTO> user = userService.fetchUserDetails(username);
 		OTPGenerator otp = new OTPGenerator();
 		Date date = new Date();
@@ -600,20 +563,15 @@ public class TransactionController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			BankAccount b = new BankAccount();
 			b.setId(transac.getFromTransactionAccountID());
-			System.out.println("checking" + transac.getAccountType());
 			b.setAccountType(transac.getAccountType());
-			int i = bankAccountService.BankValidate(b,transac.getAccountType());
+			int i = bankAccountService.BankValidate(b, transac.getAccountType());
 			if (i == 1) {
 				double b1 = bankAccountService.BankBalanceValidate(b);
-				System.out.println("balance" + b1);
 				transac.setBalance(b1);
 			}
-			System.out.println("fialcount" + i);
 			transac.setCount(i);
 			MerchantTransferValidator.validateForm(transac, result);
-			System.out.println("here" + result);
 			if (result.hasErrors()) {
-				System.out.println("error");
 				modelAndView.setViewName("transfer"); // This prints errors
 
 			} else {
@@ -623,7 +581,6 @@ public class TransactionController {
 				transac.setSupervisorName(info.get(0).getSupervisorName());
 				String a = trans.MerchantPaymentUser(transac);
 
-				System.out.println("successtransac11");
 				modelAndView.setViewName("success");
 
 			}

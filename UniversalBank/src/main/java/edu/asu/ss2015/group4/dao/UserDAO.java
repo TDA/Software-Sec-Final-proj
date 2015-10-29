@@ -36,7 +36,7 @@ public interface UserDAO {
 
 	public void assignSupervisor(String userName, String employeeName);
 
-	public void addEditInfoRequest(String requestType, String requestBy, String approveBy);
+	public void addDeleteAccountInfoRequest(String requestType, String requestBy, String approveBy);
 
 	public List<UserRequestsDTO> getAllRequests();
 
@@ -70,5 +70,7 @@ public interface UserDAO {
 	public boolean deleteInternalUserAccount(String username);
 
 	public List<UserInformationDTO> fetchAllManagerEmployees();
+
+	public boolean processEditInfoRequest(String userName);
 
 }

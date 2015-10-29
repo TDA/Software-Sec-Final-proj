@@ -83,7 +83,10 @@ public class ManagerController {
 			List<UserInformationDTO> approver = new ArrayList<UserInformationDTO>();
 			approver = userService.fetchUserDetails(request.getApprovedBy());
 
-			ur.setApproverName(approver.get(0).getLastName() + ", " + approver.get(0).getFirstName());
+			if (!approver.isEmpty())
+				ur.setApproverName(approver.get(0).getLastName() + ", " + approver.get(0).getFirstName());
+			else
+				ur.setApproverName("");
 			ur.setRequesterName(requester.get(0).getLastName() + ", " + requester.get(0).getFirstName());
 			ur.setRequestByUserName(requester.get(0).getUserName());
 			ur.setRequestType(request.getRequestType());
@@ -98,16 +101,17 @@ public class ManagerController {
 	public ModelAndView processRequests(@RequestParam("approveParam2") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-
+		boolean success = true;
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
 
 			if (split[0].equals("approveVal")) {
 				switch (split[2]) {
 				case "Delete Account":
-					userService.deleteAccount(split[1]);
+					success = userService.deleteAccount(split[1]);
 					break;
 				case "Edit Profile":
+					success = userService.processEditInfoRequest(split[1]);
 					break;
 				case "REOPEN_ACCOUNT":
 					break;
@@ -239,9 +243,6 @@ public class ManagerController {
 				userService.insertOTP(Integer.toString(OTP), otpValidity, custInfoFromDTO.get(0).getUserName());
 				List<UserInformationDTO> custInfoFromDTO1 = new ArrayList<UserInformationDTO>();
 				custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
-				System.out.println(custInfoFromDTO1.get(0).getOTP() + ", " + custInfoFromDTO1.get(0).getOtpValidity());
-				sendEmailToUser(custInfoFromDTO.get(0), custInfoFromDTO1.get(0).getOTP(),
-						custInfoFromDTO1.get(0).getOtpValidity());
 				sendEmailToUser(custInfoFromDTO.get(0), custInfoFromDTO1.get(0).getOTP(),
 						custInfoFromDTO1.get(0).getOtpValidity());
 			}
@@ -273,7 +274,7 @@ public class ManagerController {
 		BankAccount svgAccount = new BankAccount(savingsAccountNum);
 		svgAccount.setUserName(userInformationDTO.getUserName());
 		svgAccount.setAccountType("Savings");
-		svgAccount.setBalance(250.00);
+		svgAccount.setBalance(0.0);
 
 		accountService.createAccount(chkAccount);
 		accountService.createAccount(svgAccount);
@@ -311,12 +312,9 @@ public class ManagerController {
 
 	private void sendEmailToUser(UserInformationDTO custInfo, String otp, String otpValidity) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-		System.out.println(otp);
 		Date date = new Date();
 		long otpValid = Long.parseLong(otpValidity);
 		Date validDate = new Date(otpValid);
-		// System.out.println("current date: "+date);
-		// System.out.println("validity date: "+validDate);
 		String message = "Congratulations " + custInfo.getFirstName() + " " + custInfo.getLastName()
 
 		+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
