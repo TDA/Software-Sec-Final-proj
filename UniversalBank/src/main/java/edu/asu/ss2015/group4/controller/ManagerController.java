@@ -278,7 +278,7 @@ public class ManagerController {
 					String employeeName = getRandomRegularEmployee();
 					userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
 
-					generateAccountInformation(custInfoFromDTO.get(0));
+					List<String> accounts = generateAccountInformation(custInfoFromDTO.get(0));
 					/// sendEmailToUser(custInfoFromDTO.get(0));
 					OTPGenerator otp = new OTPGenerator();
 					Date date = new Date();
@@ -289,7 +289,7 @@ public class ManagerController {
 					List<UserInformationDTO> custInfoFromDTO1 = new ArrayList<UserInformationDTO>();
 					custInfoFromDTO1 = userService.fetchUserDetails(split[1]);
 					sendEmailToUser(custInfoFromDTO.get(0), custInfoFromDTO1.get(0).getOTP(),
-							custInfoFromDTO1.get(0).getOtpValidity());
+							custInfoFromDTO1.get(0).getOtpValidity(), accounts);
 				}
 			} else {
 				return modelAndView;
@@ -298,7 +298,7 @@ public class ManagerController {
 		return managerPage();
 	}
 
-	private void generateAccountInformation(UserInformationDTO userInformationDTO) {
+	private List<String> generateAccountInformation(UserInformationDTO userInformationDTO) {
 		long timeSeed = System.nanoTime(); // to get the current date time value
 
 		double randSeed = Math.random() * 1000; // random number generation
@@ -308,9 +308,12 @@ public class ManagerController {
 		String s = midSeed + "";
 		String subStr = s.substring(3, 9);
 
+		List<String> accountNums = new ArrayList<String>();
+
 		String checkingAccountNum = subStr + "101";
 		String savingsAccountNum = subStr + "102";
-
+		accountNums.add(checkingAccountNum);
+		accountNums.add(savingsAccountNum);
 		// Checking account
 		BankAccount chkAccount = new BankAccount(checkingAccountNum);
 		chkAccount.setUserName(userInformationDTO.getUserName());
@@ -324,6 +327,8 @@ public class ManagerController {
 
 		accountService.createAccount(chkAccount);
 		accountService.createAccount(svgAccount);
+
+		return accountNums;
 	}
 
 	private String getRandomRegularEmployee() {
@@ -356,15 +361,16 @@ public class ManagerController {
 		return randomNum;
 	}
 
-	private void sendEmailToUser(UserInformationDTO custInfo, String otp, String otpValidity) {
+	private void sendEmailToUser(UserInformationDTO custInfo, String otp, String otpValidity, List<String> accounts) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-		Date date = new Date();
 		long otpValid = Long.parseLong(otpValidity);
 		Date validDate = new Date(otpValid);
 		String message = "Congratulations " + custInfo.getFirstName() + " " + custInfo.getLastName()
 
 		+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
 				+ "\n OTP: " + otp + " which is valid till: " + validDate
+				+ "\n\n Your Account information are as follows, " + "\n Checking Account Number: " + accounts.get(0)
+				+ "\n Savings Account Number: " + accounts.get(1)
 				+ "\n https://group4.mobicloud.asu.edu/UniversalBank/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 

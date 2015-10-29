@@ -200,7 +200,7 @@ CREATE TABLE `transactions` (
   `AuthorizedManagerID` varchar(100) DEFAULT NULL,
   `TransactionTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Approved` tinyint(1) NOT NULL DEFAULT '0',
-  `ApprovalTime` timestamp(6) NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
+  `ApprovalTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00.000000',
   `Comments` varchar(140) DEFAULT NULL,
   `AuthoriseBank` tinyint(1) NOT NULL DEFAULT '1',
   `Critical_transactions` tinyint(1) NOT NULL DEFAULT '0',
