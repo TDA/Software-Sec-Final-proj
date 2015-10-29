@@ -101,8 +101,7 @@ public class TransactionServiceImpl implements TransactionService {
 	// added by gaurav
 	@Override
 	public String RegularEmployeeAprroveTransaction(int i, double j, String userName) {
-		transac.approveTransactionRegularEmployee(i, j, userName);
-		return "Approved";
+		return transac.approveTransactionRegularEmployee(i, j, userName);
 	}
 
 	// added by gaurav

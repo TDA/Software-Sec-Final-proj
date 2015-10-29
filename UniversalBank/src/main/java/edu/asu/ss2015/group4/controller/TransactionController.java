@@ -670,7 +670,7 @@ public class TransactionController {
 
 	// Added By Gaurav
 	@RequestMapping(value = "/ViewTransactionRegularEmployee", method = RequestMethod.GET)
-	public ModelAndView ViewTransactionRegularEmployeePage() {
+	public ModelAndView ViewTransactionRegularEmployeePage(String message) {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
@@ -680,7 +680,7 @@ public class TransactionController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-
+			modelAndView.addObject("someMessage", message);
 			// Call the DAOImpl layer
 			custInfoFromDTO = trans.DisplayTransactionInfoToRegularEmployee(loggedInUser);
 
@@ -704,7 +704,7 @@ public class TransactionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();
-
+		String approve = "";
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
 			String x = split[0];
@@ -717,18 +717,18 @@ public class TransactionController {
 				int x1 = Integer.parseInt(y);
 				System.out.println("xhere" + x1);
 				double x2 = Double.parseDouble(z);
-				String approve = trans.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
+				approve = trans.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
 			}
 
 			else {
 				int x1 = Integer.parseInt(y);
-				String deny = trans.RegularEmployeeDeleteTransaction(x1, loggedInUser);
+				approve = trans.RegularEmployeeDeleteTransaction(x1, loggedInUser);
 			}
 
 		} else {
 			return modelAndView;
 		}
-		return ViewTransactionRegularEmployeePage();
+		return ViewTransactionRegularEmployeePage(approve);
 	}
 
 	// Added By Gaurav

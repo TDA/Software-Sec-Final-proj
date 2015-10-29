@@ -1,22 +1,17 @@
 package edu.asu.ss2015.group4.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import edu.asu.ss2015.group4.dao.BankAccountDAO;
-import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.BankAccount;
 
 /* adding a sample comment */
@@ -77,9 +72,10 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
-		String sql = "SELECT COUNT(*) from accounts where AccountID=?";
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);}
+			String sql = "SELECT COUNT(*) from accounts where AccountID=?";
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);
+		}
 		return count;
 	}
 
@@ -127,7 +123,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
-			String sql = "SELECT Balance from accounts where  AccountID = ( SELECT FromTransactionAccountID from transactions where TransactionID=? AND Transactiontype in ('UserTransfer','Debit'))";
+			String sql = "SELECT Balance from accounts where  AccountID = ( SELECT FromTransactionAccountID from transactions where TransactionID=? AND Transactiontype in ('UserTransfer','Debit','MerchantInitiatedTransfer'))";
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
 			count = jdbcTemplate.queryForObject(sql, new Object[] { i }, Double.class);

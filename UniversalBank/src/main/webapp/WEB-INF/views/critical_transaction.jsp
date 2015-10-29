@@ -64,8 +64,12 @@
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Critical Transactions</h1>
+					<h1 class="page-headder">Critical Transactions</h1>
 				</div>
+			</div>
+			
+			<div class="container">
+				<h2 class="text-warning bg-info">${someMessage}</h2>
 			</div>
 			<form:form method="POST" action="critical_transaction"
 				modelAttribute="ApproveForm" autocomplete="off">

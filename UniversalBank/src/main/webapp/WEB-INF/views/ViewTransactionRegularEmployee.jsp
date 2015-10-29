@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -72,6 +73,10 @@
 					<h1 class="page-header">Available Transactions For
 						Approval/Denial</h1>
 				</div>
+			</div>
+			
+			<div class="container">
+				<h2 class="text-warning bg-info">${someMessage}</h2>
 			</div>
 			<form:form method="POST" action="ViewTransactionRegularEmployee"
 				modelAttribute="ApproveForm" autocomplete="off">
