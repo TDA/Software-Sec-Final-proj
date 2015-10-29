@@ -167,7 +167,7 @@ public class TransactionController {
 				transac.setAccountType(accountType);
 				transac.setToTransactionAccountID(ToTransactionAccountID);
 				b.setId(ToTransactionAccountID);
-				int i = bankAccountService.BankValidate(b);
+				int i = bankAccountService.BankValidate(b,accountType);
 				if (i == 1) {
 					System.out.println("fialcount" + i);
 					transac.setCount(i);
@@ -201,7 +201,7 @@ public class TransactionController {
 						modelAndView.addObject("errorMsg", "Incorrect amount.");
 
 				} else
-					modelAndView.addObject("errorMsg", "Account ID doesn't exist or Select a proper Account Id");
+					modelAndView.addObject("errorMsg", "Account ID doesn't exist or Select a proper Account Id.You cannot use same Account ID for from and to");
 			} else
 				modelAndView.addObject("errorMsg", "Account type must be chosen.");
 			/*
@@ -602,7 +602,7 @@ public class TransactionController {
 			b.setId(transac.getFromTransactionAccountID());
 			System.out.println("checking" + transac.getAccountType());
 			b.setAccountType(transac.getAccountType());
-			int i = bankAccountService.BankValidate(b);
+			int i = bankAccountService.BankValidate(b,transac.getAccountType());
 			if (i == 1) {
 				double b1 = bankAccountService.BankBalanceValidate(b);
 				System.out.println("balance" + b1);

@@ -16,9 +16,9 @@ public class BankAccountServiceImpl implements BankAccountService {
 		accountDAO.insert(account);
 	}
 
-	public int BankValidate(BankAccount account) {
+	public int BankValidate(BankAccount account,String AccountType) {
 
-		int a = accountDAO.Validate(account);
+		int a = accountDAO.Validate(account,AccountType);
 		return a;
 	}
 

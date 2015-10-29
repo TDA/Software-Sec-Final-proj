@@ -70,16 +70,27 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 	}
 
 	@Override
-	public int Validate(BankAccount a) {
+	public int Validate(BankAccount a,String AccountType) {
 		int count = 0;
+		String count1=null;
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
+			JdbcTemplate jdbcTemplate1 = new JdbcTemplate(dataSource);
+
+			String Sql1="SELECT AccountID from accounts where username=? and AccountType=?";
+			count1 = jdbcTemplate1.queryForObject(Sql1, new Object[] {loggedInUser,AccountType }, String.class);
+			System.out.println("count1"+count1);
+			System.out.println("getid"+a.getId());
+		if(!count1.equals(a.getId())){
 		String sql = "SELECT COUNT(*) from accounts where AccountID=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);}
+		count = jdbcTemplate.queryForObject(sql, new Object[] { a.getId() }, Integer.class);
+		}
+		else
+			count=-1;}
 		return count;
 	}
 
