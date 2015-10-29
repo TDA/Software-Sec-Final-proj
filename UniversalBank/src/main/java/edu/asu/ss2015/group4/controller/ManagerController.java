@@ -365,7 +365,7 @@ public class ManagerController {
 
 		+ ",\n\nYour account has been approved, use the following link and one time password mentioned below to unlock your account. \n\n"
 				+ "\n OTP: " + otp + " which is valid till: " + validDate
-				+ "\n https://group4.mobicloud.asu.edu/UniversalBank/unlockAccount"
+				+ "\n https://group4.mobicloud.asu.edu/unlockAccount"
 				+ "\n\nThank you for your business.\n\nUniversal Bank";
 
 		MailingService mm = (MailingService) context.getBean("mailingService");

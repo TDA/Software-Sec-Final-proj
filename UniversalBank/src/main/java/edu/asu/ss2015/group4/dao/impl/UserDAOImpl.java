@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
 	private static final String checkUnlocking = "select userLocked from users where username =?";
 	private static final String SQL_User_Attpts_GET = "SELECT * FROM User_Attpts WHERE username = ?";
 	private static final String SQL_User_Attpts_INSERT = "INSERT INTO User_Attpts (USERNAME, ATTEMPTS, LASTMODIFIED) VALUES(?,?,?)";
-	private static final String SQL_User_Attpts_UPDATE_ATTEMPTS = "UPDATE User_Attpts SET attempts = attempts + 1, lastmodified = ? WHERE username = ?";
+	private static final String SQL_User_Attpts_UPDATE_ATTEMPTS = "UPDATE User_Attpts SET attempts = attempts + 1, lastmodified = now() WHERE username = ?";
 	private static final String SQL_User_Attpts_RESET_ATTEMPTS = "UPDATE User_Attpts SET attempts = 0, lastmodified = now() WHERE username = ?";
 
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
