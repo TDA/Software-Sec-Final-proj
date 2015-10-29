@@ -101,9 +101,8 @@
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+
+
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>
