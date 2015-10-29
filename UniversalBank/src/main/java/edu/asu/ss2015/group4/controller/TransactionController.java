@@ -3,6 +3,7 @@ package edu.asu.ss2015.group4.controller;
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -69,7 +71,13 @@ public class TransactionController {
 			bal.setSavingsAccount(saving);
 			modelAndView.addObject("bal", checking);
 			modelAndView.addObject("bal1", saving);
-
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			modelAndView.setViewName("balance");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -105,6 +113,13 @@ public class TransactionController {
 				arrayList.add("checking");
 				arrayList.add("savings");
 				modelAndView.addObject("mylist", arrayList);
+				Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+				String roleAuth = "";
+				for (GrantedAuthority auth12 : role) {
+					roleAuth = auth12.getAuthority();
+					break;
+				}
+				modelAndView.addObject("role",roleAuth);
 				System.out.println(arrayList.get(0));
 				modelAndView.setViewName("transfer");
 				generateOTP(username);
@@ -231,6 +246,13 @@ public class TransactionController {
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			modelAndView.setViewName("ViewTransactions");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -254,6 +276,13 @@ public class TransactionController {
 			arrayList.add("savings");
 			modelAndView.addObject("mylist", arrayList);
 			modelAndView.addObject("transaction", transac);
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			generateOTP(username);
 			modelAndView.setViewName("Debit");
 		} else {
@@ -356,6 +385,13 @@ public class TransactionController {
 			modelAndView.addObject("mylist", arrayList);
 			System.out.println(arrayList.get(0));
 			modelAndView.addObject("transaction", transac);
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			System.out.println("to transfer");
 			modelAndView.setViewName("Credit");
 			System.out.println("the username is: " + userDetail.getUsername());
@@ -470,7 +506,14 @@ public class TransactionController {
 			arrayList.add("checking");
 			arrayList.add("savings");
 			modelAndView.addObject("mylist", arrayList);
-			System.out.println(arrayList.get(0));
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			modelAndView.setViewName("MerchantTransfer");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -538,6 +581,13 @@ public class TransactionController {
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			modelAndView.setViewName("UserRequest");
 		} else {
 			modelAndView.setViewName("permission-denied");

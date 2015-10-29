@@ -3,6 +3,7 @@ package edu.asu.ss2015.group4.controller;
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -39,20 +41,29 @@ public class AccountController {
 
 		// check if user is login
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("Printing!!!!" + !(auth instanceof AnonymousAuthenticationToken));
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-
+			
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-
+			
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			modelAndView.setViewName("account");
 		} else {
 			modelAndView.setViewName("permission-denied");
+			System.out.println("permission was denied");
 		}
 		return modelAndView;
 	}
@@ -74,6 +85,13 @@ public class AccountController {
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
+			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
+			String roleAuth = "";
+			for (GrantedAuthority auth12 : role) {
+				roleAuth = auth12.getAuthority();
+				break;
+			}
+			modelAndView.addObject("role",roleAuth);
 			modelAndView.setViewName("DisplaySignUp");
 		} else {
 			modelAndView.setViewName("permission-denied");
