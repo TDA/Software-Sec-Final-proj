@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `unibank` /*!40100 DEFAULT CHARACTER SET utf8 */;
+create database if not exists `unibank`;
 USE `unibank`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
@@ -44,7 +44,6 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES ('195440101','jdoes2','Checking',0,NULL,'2015-10-24 22:25:50'),('195440102','jdoes2','Savings',250,NULL,'2015-10-24 22:25:50'),('246952101','jdoes1','Checking',0,NULL,'2015-10-24 22:25:45'),('246952102','jdoes1','Savings',250,NULL,'2015-10-24 22:25:45');
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +67,6 @@ CREATE TABLE `del_user_roles` (
 
 LOCK TABLES `del_user_roles` WRITE;
 /*!40000 ALTER TABLE `del_user_roles` DISABLE KEYS */;
-INSERT INTO `del_user_roles` VALUES (8,'sclerk','ROLE_CLERK'),(2,'cborde','ROLE_MANAGER');
 /*!40000 ALTER TABLE `del_user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,9 +139,9 @@ DROP TABLE IF EXISTS `edit_info`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `edit_info` (
   `username` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
-  `EmailID` varchar(40) NOT NULL,
-  `SSN` int(9) NOT NULL,
+  `phonenumber` varchar(40) NOT NULL,
+  `address` varchar(40) NOT NULL,
+  `sex` varchar(10) NOT NULL,
   `Completed` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -180,7 +178,7 @@ CREATE TABLE `transactions` (
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `SupervisorName` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +187,6 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (38,'Debit',10,'246952102',NULL,NULL,'2015-10-27 03:20:30',0,'2015-10-27 03:20:30.872593','Withdraw from ATM',1,0,0,'jdoes3'),(39,'Credit',10,NULL,'246952101',NULL,'2015-10-27 03:21:10',0,'2015-10-27 03:21:10.380852','Deposit at branch',1,0,0,NULL);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,7 +258,7 @@ CREATE TABLE `user_roles` (
   UNIQUE KEY `uni_username_role` (`role`,`username`),
   KEY `fk_username_idx` (`username`),
   CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +267,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (2,'sadmin','ROLE_ADMIN'),(5,'jdoes3','ROLE_CLERK'),(1,'sgovern','ROLE_GOV'),(3,'jdoes1','ROLE_INDIVIDUAL'),(6,'jdoes4','ROLE_MANAGER'),(4,'jdoes2','ROLE_MERCHANT');
+INSERT INTO `user_roles` VALUES (2,'sadmin','ROLE_ADMIN'),(1,'sgovern','ROLE_GOV');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,13 +306,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES 
-('jdoes1','$2a$10$1lTTbrGzgQYyM.pgKYZ33eqdSB2x4h5Lh2ChbQImBxQDqe3pd8sQK','John','Doe','Individual','jdoes1@asu.com','123456789',1,1,1,1,'jdoes3','0','0','1234567890','Tempe, AZ','male'),
-('jdoes2','$2a$10$Y0TGJCdq/RYdwwOsq0f7Jeyr3xeq9E7Fi6Ny22D4FBtNZzqKnoW9m','John','Does2','Merchant','John2@asu.com','123467899',1,1,1,1,'jdoes3','0','0','1234567891','Gilbert, AZ','female'),
-('jdoes3','$2a$10$fW8IrItWy6qUxaGttEyEIuxG2jCRPem9gh4cCqNw5Ssj0OCIl2/ky','John','Does3','Clerk','jdoes3@asu.com','123456896',1,1,1,1,NULL,'0','0','1234567892','Phoenix, AZ','male'),
-('jdoes4','$2a$10$Y8lrY8SB0852aVpHh.ZH7O0He8Yp.ADIB2ggB879W7jJg4FfdOoI2','John','Does4','Manager','jdoes4@asu.com','321654987',1,1,1,1,NULL,'0','0','1234567893','San Fransisco, CA','female'),
-('sadmin','$2a$10$TH0VZ3U2pA3ZkoihFRyL.OpivhaNak2O2vhD8aUuCwKSNtRisWDzm','sai','patcha','Admin','sai@admin.com','213546879',1,1,1,1,NULL,'0','0','1234567894','Laguna Miguel, CA','male'),
-('sgovern','$2a$10$wtTOeUmqQCYTa1d7cOgDFOWn8f62zv2ZY0DOk15e/FTQjlJ7ISp2u','sai','patcha','Gov','sai@govern.com','978645312',1,1,1,0,NULL,'0','0','1234567895','Chicago, IL','female');
+INSERT INTO `users` VALUES ('sadmin','$2a$10$TH0VZ3U2pA3ZkoihFRyL.OpivhaNak2O2vhD8aUuCwKSNtRisWDzm','sai','patcha','Admin','sai@admin.com','213546879',1,1,1,1,NULL,'0','0','1234567894','Laguna Miguel, CA','male'),('sgovern','$2a$10$wtTOeUmqQCYTa1d7cOgDFOWn8f62zv2ZY0DOk15e/FTQjlJ7ISp2u','sai','patcha','Gov','sai@govern.com','978645312',1,1,1,0,NULL,'0','0','1234567895','Chicago, IL','female');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -328,4 +319,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-26 20:35:34
+-- Dump completed on 2015-10-28 22:57:03

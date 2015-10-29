@@ -173,10 +173,10 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public String EditUser(String username, editProfile userInfo) throws FileNotFoundException {
-		String registerUserQuery = "INSERT into edit_info (phonenumber,address,sex) VALUES (?,?,?)";
+		String registerUserQuery = "INSERT into edit_info (username,phonenumber,address,sex) VALUES (?,?,?,?)";
 		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
 		jdbcTemplateForExternalUser.update(registerUserQuery,
-				new Object[] { userInfo.getPhoneNumber(), userInfo.getAddress(), userInfo.getSex() });
+				new Object[] { username, userInfo.getPhoneNumber(), userInfo.getAddress(), userInfo.getSex() });
 		return "Request received! <br/> Please check you email for account approval notification!";
 	}
 
