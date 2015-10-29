@@ -7,7 +7,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -138,7 +137,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
-			String sql = "SELECT Balance from accounts where  AccountID = ( SELECT FromTransactionAccountID from transactions where TransactionID=? AND Transactiontype in ('UserTransfer','Debit'))";
+			String sql = "SELECT Balance from accounts where  AccountID = ( SELECT FromTransactionAccountID from transactions where TransactionID=? AND Transactiontype in ('UserTransfer','Debit','MerchantInitiatedTransfer'))";
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
 			count = jdbcTemplate.queryForObject(sql, new Object[] { i }, Double.class);

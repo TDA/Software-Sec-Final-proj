@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class editProfile {
+
 	@Size(min = 10, max = 10, message = "Enter a valid Phone Number")
 	private String phoneNumber;
 	@NotEmpty(message = "Please enter a valid address.")

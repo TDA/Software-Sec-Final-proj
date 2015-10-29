@@ -35,7 +35,7 @@ public interface TransactionDAO {
 
 	public List<TransactionDTO> viewTransactionToRegularEmployee(String Username);
 
-	public void approveTransactionRegularEmployee(int a, double b, String userName);
+	public String approveTransactionRegularEmployee(int a, double b, String userName);
 
 	public void denyTransactionRegularEmployee(int a, String userName);
 

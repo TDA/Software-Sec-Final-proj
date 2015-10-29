@@ -154,7 +154,7 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = "/critical_transaction", method = RequestMethod.GET)
-	public ModelAndView criticalTransactions() {
+	public ModelAndView criticalTransactions(String message) {
 
 		ModelAndView modelAndView = new ModelAndView();
 		List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
@@ -166,7 +166,7 @@ public class ManagerController {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-
+			modelAndView.addObject("someMessage", message);
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 			userTransactionsDTO = transactionService.fetchCriticalTransactions(loggedInUser);
@@ -190,7 +190,7 @@ public class ManagerController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();
-
+		String approve = "";
 		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
 			String[] split = approveOrDeny.split("_");
 
@@ -201,18 +201,18 @@ public class ManagerController {
 			if (split[0].equals("approveVal")) {
 				int x1 = Integer.parseInt(y);
 				double x2 = Double.parseDouble(z);
-				String approve = transactionService.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
+				approve = transactionService.RegularEmployeeAprroveTransaction(x1, x2, loggedInUser);
 			}
 
 			else {
 				int x1 = Integer.parseInt(y);
-				String deny = transactionService.RegularEmployeeDeleteTransaction(x1, loggedInUser);
+				approve = transactionService.RegularEmployeeDeleteTransaction(x1, loggedInUser);
 			}
 
 		} else {
 			return modelAndView;
 		}
-		return criticalTransactions();
+		return criticalTransactions(approve);
 	}
 
 	@RequestMapping(value = "/manager", method = RequestMethod.POST)

@@ -191,9 +191,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> fetchCriticalTransaction(String managerName) {
 		List<TransactionDTO> criticalTransactions = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=?  and AuthoriseBank=? and Approved=? and (transactions.SupervisorName IN (Select users.username from unibank.users where SupervisorName=?))";
+		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and AuthoriseBank=? and (transactions.SupervisorName IN (Select users.username from unibank.users where SupervisorName=?))";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 1,1, 0, managerName },
+		criticalTransactions = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 1, 0, 1, managerName },
 				new TransactionTableRows());
 		return criticalTransactions;
 	}
@@ -202,9 +202,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 	@Override
 	public List<TransactionDTO> viewTransactionForDeletion(String Username) {
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
-		String retrieveDetailsQuery = "SELECT * from transactions where Approved=? and IsDeleted=? and SupervisorName=? and Critical_transactions=? and AuthoriseBank=?";
+		String retrieveDetailsQuery = "SELECT * from transactions where Approved=? and IsDeleted=? and SupervisorName=? and Critical_transactions=? and AuthoriseBank=? ";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username, 0,1},
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username, 0, 1 },
 				new TransactionTableRows());
 		return transactionToDisplay;
 	}
@@ -240,14 +240,14 @@ public class TransactionDAOImpl implements TransactionDAO {
 		List<TransactionDTO> transactionToDisplay = new ArrayList<TransactionDTO>();
 		String retrieveDetailsQuery = "SELECT * from transactions where Critical_transactions=? and Approved=? and SupervisorName=? and AuthoriseBank=?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username,1 },
+		transactionToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new Object[] { 0, 0, Username, 1 },
 				new TransactionTableRows());
 		return transactionToDisplay;
 	}
 
 	// added by Gaurav
 	@Override
-	public void approveTransactionRegularEmployee(int a, double b, String userName) {
+	public String approveTransactionRegularEmployee(int a, double b, String userName) {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -255,18 +255,33 @@ public class TransactionDAOImpl implements TransactionDAO {
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
 
+			String registerUserQuery4 = "SELECT balance from accounts where AccountID = ( Select FromTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Debit','MerchantInitiatedTransfer'))";
+			Double count = 0.0;
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+			count = jdbcTemplate.queryForObject(registerUserQuery4, new Object[] { a }, Double.class);
+
+			if (count < b) {
+				denyTransactionRegularEmployee(a, userName);
+				return "Error - insufficient balance";
+			}
+
 			// update balance
-			String registerUserQuery2 = "UPDATE accounts SET  balance= balance + ? where AccountID = ( Select ToTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Credit'))";
+			String registerUserQuery2 = "UPDATE accounts SET  balance= balance + ? where AccountID = ( Select ToTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Credit','MerchantInitiatedTransfer'))";
 			JdbcTemplate jdbcTemplateForTransaction2 = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction2.update(registerUserQuery2, new Object[] { b, a });
 
-			String registerUserQuery3 = "UPDATE accounts SET  balance= balance - ? where AccountID = ( Select FromTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Debit'))";
+			String registerUserQuery3 = "UPDATE accounts SET  balance= balance - ? where AccountID = ( Select FromTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Debit','MerchantInitiatedTransfer'))";
 			JdbcTemplate jdbcTemplateForTransaction3 = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction3.update(registerUserQuery3, new Object[] { b, a });
 
 			String registerUserQuery = "UPDATE transactions SET  Approved=1, AuthorizedManagerID=? where transactionID=?";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery, new Object[] { userName, a });
+
+			return "success";
+		} else {
+			return "Error - unknown";
 		}
 	}
 
