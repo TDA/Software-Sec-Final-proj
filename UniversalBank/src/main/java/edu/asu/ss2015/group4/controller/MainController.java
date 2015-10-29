@@ -42,19 +42,14 @@ public class MainController {
 			Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 			for (GrantedAuthority grantedAuthority : authorities) {
 				if (grantedAuthority.getAuthority().equals("ROLE_INDIVIDUAL")) {
-					System.out.println("1");
 					return new ModelAndView("forward:/account");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_MERCHANT")) {
-					System.out.println("2");
 					return new ModelAndView("forward:/MerchantTransfer");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-					System.out.println("3");
 					return new ModelAndView("forward:/admin");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
-					System.out.println("4");
 					return new ModelAndView("forward:/manager");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_CLERK")) {
-					System.out.println("5");
 					return new ModelAndView("forward:/clerk");
 				}
 			}
@@ -138,11 +133,7 @@ public class MainController {
 
 	public boolean validateOTP(String username, String dbusername, String otp, String dbotp, String otpValidity) {
 		boolean retVal = false;
-		System.out.println("in ValidateOTP");
-		System.out.println("username: " + username + ", from db: " + dbusername);
-		System.out.println("otp: " + otp + ", from db: " + dbotp);
 		if (username.equals(dbusername) && otp.equals(dbotp)) {
-			System.out.println("inside checking");
 			Date date = new Date();
 			Date checkDate = new Date(Long.parseLong(otpValidity));
 			if (date.before(checkDate)) {
@@ -151,7 +142,6 @@ public class MainController {
 				int newOTP = OTP.generateOTP();
 				otpValidity = Long.toString(date.getTime() + 600000);
 				custService.insertOTP(Integer.toString(newOTP), otpValidity, dbusername);
-				System.out.println(date + " is before " + checkDate);
 			} else
 				System.out.println(checkDate + " is before " + date);
 		}

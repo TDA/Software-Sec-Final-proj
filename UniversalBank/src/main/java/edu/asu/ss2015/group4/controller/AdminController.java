@@ -62,7 +62,6 @@ public class AdminController {
 			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
 			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
 			IntInfoFromDTO = userService.fetchIntUserDetails();
-			// System.out.println(IntInfoFromDTO.getUserName());
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
@@ -73,7 +72,6 @@ public class AdminController {
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("welcomeAdmin");
-			// System.out.println(IntInfoFromDTO);
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
@@ -91,7 +89,6 @@ public class AdminController {
 			custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
 			if (split[0].equals("approveVal")) {
-				System.out.println("=============> Account Approved <=================");
 
 				userService.activateInternalUserAccount(custInfoFromDTO.get(0).getUserName());
 
@@ -106,7 +103,6 @@ public class AdminController {
 		{
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return
 
 		adminPage();
@@ -143,7 +139,6 @@ public class AdminController {
 			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
 			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
 			IntInfoFromDTO = userService.fetchIntUserDetails();
-			// System.out.println(IntInfoFromDTO.getUserName());
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
@@ -154,7 +149,6 @@ public class AdminController {
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("pii_access");
-			// System.out.println(IntInfoFromDTO);
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
@@ -179,7 +173,6 @@ public class AdminController {
 		} else {
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return pii_access();
 	}
 
@@ -213,7 +206,6 @@ public class AdminController {
 			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
 			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
 			IntInfoFromDTO = userService.fetchIntUserDetails();
-			// System.out.println(IntInfoFromDTO.getUserName());
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
@@ -224,7 +216,6 @@ public class AdminController {
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("delete_account");
-			// System.out.println(IntInfoFromDTO);
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
@@ -250,7 +241,6 @@ public class AdminController {
 		} else {
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return delete_internal_account();
 	}
 
@@ -284,7 +274,6 @@ public class AdminController {
 			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
 			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
 			IntInfoFromDTO = userService.fetchIntUserDetails();
-			// System.out.println(IntInfoFromDTO.getUserName());
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
@@ -295,7 +284,6 @@ public class AdminController {
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("reopen_account");
-			// System.out.println(IntInfoFromDTO);
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
@@ -313,7 +301,6 @@ public class AdminController {
 			custInfoFromDTO = userService.fetchDelUserDetails(split[1]);
 
 			if (split[0].equals("approveVal1")) {
-				System.out.println("=============> Account Approved <=================");
 
 				userService.addDeletedInternalUserAccount(custInfoFromDTO.get(0).getUserName());
 
@@ -321,7 +308,6 @@ public class AdminController {
 		} else {
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return reopen_internal_account();
 	}
 
@@ -355,7 +341,6 @@ public class AdminController {
 			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
 			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
 			IntInfoFromDTO = userService.fetchIntUserDetails();
-			// System.out.println(IntInfoFromDTO.getUserName());
 
 			// Add it to the model
 			// modelAndView.addObject("userInformation", custInfoFromDTO);
@@ -366,7 +351,6 @@ public class AdminController {
 			modelAndView.addObject("myList1", databaseArrayList1);
 
 			modelAndView.setViewName("modify_internal_roles");
-			// System.out.println(IntInfoFromDTO);
 		} else {
 			modelAndView.setViewName("permission-denied");
 		}
@@ -387,8 +371,6 @@ public class AdminController {
 			var = var.replaceAll("[-+.^:,]", "");
 
 			if (split[0].equals("approveVal2")) {
-				System.out.println(custInfo.getAccountType());
-				System.out.println(var);
 
 				userService.modifyInternalUserAccount(var, custInfoFromDTO.get(0).getUserName());
 
@@ -396,7 +378,6 @@ public class AdminController {
 		} else {
 			return modelAndView;
 		}
-		System.out.println("=============> RESULT = " + approveOrDeny + "<=================");
 		return modify_internal_roles();
 	}
 
@@ -404,7 +385,6 @@ public class AdminController {
 		List<UserInformationDTO> regEmployees = new ArrayList<UserInformationDTO>();
 		regEmployees = userService.fetchManagerEmployees();
 		int random = randInt(0, regEmployees.size() - 1);
-		System.out.println(random);
 		return regEmployees.get(random).getUserName();
 	}
 

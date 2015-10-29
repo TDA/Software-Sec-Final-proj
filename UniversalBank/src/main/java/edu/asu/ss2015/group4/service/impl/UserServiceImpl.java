@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addEditInfoRequest(String requestType, String requestBy, String approveBy) {
-		userDAO.addEditInfoRequest(requestType, requestBy, approveBy);
+	public void addDeleteAccountInfoRequest(String requestType, String requestBy, String approveBy) {
+		userDAO.addDeleteAccountInfoRequest(requestType, requestBy, approveBy);
 	}
 
 	@Override
@@ -130,6 +130,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserInformationDTO> fetchManagerEmployees() {
 		return userDAO.fetchAllManagerEmployees();
+	}
+
+	@Override
+	public boolean processEditInfoRequest(String userName) {
+		return userDAO.processEditInfoRequest(userName);
 	}
 
 }

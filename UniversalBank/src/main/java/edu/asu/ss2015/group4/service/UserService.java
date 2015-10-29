@@ -28,7 +28,7 @@ public interface UserService {
 
 	public void assignSupervisor(String userName, String employeeName);
 
-	public void addEditInfoRequest(String requestType, String requestBy, String approveBy);
+	public void addDeleteAccountInfoRequest(String requestType, String requestBy, String approveBy);
 
 	public List<UserRequestsDTO> getAllRequests();
 
@@ -64,5 +64,7 @@ public interface UserService {
 	public void insertOTP(String otp, String otpValidity, String username);
 
 	public List<UserInformationDTO> fetchManagerEmployees();
+
+	public boolean processEditInfoRequest(String string);
 
 }

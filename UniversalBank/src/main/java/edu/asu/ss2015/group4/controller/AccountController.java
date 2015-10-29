@@ -41,29 +41,27 @@ public class AccountController {
 
 		// check if user is login
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println("Printing!!!!" + !(auth instanceof AnonymousAuthenticationToken));
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-			
+
 			// Call the DAOImpl layer
 			custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
 
 			// Add it to the model
 			modelAndView.addObject("userInformation", custInfoFromDTO);
-			
+
 			Collection<? extends GrantedAuthority> role = auth.getAuthorities();
 			String roleAuth = "";
 			for (GrantedAuthority auth12 : role) {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			modelAndView.setViewName("account");
 		} else {
 			modelAndView.setViewName("permission-denied");
-			System.out.println("permission was denied");
 		}
 		return modelAndView;
 	}
@@ -91,7 +89,7 @@ public class AccountController {
 				roleAuth = auth12.getAuthority();
 				break;
 			}
-			modelAndView.addObject("role",roleAuth);
+			modelAndView.addObject("role", roleAuth);
 			modelAndView.setViewName("DisplaySignUp");
 		} else {
 			modelAndView.setViewName("permission-denied");
@@ -132,7 +130,7 @@ public class AccountController {
 		String loggedInUser = userDetail.getUsername();
 		List<UserInformationDTO> user = userService.fetchUserDetails(loggedInUser);
 		ModelAndView modelAndView = new ModelAndView();
-		userService.addEditInfoRequest("Delete Account", loggedInUser, user.get(0).getSupervisorName());
+		userService.addDeleteAccountInfoRequest("Delete Account", loggedInUser, user.get(0).getSupervisorName());
 		modelAndView.setViewName("success");
 		return modelAndView;
 	}
