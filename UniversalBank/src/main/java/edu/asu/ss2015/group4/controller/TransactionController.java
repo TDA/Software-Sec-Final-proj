@@ -137,6 +137,20 @@ public class TransactionController {
 			@RequestParam("amount") String amount, @RequestParam("otp") String otp)
 					throws NoSuchAlgorithmException, FileNotFoundException {
 		ModelAndView modelAndView = new ModelAndView();
+		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
+		keys.generateKeys();
+
+		// this is the plaintext message that needs to be signed with the
+		// private key
+		String message = "hello sai";
+		// sign it!
+		String signedRequest = keys.signRequest(message);
+		System.out.println("Encoded message: " + signedRequest);
+		System.out.println();
+		// check if the message returned is the same? decode using pub key
+		if (keys.verifySignature(message, signedRequest)) {
+			// keys are fine, PKI successful yay!
+			System.out.println("Keys Verified");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
@@ -211,7 +225,7 @@ public class TransactionController {
 			 * }
 			 */
 
-		} else {
+		}} else {
 			modelAndView.setViewName("permission-denied");
 		}
 
@@ -267,7 +281,20 @@ public class TransactionController {
 
 		Transactions transac = new Transactions();
 		ModelAndView modelAndView = new ModelAndView();
+		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
+		keys.generateKeys();
 
+		// this is the plaintext message that needs to be signed with the
+		// private key
+		String message = "hello sai";
+		// sign it!
+		String signedRequest = keys.signRequest(message);
+		System.out.println("Encoded message: " + signedRequest);
+		System.out.println();
+		// check if the message returned is the same? decode using pub key
+		if (keys.verifySignature(message, signedRequest)) {
+			// keys are fine, PKI successful yay!
+			System.out.println("Keys Verified");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
@@ -286,7 +313,7 @@ public class TransactionController {
 			modelAndView.addObject("role", roleAuth);
 			generateOTP(username);
 			modelAndView.setViewName("Debit");
-		} else {
+		} }else {
 			modelAndView.setViewName("permission-denied");
 		}
 
@@ -300,6 +327,20 @@ public class TransactionController {
 		System.out.println("debit");
 		BankAccount b = new BankAccount();
 		// b.setAccountType(accountType);
+		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
+		keys.generateKeys();
+
+		// this is the plaintext message that needs to be signed with the
+		// private key
+		String message = "hello sai";
+		// sign it!
+		String signedRequest = keys.signRequest(message);
+		System.out.println("Encoded message: " + signedRequest);
+		System.out.println();
+		// check if the message returned is the same? decode using pub key
+		if (keys.verifySignature(message, signedRequest)) {
+			// keys are fine, PKI successful yay!
+			System.out.println("Keys Verified");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
@@ -355,7 +396,7 @@ public class TransactionController {
 			 * 
 			 * }
 			 */
-		}
+		}}
 		return modelAndView;
 	}
 
@@ -375,6 +416,20 @@ public class TransactionController {
 	@RequestMapping(value = "/Credit", method = RequestMethod.GET)
 	public ModelAndView CreditPage() {
 		ModelAndView modelAndView = new ModelAndView();
+		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
+		keys.generateKeys();
+
+		// this is the plaintext message that needs to be signed with the
+		// private key
+		String message = "hello sai";
+		// sign it!
+		String signedRequest = keys.signRequest(message);
+		System.out.println("Encoded message: " + signedRequest);
+		System.out.println();
+		// check if the message returned is the same? decode using pub key
+		if (keys.verifySignature(message, signedRequest)) {
+			// keys are fine, PKI successful yay!
+			System.out.println("Keys Verified");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
@@ -397,7 +452,7 @@ public class TransactionController {
 			modelAndView.setViewName("Credit");
 			System.out.println("the username is: " + userDetail.getUsername());
 			generateOTP(username);
-		}
+		}}
 		return modelAndView;
 	}
 
@@ -406,6 +461,20 @@ public class TransactionController {
 			@RequestParam("otp") String otp) {
 		ModelAndView modelAndView = new ModelAndView();
 		Transactions transac = new Transactions();
+		KeyGeneratorsPKI keys = new KeyGeneratorsPKI();
+		keys.generateKeys();
+
+		// this is the plaintext message that needs to be signed with the
+		// private key
+		String message = "hello sai";
+		// sign it!
+		String signedRequest = keys.signRequest(message);
+		System.out.println("Encoded message: " + signedRequest);
+		System.out.println();
+		// check if the message returned is the same? decode using pub key
+		if (keys.verifySignature(message, signedRequest)) {
+			// keys are fine, PKI successful yay!
+			System.out.println("Keys Verified");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
@@ -447,7 +516,7 @@ public class TransactionController {
 				modelAndView.addObject("errorMsg", "Account type should be selected");
 				// modelAndView.setViewName("Credit"); // This prints errors
 			}
-		}
+		}}
 		return modelAndView;
 	}
 
@@ -552,8 +621,9 @@ public class TransactionController {
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
 				transac.setSupervisorName(info.get(0).getSupervisorName());
-				System.out.println("successtransac11");
 				String a = trans.MerchantPaymentUser(transac);
+
+				System.out.println("successtransac11");
 				modelAndView.setViewName("success");
 
 			}

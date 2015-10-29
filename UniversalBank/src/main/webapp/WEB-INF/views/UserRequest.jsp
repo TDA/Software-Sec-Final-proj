@@ -87,12 +87,15 @@
 							<td><button type="submit" name="approveParam"
 									value="approve_${transaction.transactionID}" >Approve
 								</button></td>
-							<td><button type="submit" name="approveParam" value="Deny" >Deny
-								</button></td>
+							
 						</tr>
 					</c:forEach>
 
 				</table>
+				<br />
+				<br />
+		<Font Color="red">Note:To deny or dispute a transaction please contact your nearest branch </Font>
+					<br />
 			</form:form>
 		</div>
 
@@ -101,9 +104,8 @@
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+
+
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
 </body>

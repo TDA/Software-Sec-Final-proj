@@ -164,9 +164,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/keyboard.js" charset="UTF-8"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>	
-	<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script> 
+	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 
 </html>
