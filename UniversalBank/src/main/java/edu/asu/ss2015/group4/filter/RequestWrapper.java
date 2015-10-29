@@ -60,6 +60,17 @@ public final class RequestWrapper extends HttpServletRequestWrapper {
 		value = value.replaceAll("(?i)<.*?\\s+on.*?>.*?</.*?>", "lol");
 		value = value.replaceAll("<script>", "lol");
 		value = value.replaceAll("</script>", "lol");
+		value = value.replaceAll("select", "nosql");
+		value = value.replaceAll("SELECT", "nosql");
+		value = value.replaceAll("UPDATE", "nosql");
+		value = value.replaceAll("update", "nosql");
+		value = value.replaceAll("DELETE", "nosql");
+		value = value.replaceAll("delete", "nosql");
+		value = value.replaceAll("from", "nosql");
+		value = value.replaceAll("where", "nosql");
+		value = value.replaceAll("INSERT", "nosql");
+
+
 		System.out.println("out");
 
 		logger.info("OutnXSS RequestWrapper ........ value ......." + value);
