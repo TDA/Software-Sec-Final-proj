@@ -54,6 +54,8 @@
 				<li><a
 					href="${pageContext.request.contextPath}/modify_internal_roles">Modify
 						User Roles</a></li>
+				<li><a
+					href="${pageContext.request.contextPath}/viewLogs">View Logs</a></li>
 
 			</ul>
 			<!-- Page Heading -->
@@ -104,6 +106,9 @@
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
 	</sec:authorize>
 <!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
 <script>if (top != self) top.location=location</script>

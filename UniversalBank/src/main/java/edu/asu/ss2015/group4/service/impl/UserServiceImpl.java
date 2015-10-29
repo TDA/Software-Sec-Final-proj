@@ -2,6 +2,7 @@ package edu.asu.ss2015.group4.service.impl;
 
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import edu.asu.ss2015.group4.dto.UserInformationDTO;
 import edu.asu.ss2015.group4.dto.UserRequestsDTO;
 import edu.asu.ss2015.group4.model.UserInformation;
 import edu.asu.ss2015.group4.model.editProfile;
+import edu.asu.ss2015.group4.model.log;
 import edu.asu.ss2015.group4.service.UserService;
 
 public class UserServiceImpl implements UserService {
@@ -77,6 +79,12 @@ public class UserServiceImpl implements UserService {
 			throws NoSuchAlgorithmException, FileNotFoundException {
 		userDAO.modifyInternalUser(accountType, username);
 	}
+	
+	@Override
+	public void modifyInternalUserAccount1(String accountType, String username)
+			throws NoSuchAlgorithmException, FileNotFoundException {
+		userDAO.modifyInternalUser1(accountType, username);
+	}
 
 	public List<UserInformationDTO> fetchDisabledInternalUserDetails() {
 		return userDAO.retrieveDisabledInternalUserAccounts();
@@ -88,6 +96,10 @@ public class UserServiceImpl implements UserService {
 
 	public List<UserInformationDTO> fetchIntUserDetails() {
 		return userDAO.retrieveIntUserAccounts();
+	}
+	
+	public List<log> fetchlogDetails() {
+		return userDAO.retrievelogAccounts();
 	}
 
 	public List<UserInformationDTO> fetchDelIntUserDetails() {
@@ -125,6 +137,10 @@ public class UserServiceImpl implements UserService {
 	public void insertOTP(String otp, String otpValidity, String username) {
 		userDAO.insertOTP(otp, otpValidity, username);
 
+	}
+	
+	public void savelog(Date gettime, String getid, String getcontent){
+		userDAO.savelog(gettime, getid, getcontent);
 	}
 
 	@Override

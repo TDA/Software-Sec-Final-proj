@@ -3,6 +3,7 @@ package edu.asu.ss2015.group4.controller;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.asu.ss2015.group4.dto.UserInformationDTO;
+import edu.asu.ss2015.group4.model.log;
 import edu.asu.ss2015.group4.model.modifyIntUsers;
 import edu.asu.ss2015.group4.service.UserService;
 
@@ -83,25 +85,38 @@ public class AdminController {
 	public ModelAndView adminInternalUserApproval(@RequestParam("approveParam") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			String[] split = approveOrDeny.split("_");
-			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
-			custInfoFromDTO = userService.fetchUserDetails(split[1]);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
 
-			if (split[0].equals("approveVal")) {
+			if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+				String[] split = approveOrDeny.split("_");
+				List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
-				userService.activateInternalUserAccount(custInfoFromDTO.get(0).getUserName());
+				if (split[0].equals("approveVal")) {
 
-				if (custInfoFromDTO.get(0).getAccountType().equals("Clerk")) {
-					String employeeName = getRandomManagerEmployee();
-					userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
+					userService.activateInternalUserAccount(custInfoFromDTO.get(0).getUserName());
+
+					String content = "Employee Approval from " + loggedInUser + " To "
+							+ custInfoFromDTO.get(0).getUserName();
+					log lg = new log();
+					lg.setid(loggedInUser);
+					lg.settime(new Date());
+					lg.setcontent(content);
+					userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+					if (custInfoFromDTO.get(0).getAccountType().equals("Clerk")) {
+						String employeeName = getRandomManagerEmployee();
+						userService.assignSupervisor(custInfoFromDTO.get(0).getUserName(), employeeName);
+					}
 				}
+
+			} else
+
+			{
+				return modelAndView;
 			}
-
-		} else
-
-		{
-			return modelAndView;
 		}
 		return
 
@@ -160,18 +175,31 @@ public class AdminController {
 	public ModelAndView pii_users(@RequestParam("approveParam1") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			String[] split = approveOrDeny.split("_");
-			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
-			custInfoFromDTO = userService.fetchUserDetails(split[1]);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+				String[] split = approveOrDeny.split("_");
+				List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
-			if (split[0].equals("denyVal")) {
+				if (split[0].equals("denyVal")) {
 
-				userService.deactivatePiiUserAccount(custInfoFromDTO.get(0).getUserName());
+					String content = "PII Access Denial by " + loggedInUser + " on "
+							+ custInfoFromDTO.get(0).getUserName();
+					log lg = new log();
+					lg.setid(loggedInUser);
+					lg.settime(new Date());
+					lg.setcontent(content);
+					userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+
+					userService.deactivatePiiUserAccount(custInfoFromDTO.get(0).getUserName());
+				}
+
+			} else {
+				return modelAndView;
 			}
-
-		} else {
-			return modelAndView;
 		}
 		return pii_access();
 	}
@@ -227,19 +255,30 @@ public class AdminController {
 	public ModelAndView modify_users(@RequestParam("approveParam2") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			String[] split = approveOrDeny.split("_");
-			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
-			custInfoFromDTO = userService.fetchUserDetails(split[1]);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+				String[] split = approveOrDeny.split("_");
+				List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO = userService.fetchUserDetails(split[1]);
 
-			if (split[0].equals("denyVal1")) {
+				if (split[0].equals("denyVal1")) {
+					String content = "Deleted Internal Employee with username " + custInfoFromDTO.get(0).getUserName()
+							+ " by " + loggedInUser + " To " + custInfoFromDTO.get(0).getUserName();
+					log lg = new log();
+					lg.setid(loggedInUser);
+					lg.settime(new Date());
+					lg.setcontent(content);
+					userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+					userService.deleteInternalUserAccount(custInfoFromDTO.get(0).getUserName());
+					return adminPage();
+				}
 
-				userService.deleteInternalUserAccount(custInfoFromDTO.get(0).getUserName());
-				return adminPage();
+			} else {
+				return modelAndView;
 			}
-
-		} else {
-			return modelAndView;
 		}
 		return delete_internal_account();
 	}
@@ -295,18 +334,32 @@ public class AdminController {
 	public ModelAndView delete_intUsers(@RequestParam("approveParam3") String approveOrDeny) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			String[] split = approveOrDeny.split("_");
-			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
-			custInfoFromDTO = userService.fetchDelUserDetails(split[1]);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+				String[] split = approveOrDeny.split("_");
+				List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO = userService.fetchDelUserDetails(split[1]);
 
-			if (split[0].equals("approveVal1")) {
+				if (split[0].equals("approveVal1")) {
 
-				userService.addDeletedInternalUserAccount(custInfoFromDTO.get(0).getUserName());
+					String content = "Reopen Internal Account by " + loggedInUser + " on "
+							+ custInfoFromDTO.get(0).getUserName();
+					log lg = new log();
+					lg.setid(loggedInUser);
+					lg.settime(new Date());
+					lg.setcontent(content);
+					userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+					System.out.println("=============> Account Approved <=================");
 
+					userService.addDeletedInternalUserAccount(custInfoFromDTO.get(0).getUserName());
+
+				}
+			} else {
+				return modelAndView;
 			}
-		} else {
-			return modelAndView;
 		}
 		return reopen_internal_account();
 	}
@@ -363,22 +416,106 @@ public class AdminController {
 			BindingResult result, HttpServletRequest request) throws NoSuchAlgorithmException, IOException {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
-		if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
-			String[] split = approveOrDeny.split("_");
-			List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
-			custInfoFromDTO = userService.fetchUserDetails(split[1]);
-			String var = custInfo.getAccountType();
-			var = var.replaceAll("[-+.^:,]", "");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			if (approveOrDeny != null && !approveOrDeny.isEmpty()) {
+				String[] split = approveOrDeny.split("_");
+				List<UserInformationDTO> custInfoFromDTO = new ArrayList<UserInformationDTO>();
+				custInfoFromDTO = userService.fetchUserDetails(split[1]);
+				String var = custInfo.getAccountType();
+				String temp = custInfo.getAccountType();
 
-			if (split[0].equals("approveVal2")) {
+				temp = temp.replaceAll("[-+.^:,]", "");
+				var = var.replaceAll("[-+.^:,]", "");
 
-				userService.modifyInternalUserAccount(var, custInfoFromDTO.get(0).getUserName());
+				String var1;
+				var1 = var.replaceAll("[-+.^:,]", "");
 
+				if (temp != "") {
+					var1 = "ROLE_" + var1.toUpperCase();
+
+				}
+
+				if (split[0].equals("approveVal2")) {
+
+					System.out.println(custInfo.getAccountType());
+					System.out.println(var);
+					System.out.println("Hi" + var);
+					if (temp == "") {
+
+						System.out.println("Hi" + var);
+					}
+					if (temp != null && !temp.equals("")) {
+						String content = "Modified Internal Account by " + loggedInUser + " on "
+								+ custInfoFromDTO.get(0).getUserName();
+						log lg = new log();
+						lg.setid(loggedInUser);
+						lg.settime(new Date());
+						lg.setcontent(content);
+						userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+						userService.modifyInternalUserAccount(var, custInfoFromDTO.get(0).getUserName());
+						userService.modifyInternalUserAccount1(var1, custInfoFromDTO.get(0).getUserName());
+					}
+				}
+			} else {
+				return modelAndView;
 			}
-		} else {
-			return modelAndView;
 		}
 		return modify_internal_roles();
+	}
+
+	@RequestMapping(value = "/viewLogs", method = RequestMethod.GET)
+	public ModelAndView view_logs_get() {
+
+		ModelAndView modelAndView = new ModelAndView();
+		// List<UserInformationDTO> custInfoFromDTO = new
+		// ArrayList<UserInformationDTO>();
+
+		List<UserInformationDTO> disabledIntInfoFromDTO = new ArrayList<UserInformationDTO>();
+		List<UserInformationDTO> AuthPiiCustInfoFromDTO1 = new ArrayList<UserInformationDTO>();
+		List<UserInformationDTO> IntInfoFromDTO = new ArrayList<UserInformationDTO>();
+		List<UserInformationDTO> DelIntInfoFromDTO = new ArrayList<UserInformationDTO>();
+		List<log> logdetails = new ArrayList<log>();
+		ArrayList<String> databaseArrayList1 = new ArrayList<String>();
+		databaseArrayList1.add("Clerk");
+		databaseArrayList1.add("Manager");
+
+		// check if user is login
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			String loggedInUser = userDetail.getUsername();
+			modelAndView.addObject("userName", loggedInUser);
+
+			// Call the DAOImpl layer
+			// custInfoFromDTO = userService.fetchUserDetails(loggedInUser);
+
+			disabledIntInfoFromDTO = userService.fetchDisabledInternalUserDetails();
+
+			AuthPiiCustInfoFromDTO1 = userService.fetchAuthPiiUserDetails1();
+			DelIntInfoFromDTO = userService.fetchDelIntUserDetails();
+			IntInfoFromDTO = userService.fetchIntUserDetails();
+			logdetails = userService.fetchlogDetails();
+			// System.out.println(IntInfoFromDTO.getUserName());
+
+			// Add it to the model
+			// modelAndView.addObject("userInformation", custInfoFromDTO);
+			modelAndView.addObject("DelIntInfoFromDTO", DelIntInfoFromDTO);
+			modelAndView.addObject("disabledIntInfoFromDTO", disabledIntInfoFromDTO);
+			modelAndView.addObject("AuthPiiCustInfoFromDTO1", AuthPiiCustInfoFromDTO1);
+			modelAndView.addObject("IntInfoFromDTO", IntInfoFromDTO);
+			modelAndView.addObject("myList1", databaseArrayList1);
+			modelAndView.addObject("loglist", logdetails);
+
+			modelAndView.setViewName("viewLogs");
+			// System.out.println(IntInfoFromDTO);
+		} else {
+			modelAndView.setViewName("permission-denied");
+		}
+		return modelAndView;
+
 	}
 
 	private String getRandomManagerEmployee() {

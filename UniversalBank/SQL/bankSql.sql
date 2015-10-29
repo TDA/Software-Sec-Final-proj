@@ -38,6 +38,12 @@ CREATE TABLE `accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+CREATE TABLE IF NOT EXISTS `LOGS` (
+  `USER_ID` varchar(20) NOT NULL,
+  `DATED` date NOT NULL,
+  `MESSAGE` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Dumping data for table `accounts`
 --

@@ -25,10 +25,12 @@ import edu.asu.ss2015.group4.jdbc.CheckDuplicationMapper;
 import edu.asu.ss2015.group4.jdbc.EditInfoTableRows;
 import edu.asu.ss2015.group4.jdbc.RequestTableRow;
 import edu.asu.ss2015.group4.jdbc.UserTableRows;
+import edu.asu.ss2015.group4.jdbc.UserTableRows1;
 import edu.asu.ss2015.group4.model.AccountLoginAttempts;
 import edu.asu.ss2015.group4.model.OTPGenerator;
 import edu.asu.ss2015.group4.model.UserInformation;
 import edu.asu.ss2015.group4.model.editProfile;
+import edu.asu.ss2015.group4.model.log;
 
 public class UserDAOImpl implements UserDAO {
 	@Autowired
@@ -356,6 +358,14 @@ public class UserDAOImpl implements UserDAO {
 		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery, new UserTableRows());
 		return customerInformationToDisplay;
 	}
+	
+	public List<log> retrievelogAccounts() {
+		List<log> customerInformationToDisplay = new ArrayList<log>();
+		String retrieveDetailsQuery = "SELECT * from LOGS";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		customerInformationToDisplay = jdbcTemplate.query(retrieveDetailsQuery,new UserTableRows1());
+		return customerInformationToDisplay;
+	}
 
 	public List<UserInformationDTO> retrieveDelIntUserAccounts() {
 		List<UserInformationDTO> customerInformationToDisplay = new ArrayList<UserInformationDTO>();
@@ -484,5 +494,23 @@ public class UserDAOImpl implements UserDAO {
 			return true;
 		}
 		return false;
+	}
+
+public void modifyInternalUser1(String accountType,String username) {
+		//String sql = "UPDATE users set AccountType = ? where username =  ?";
+		//System.out.println("Hello "+accountType);
+		String sql1 = "UPDATE user_roles set role = ? where username =  ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		 //jdbcTemplate.update(sql, new Object[] { accountType,username });
+		 jdbcTemplate.update(sql1, new Object[] { accountType,username });
+		
+		
+	}
+	
+	public void savelog(Date gettime, String getid, String getcontent){
+		String sql = "INSERT INTO LOGS (DATED,USER_ID,MESSAGE) VALUES(?,?,?)";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.update(sql, new Object[] { gettime,getid,getcontent });
+		
 	}
 }

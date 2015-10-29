@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Administrator Portfolio - Modify Roles</title>
+<title>Administrator Portfolio - PII Access</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link
@@ -61,44 +61,31 @@
 			<!-- Page Heading -->
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Modify Internal User Roles</h1>
+					<h1 class="page-header">View Logs</h1>
 				</div>
 			</div>
 			<div class="tab-content">
 				<div id="home" class="tab-pane fade in active">
 					<div class="table-responsive">
-						<form:form method="POST" action="modify_internal_roles">
+						<form:form method="POST" action="viewLogs">
 							<table id="mytable" class="table table-bordred table-striped">
 								<thead>
 									<tr>
 										<th>Username</th>
-										<th>First Name</th>
-										<th>Last Name</th>
-										<th>Account Type</th>
-
+										<th>Date</th>
+										<th>Content</th>
+										
 
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="disabledUser1" items="${IntInfoFromDTO}">
+									<c:forEach var="disabledUser1"
+										items="${loglist}">
 										<tr>
-											<td>${disabledUser1.userName}</td>
-											<td>${disabledUser1.firstName}</td>
-											<td>${disabledUser1.lastName}</td>
-											<td><FONT color="red"><form:errors
-														path="accountType" /></FONT> <select
-												class="selectpicker form-control" name="accountType">
-													<option value="">Select</option>
-
-
-													<c:forEach var="listValue" items="${myList1}">
-														<option value="${listValue}">${listValue}</option>
-													</c:forEach>
-											</select></td>
-											<td><button type="submit" class="btn btn-success"
-													name="approveParam4"
-													value="approveVal2_${disabledUser1.userName}">Add
-													Again</button></td>
+											<td>${disabledUser1.id}</td>
+											<td>${disabledUser1.time}</td>
+											<td>${disabledUser1.content}</td>
+											
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -120,7 +107,5 @@
 		<script
 			src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
 	</sec:authorize>
-<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
-<script>if (top != self) top.location=location</script>
 </body>
 </html>
