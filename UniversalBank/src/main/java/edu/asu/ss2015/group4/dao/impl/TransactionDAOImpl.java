@@ -122,7 +122,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 			String registerUserQuery = "INSERT into transactions"
 					+ "(TransactionType,Amount,FromTransactionAccountId,ToTransactionAccountID,AuthorizedManagerID,TransactionTime,Approved,ApprovalTime"
-					+ ",Comments,Authorise_bank,critical_transactions, SupervisorName) " + "VALUES (?,?,?,"
+					+ ",Comments,AuthoriseBank,critical_transactions, SupervisorName) " + "VALUES (?,?,?,"
 					+ "(select AccountID from accounts where username=? AND AccountType=? ),?,?,?,?,?,?,?,?)";
 			JdbcTemplate jdbcTemplateForTransaction = new JdbcTemplate(dataSource);
 			jdbcTemplateForTransaction.update(registerUserQuery,

@@ -44,12 +44,10 @@ public class MainController {
 				if (grantedAuthority.getAuthority().equals("ROLE_INDIVIDUAL")) {
 					System.out.println("1");
 					return new ModelAndView("forward:/account");
-				} 
-				else if (grantedAuthority.getAuthority().equals("ROLE_MERCHANT")) {
+				} else if (grantedAuthority.getAuthority().equals("ROLE_MERCHANT")) {
 					System.out.println("2");
 					return new ModelAndView("forward:/MerchantTransfer");
-				}
-				else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
+				} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
 					System.out.println("3");
 					return new ModelAndView("forward:/admin");
 				} else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
