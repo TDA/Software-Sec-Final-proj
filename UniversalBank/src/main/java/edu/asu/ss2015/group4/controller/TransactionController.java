@@ -173,22 +173,23 @@ public class TransactionController {
 								transac.setAmount(amount);
 								if (otp != null && isOtpValid(username, otp)) {
 									if (!hasOtpExpired(username)) {
-										String a = trans.TransferUser(transac);
+
 										List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 										info = userService.fetchUserDetails(userDetail.getUsername());
-String content = "Transfer Request from " + username + "for amount"+amount+" To user "+
-											 userDetail.getUsername();
-									log lg = new log();
-									lg.setid(username);
-									lg.settime(new Date());
-									lg.setcontent(content);
-									userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+										String content = "Transfer Request from " + username + "for amount" + amount
+												+ " To user " + userDetail.getUsername();
+										log lg = new log();
+										lg.setid(username);
+										lg.settime(new Date());
+										lg.setcontent(content);
+										userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
 										transac.setSupervisorName(info.get(0).getSupervisorName());
 										OTPGenerator otp1 = new OTPGenerator();
 										Date date = new Date();
 										userService.insertOTP(Integer.toString(otp1.generateOTP()),
 												Long.toString(date.getTime() + 600000), username);
 										System.out.println("successtransac11");
+										String a = trans.TransferUser(transac);
 										modelAndView.setViewName("success");
 									} else
 										modelAndView.addObject("errorMsg", "OTP has expired.");
@@ -359,8 +360,8 @@ String content = "Transfer Request from " + username + "for amount"+amount+" To 
 								if (!hasOtpExpired(username)) {
 									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 									info = userService.fetchUserDetails(userDetail.getUsername());
-									String content = "Debit Request by " + username + " for amount "
-											+ amount+" to be transferred to "+userDetail.getUsername();
+									String content = "Debit Request by " + username + " for amount " + amount
+											+ " to be transferred to " + userDetail.getUsername();
 									log lg = new log();
 									lg.setid(username);
 									lg.settime(new Date());
@@ -471,13 +472,15 @@ String content = "Transfer Request from " + username + "for amount"+amount+" To 
 						if (otp != null && !otp.equals("")) {
 							if (isOtpValid(username, otp)) {
 								if (!hasOtpExpired(username)) {
-									String content = "Credit Request by " + username + " for amount "
-											+ amount;
+									String content = "Credit Request by " + username + " for amount " + amount;
 									log lg = new log();
 									lg.setid(username);
 									lg.settime(new Date());
 									lg.setcontent(content);
 									userService.savelog(lg.gettime(), lg.getid(), lg.getcontent());
+									List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
+									info = userService.fetchUserDetails(userDetail.getUsername());
+									transac.setSupervisorName(info.get(0).getSupervisorName());
 									trans.CreditUser(transac);
 									OTPGenerator otp1 = new OTPGenerator();
 									Date date = new Date();
@@ -602,8 +605,8 @@ String content = "Transfer Request from " + username + "for amount"+amount+" To 
 
 				List<UserInformationDTO> info = new ArrayList<UserInformationDTO>();
 				info = userService.fetchUserDetails(userDetail.getUsername());
-				String content = "Transfer Request from " + loggedInUser + "for amount"+transac.getAmount()+" To user "+
-						 userDetail.getUsername();
+				String content = "Transfer Request from " + loggedInUser + "for amount" + transac.getAmount()
+						+ " To user " + userDetail.getUsername();
 				log lg = new log();
 				lg.setid(loggedInUser);
 				lg.settime(new Date());
@@ -715,7 +718,7 @@ String content = "Transfer Request from " + username + "for amount"+amount+" To 
 			String[] split = strDelete.split("_");
 			String x = split[0];
 			String y = split[1];
-			String content = " Transaction Deletion by " + loggedInUser + " on Transaction ID "+ y;
+			String content = " Transaction Deletion by " + loggedInUser + " on Transaction ID " + y;
 			log lg = new log();
 			lg.setid(loggedInUser);
 			lg.settime(new Date());
@@ -778,7 +781,8 @@ String content = "Transfer Request from " + username + "for amount"+amount+" To 
 			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 
 			if (split[0].equals("approve")) {
-				String content = " Transaction Approval from " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				String content = " Transaction Approval from " + loggedInUser + " To Transaction ID " + y
+						+ "for amount of " + z;
 				log lg = new log();
 				lg.setid(loggedInUser);
 				lg.settime(new Date());
@@ -791,7 +795,8 @@ String content = "Transfer Request from " + username + "for amount"+amount+" To 
 			}
 
 			else {
-				String content = " Transaction Denial by " + loggedInUser + " To Transaction ID "+ y+ "for amount of "+z;
+				String content = " Transaction Denial by " + loggedInUser + " To Transaction ID " + y + "for amount of "
+						+ z;
 				log lg = new log();
 				lg.setid(loggedInUser);
 				lg.settime(new Date());
@@ -922,7 +927,7 @@ String content = "Transfer Request from " + username + "for amount"+amount+" To 
 			String y = split[1];
 			List<TransactionDTO> custInfoFromDTO = new ArrayList<TransactionDTO>();
 			if (split[0].equals("approve")) {
-				String content = "Account Deletion approved by " + loggedInUser + " on the id "+split[1];
+				String content = "Account Deletion approved by " + loggedInUser + " on the id " + split[1];
 				log lg = new log();
 				lg.setid(loggedInUser);
 				lg.settime(new Date());

@@ -27,7 +27,7 @@ public class UserInformation {
 	private boolean enabled;
 	private boolean userLocked;
 	private boolean piiAccess;
-	private boolean userAccountExpired;
+	private boolean userAccountExpired = true;
 	private String otp = "0";
 	private String otpValidity = "0";
 	@Size(min = 10, max = 10, message = "Enter a valid Phone Number")

@@ -79,6 +79,10 @@
 					<Font Color="green">An OTP has been sent to your email.</Font>
 					<h4>${successMsg}</h4>
 				</c:if>
+				<br />
+				<Font Color="green">NOTE: You need one time password to perform transaction, click on 
+				'Generate OTP' and check your email for password.
+				</Font>
 				<form:form method="POST" action="Credit" modelAttribute="CreditForm"
 					autocomplete="off">
 					<br />

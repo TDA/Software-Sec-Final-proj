@@ -86,7 +86,9 @@
 					modelAttribute="transferForm" autocomplete="off">
 					<br />
 					<br />
-					<Font Color="green">A new OTP has been sent to your email.</Font>
+					<Font Color="green">NOTE: You need one time password to
+						perform transaction, click on 'Generate OTP' and check your email
+						for password. </Font>
 					<br />
 					<br />
 					<c:if test="${not empty errorMsg}">
@@ -136,9 +138,9 @@
 					<br />
 					<h4>
 						<input type="submit" style="margin-right: 5%" name="Transfer"
-							id="transfer" value="Transfer" /> <br />
-						<br /> <input type="submit" style="margin-right: 5%"
-							name="Generate OTP" id="Generate OTP" value="Generate OTP" />
+							id="transfer" value="Transfer" /> <br /> <br /> <input
+							type="submit" style="margin-right: 5%" name="Generate OTP"
+							id="Generate OTP" value="Generate OTP" />
 
 					</h4>
 

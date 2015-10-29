@@ -88,9 +88,7 @@
 											<td><button type="submit" class="btn btn-success"
 													name="approveParam"
 													value="approveVal_${disabledUser1.userName}">Approve</button></td>
-											<td><button type="submit" class="btn btn-danger"
-													name="approveParam"
-													value="denyVal1_${disabledUser1.userName}">Delete</button></td>
+											
 										</tr>
 									</c:forEach>
 								</tbody>

@@ -38,18 +38,13 @@ CREATE TABLE `accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE IF NOT EXISTS `LOGS` (
-  `USER_ID` varchar(20) NOT NULL,
-  `DATED` date NOT NULL,
-  `MESSAGE` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `accounts`
 --
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
+INSERT INTO `accounts` VALUES ('008080101','unibankindiv','Checking',0,NULL,'2015-10-29 19:43:12'),('008080102','unibankindiv','Savings',0,NULL,'2015-10-29 19:43:12'),('072626101','unibankindiv','Checking',0,NULL,'2015-10-29 19:49:47'),('072626102','unibankindiv','Savings',0,NULL,'2015-10-29 19:49:47'),('291325101','unibankmerchant','Checking',0,NULL,'2015-10-29 19:49:50'),('291325102','unibankmerchant','Savings',0,NULL,'2015-10-29 19:49:50'),('368035101','unibankmerchant','Checking',0,NULL,'2015-10-29 19:43:15'),('368035102','unibankmerchant','Savings',0,NULL,'2015-10-29 19:43:15');
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,6 +157,30 @@ LOCK TABLES `edit_info` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `logs`
+--
+
+DROP TABLE IF EXISTS `logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `logs` (
+  `USER_ID` varchar(20) NOT NULL,
+  `DATED` date NOT NULL,
+  `MESSAGE` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `logs`
+--
+
+LOCK TABLES `logs` WRITE;
+/*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+INSERT INTO `logs` VALUES ('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankindiv'),('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankmerchant'),('unibankadmin','2015-10-29','Employee Approval from unibankadmin To unibankmanager'),('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankindiv'),('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankmerchant');
+/*!40000 ALTER TABLE `logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `transactions`
 --
 
@@ -184,7 +203,7 @@ CREATE TABLE `transactions` (
   `IsDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `SupervisorName` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -264,7 +283,7 @@ CREATE TABLE `user_roles` (
   UNIQUE KEY `uni_username_role` (`role`,`username`),
   KEY `fk_username_idx` (`username`),
   CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,7 +292,7 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (2,'sadmin','ROLE_ADMIN'),(1,'sgovern','ROLE_GOV');
+INSERT INTO `user_roles` VALUES (1,'unibankadmin','ROLE_ADMIN'),(4,'unibankclerk','ROLE_CLERK'),(2,'unibankgov','ROLE_GOV'),(17,'unibankindiv','ROLE_INDIVIDUAL'),(3,'unibankmanager','ROLE_MANAGER'),(18,'unibankmerchant','ROLE_MERCHANT');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,7 +331,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('sadmin','$2a$10$TH0VZ3U2pA3ZkoihFRyL.OpivhaNak2O2vhD8aUuCwKSNtRisWDzm','sai','patcha','Admin','sai@admin.com','213546879',1,1,1,1,NULL,'0','0','1234567894','Laguna Miguel, CA','male'),('sgovern','$2a$10$wtTOeUmqQCYTa1d7cOgDFOWn8f62zv2ZY0DOk15e/FTQjlJ7ISp2u','sai','patcha','Gov','sai@govern.com','978645312',1,1,1,0,NULL,'0','0','1234567895','Chicago, IL','female');
+INSERT INTO `users` VALUES ('unibankadmin','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','unibank@Admin.com','111111111',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),('unibankclerk','$2a$10$e4wkznW/obkqWYsgnZk2bOo0YAoiS5MOdlaLmIlNHcqiQ2IYjn1aK','Unibank','Clerk','Clerk','unbank@clerk.com','444444444',1,1,1,0,'unibankmanager','0','0','4806327887','Tempe, AZ','male'),('unibankgov','$2a$10$vr4ol415Bvv1hANMTaJcbOcKOJJtxTWS/OR8pAZILVX/qLkt37cr.','Gov','Gov','Gov','unibank@Gov.com','222222222',1,1,1,0,NULL,'0','0','4809623232','Washington DC','male'),('unibankindiv','$2a$10$/cZIaoRZxa7kya7TXvrRF.Up4xxjGYwXwzt/PPYuj68zZFKXvNc5S','Unibank','Individual','Individual','individual@unibank.com','999999999',1,0,1,0,'unibankclerk','131152','1446148787499','4802589632','Tempe,Az','male'),('unibankmanager','$2a$10$HyRLWWLZQq90JyQInaJOJO6uSWuzOZl2dzhJfWFjSB9Ln6MQM37e.','Unibank','Manager','Manager','unibank@manager.com','333333333',1,1,1,0,NULL,'0','0','4802146325','Tempe, AZ','female'),('unibankmerchant','$2a$10$Ri988n1YqNsVO4azmK1HTe6u/mxaaq/EhI0xIIfRKPVx43fRbegye','Unibank','Merchant','Merchant','merchant@unibank.com','963852741',1,0,1,0,'unibankclerk','180194','1446148789905','4801472589','San Diego, CA','male');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -325,4 +344,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-28 22:57:03
+-- Dump completed on 2015-10-29 13:04:40
+

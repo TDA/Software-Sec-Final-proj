@@ -254,18 +254,21 @@ public class TransactionDAOImpl implements TransactionDAO {
 			UserDetails userDetail = (UserDetails) auth.getPrincipal();
 			String loggedInUser = userDetail.getUsername();
 			modelAndView.addObject("userName", loggedInUser);
-
-			String registerUserQuery4 = "SELECT balance from accounts where AccountID = ( Select FromTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Debit','MerchantInitiatedTransfer'))";
-			Double count = 0.0;
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+			String transactionTypeQuery = "SELECT transactiontype from transactions where transactionID = ?";
+			String type = jdbcTemplate.queryForObject(transactionTypeQuery, new Object[] { a }, String.class);
+			System.out.println("=====> TYPE = " + type);
+			if (!type.equals("Credit")) {
+				String registerUserQuery4 = "SELECT balance from accounts where AccountID = ( Select FromTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Debit','MerchantInitiatedTransfer'))";
+				Double count = 0.0;
 
-			count = jdbcTemplate.queryForObject(registerUserQuery4, new Object[] { a }, Double.class);
+				count = jdbcTemplate.queryForObject(registerUserQuery4, new Object[] { a }, Double.class);
 
-			if (count < b) {
-				denyTransactionRegularEmployee(a, userName);
-				return "Error - insufficient balance";
+				if (count < b) {
+					denyTransactionRegularEmployee(a, userName);
+					return "Error - insufficient balance";
+				}
 			}
-
 			// update balance
 			String registerUserQuery2 = "UPDATE accounts SET  balance= balance + ? where AccountID = ( Select ToTransactionAccountID from transactions where TransactionID = ? and TransactionType In ('UserTransfer','Credit','MerchantInitiatedTransfer'))";
 			JdbcTemplate jdbcTemplateForTransaction2 = new JdbcTemplate(dataSource);

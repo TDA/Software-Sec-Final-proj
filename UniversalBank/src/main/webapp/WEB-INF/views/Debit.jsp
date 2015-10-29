@@ -80,8 +80,9 @@
 						${successMsg} <a href="index"> Click here to LogIn!</a>
 					</h4>
 				</c:if>
-				<br /> <Font Color="green">A new OTP has been sent to your
-					email.</Font>
+				<br /> <Font Color="green">NOTE: You need one time password to perform transaction, click on 
+				'Generate OTP' and check your email for password.
+				</Font>
 				<form:form method="POST" action="Debit" modelAttribute="DebitForm"
 					autocomplete="off">
 					<br />
