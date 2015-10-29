@@ -105,9 +105,8 @@
 		<script
 			src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/slib.js"></script>
-		<script
-			src="${pageContext.request.contextPath}/resources/js/keypress.closure.js"></script>
+
+
 	</sec:authorize>
 </body>
 </html>

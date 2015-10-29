@@ -37,7 +37,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="${pageContext.request.contextPath}/resources/js/browserVerifier.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 <script>
 var tl=new Array(
 		"I don\'t know who you are.",
