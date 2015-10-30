@@ -1,6 +1,8 @@
 package edu.asu.ss2015.group4.controller;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,13 +37,41 @@ public class ForgotPasswordController {
 	}
 
 	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
-	public ModelAndView validateForm(@RequestParam("email") String email, @RequestParam("userName") String userName) {
+	public ModelAndView validateForm(@RequestParam("userName") String userName, @RequestParam("email") String email,
+			@RequestParam("new_passowrd") String new_passowrd,
+			@RequestParam("confirm_new_passowrd") String confirm_new_passowrd) {
 
 		ModelAndView model = new ModelAndView();
 		List<UserInformationDTO> userDTO = userService.fetchUserDetails(userName);
+		int number = 0;
+		String pass = new_passowrd;
+		for (char c : pass.toCharArray()) {
+			if (Character.isDigit(c)) {
+				number++;
+			}
+		}
+
+		Pattern p = Pattern.compile("[!@#${},%^&*+_.-]");
+		Matcher match = p.matcher(pass.subSequence(0, pass.length()));
+		Matcher match_1 = p.matcher(userName.subSequence(0, userName.length()));
+		if (pass.length() < 6 || pass.length() > 15 || number <= 0 || match.find() == false || userName.length() > 15
+				|| userName.length() == 0 || match_1.find() == true) {
+			model.addObject("errorMessage", "Invalid Password format!");
+		}
+
+		if (!(new_passowrd).equals(confirm_new_passowrd)) {
+			model.addObject("errorMessage", "Password and Confirm Password Not match.");
+		}
+
 		if (userDTO != null && !userDTO.isEmpty() && validateEmailAndUserName(userName, userDTO.get(0).getUserName(),
 				email, userDTO.get(0).getEmailAddress())) {
-			model.addObject("successMessage", "Password has been sent to your email!");
+
+			if (new_passowrd != null && confirm_new_passowrd != null && new_passowrd.equals(confirm_new_passowrd)) {
+				userService.updatePassword(userName, new_passowrd);
+			}
+
+			model.addObject("successMessage",
+					"Your password has been changed! and account must be unlocked via homepage");
 		} else {
 			model.addObject("errorMessage", "Sorry, Unable to locate your account.");
 		}

@@ -71,31 +71,51 @@ body {
 			<div class="col-lg-12 text-center">
 				<br /> <br />
 				<h4>Password Recovery</h4>
-				<FONT color="red">
-				<c:if test="${not empty errorMessage}">
+				<FONT color="red"> <c:if test="${not empty errorMessage}">
                 	${errorMessage}
                 </c:if>
-                </FONT>
-                <FONT color="green">
-				<c:if test="${not empty successMessage}">
+				</FONT> <FONT color="green"> <c:if
+						test="${not empty successMessage}">
                 	${successMessage}
                 </c:if>
-                </FONT>
-				<form:form method="POST" action="forgotPassword" autocomplete="off" htmlEscape="true">
+				</FONT>
+				<form:form method="POST" action="forgotPassword" autocomplete="off"
+					htmlEscape="true">
 
 					<b>User Name:</b>
 					<FONT color="red"><form:errors path="userName" /></FONT>
-					<input type=text name="userName" id="username" class="form-control"
+					<input data-toggle="tooltip" title="Enter your user name" type=text
+						name="username" id="username" class="form-control"
 						style="color: #999;" />
 					<br />
 					<br />
 					<b>Email Address:</b>
 					<FONT color="red"><form:errors path="email" /></FONT>
-					<input type="email" name="email" id="email" class="form-control"
+					<input data-toggle="tooltip" title="Enter a valid email"
+						type="email" name="email" id="email" class="form-control"
 						style="color: #999;" />
 					<br />
 					<br />
-					<input type="submit" name="genOtp" id="genOtp" value="Send Email" />
+					<b>New Password:</b>
+					<FONT color="red"><form:errors path="new_passowrd" /></FONT>
+					<input data-toggle="tooltip"
+						title="Password criterias: 
+											1. Must contain at least one Uppercase letter, one lowercase letter, one digit, one special character 
+											2. Length must be between 6 and 15 
+											3. Allowed special characters: ! @ # $ { } , % ^ & * + _ . -"
+						type="password" name="new_passowrd" id="new_passowrd"
+						class="form-control" style="color: #999;" />
+					<br />
+					<br />
+					<b>Confirm New Password:</b>
+					<FONT color="red"><form:errors path="confirm_new_passowrd" /></FONT>
+					<input type="password" name="confirm_new_passowrd"
+						id="confirm_new_passowrd" class="form-control"
+						style="color: #999;" />
+					<br />
+					<br />
+					<input type="submit" name="Change Password" id="changepassword"
+						value="Change Password" />
 				</form:form>
 			</div>
 		</div>
@@ -111,9 +131,31 @@ body {
 	<!-- Bootstrap Core JavaScript -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+		<!-- jQuery Version 1.11.0 -->
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
 
-<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
-<script>if (top != self) top.location=location</script>
+
+	<script
+		src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js"></script>
+		
+
+	<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
+	<script>if (top != self) top.location=location</script>
+	<script>
+	
+		$('input[type=text][name=username]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=password][name=new_passowrd]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		$('input[type=email][name=email]').tooltip({
+			placement : "left",
+			trigger : "focus"
+		});
+		</script>
 </body>
 
 </html>

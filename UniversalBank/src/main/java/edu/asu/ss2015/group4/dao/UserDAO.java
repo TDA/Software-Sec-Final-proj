@@ -24,6 +24,8 @@ public interface UserDAO {
 
 	public boolean unlockExternalUserAccount(String username);
 
+	public void updatePassword(String username, String password);
+
 	public void insertOTP(String otp, String otpValidity, String username);
 
 	public String EditUser(String username, editProfile addInfo) throws FileNotFoundException, NoSuchAlgorithmException;
@@ -48,7 +50,7 @@ public interface UserDAO {
 
 	public void modifyInternalUser(String accountType, String username)
 			throws FileNotFoundException, NoSuchAlgorithmException;
-	
+
 	public void modifyInternalUser1(String accountType, String username)
 			throws FileNotFoundException, NoSuchAlgorithmException;
 
@@ -57,7 +59,7 @@ public interface UserDAO {
 	public List<UserInformationDTO> retrievePiiUserAccounts();
 
 	public List<UserInformationDTO> retrieveIntUserAccounts();
-	
+
 	public List<log> retrievelogAccounts();
 
 	public List<UserInformationDTO> retrieveDelIntUserAccounts();
@@ -80,6 +82,6 @@ public interface UserDAO {
 
 	public boolean processEditInfoRequest(String userName);
 
-public void savelog(Date gettime, String getid, String getcontent);
+	public void savelog(Date gettime, String getid, String getcontent);
 
 }

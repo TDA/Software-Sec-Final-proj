@@ -28,6 +28,10 @@ public class UserServiceImpl implements UserService {
 		return userDAO.retrieveUserDetails(usernameSearch);
 	}
 
+	public void updatePassword(String username, String password) {
+		userDAO.updatePassword(username, password);
+	}
+
 	public List<UserInformationDTO> fetchDisabledExternalUserDetails() {
 		return userDAO.retrieveDisabledExternalUserAccounts();
 	}
@@ -79,7 +83,7 @@ public class UserServiceImpl implements UserService {
 			throws NoSuchAlgorithmException, FileNotFoundException {
 		userDAO.modifyInternalUser(accountType, username);
 	}
-	
+
 	@Override
 	public void modifyInternalUserAccount1(String accountType, String username)
 			throws NoSuchAlgorithmException, FileNotFoundException {
@@ -97,7 +101,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserInformationDTO> fetchIntUserDetails() {
 		return userDAO.retrieveIntUserAccounts();
 	}
-	
+
 	public List<log> fetchlogDetails() {
 		return userDAO.retrievelogAccounts();
 	}
@@ -138,8 +142,8 @@ public class UserServiceImpl implements UserService {
 		userDAO.insertOTP(otp, otpValidity, username);
 
 	}
-	
-	public void savelog(Date gettime, String getid, String getcontent){
+
+	public void savelog(Date gettime, String getid, String getcontent) {
 		userDAO.savelog(gettime, getid, getcontent);
 	}
 

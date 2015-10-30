@@ -98,6 +98,14 @@ public class UserDAOImpl implements UserDAO {
 		return "Registration Completed! <br/> Please check you email for account approval notification!";
 	}
 
+	public void updatePassword(String username, String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		JdbcTemplate jdbcTemplateForExternalUser = new JdbcTemplate(dataSource);
+		String hash = encoder.encode(password);
+		String updateQuery = "update users set password = ? where username =?";
+		int status = jdbcTemplateForExternalUser.update(updateQuery, new Object[] { hash, username });
+	}
+
 	public void insertOTP(String otp, String otpValidity, String username) {
 		String insertQuery = "UPDATE users SET otp = ?, otpValidity = ? WHERE username = ?";
 		JdbcTemplate jdbcTemplateForOTP = new JdbcTemplate(dataSource);
@@ -211,7 +219,7 @@ public class UserDAOImpl implements UserDAO {
 
 			if (isUserExists(username)) {
 				// update attempts count, +1
-				jdbcTemplate.update(SQL_User_Attpts_UPDATE_ATTEMPTS, new Object[] { new Date(), username });
+				jdbcTemplate.update(SQL_User_Attpts_UPDATE_ATTEMPTS, new Object[] { username });
 			}
 
 			if (user.getAttempts() + 1 >= MAX_ATTEMPTS) {

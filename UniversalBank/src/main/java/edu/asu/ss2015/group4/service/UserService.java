@@ -23,6 +23,8 @@ public interface UserService {
 
 	public boolean unlockExternalUserAccount(String username);
 
+	public void updatePassword(String username, String password);
+
 	public String EditInformation(String username, editProfile addInfo)
 			throws NoSuchAlgorithmException, FileNotFoundException;
 
@@ -41,7 +43,7 @@ public interface UserService {
 	public List<UserInformationDTO> fetchPiiUserDetails();
 
 	public List<UserInformationDTO> fetchIntUserDetails();
-	
+
 	public List<log> fetchlogDetails();
 
 	public List<UserInformationDTO> fetchDelIntUserDetails();
@@ -64,7 +66,7 @@ public interface UserService {
 
 	public void modifyInternalUserAccount(String accountType, String username)
 			throws NoSuchAlgorithmException, FileNotFoundException;
-	
+
 	public void modifyInternalUserAccount1(String accountType, String username)
 			throws NoSuchAlgorithmException, FileNotFoundException;
 
@@ -74,6 +76,6 @@ public interface UserService {
 
 	public boolean processEditInfoRequest(String string);
 
-public void savelog(Date gettime, String getid, String getcontent);
+	public void savelog(Date gettime, String getid, String getcontent);
 
 }
