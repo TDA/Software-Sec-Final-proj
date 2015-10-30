@@ -85,15 +85,15 @@ body {
 					<b>User Name:</b>
 					<FONT color="red"><form:errors path="userName" /></FONT>
 					<input data-toggle="tooltip" title="Enter your user name" type=text
-						name="username" id="username" class="form-control"
-						style="color: #999;" />
+						name="userName" id="username" class="form-control"
+						style="color: #999;" required="required" />
 					<br />
 					<br />
 					<b>Email Address:</b>
 					<FONT color="red"><form:errors path="email" /></FONT>
 					<input data-toggle="tooltip" title="Enter a valid email"
 						type="email" name="email" id="email" class="form-control"
-						style="color: #999;" />
+						style="color: #999;" required="required"  />
 					<br />
 					<br />
 					<b>New Password:</b>
@@ -104,14 +104,14 @@ body {
 											2. Length must be between 6 and 15 
 											3. Allowed special characters: ! @ # $ { } , % ^ & * + _ . -"
 						type="password" name="new_passowrd" id="new_passowrd"
-						class="form-control" style="color: #999;" />
+						class="form-control" style="color: #999;" required="required"  />
 					<br />
 					<br />
 					<b>Confirm New Password:</b>
 					<FONT color="red"><form:errors path="confirm_new_passowrd" /></FONT>
 					<input type="password" name="confirm_new_passowrd"
 						id="confirm_new_passowrd" class="form-control"
-						style="color: #999;" />
+						style="color: #999;" required="required"  />
 					<br />
 					<br />
 					<input type="submit" name="Change Password" id="changepassword"
