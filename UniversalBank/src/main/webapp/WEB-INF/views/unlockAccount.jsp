@@ -109,7 +109,7 @@ body {
 
 	<!-- jQuery Version 1.11.0 -->
 	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.js"></script>
+		src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script
