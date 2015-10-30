@@ -846,7 +846,8 @@ public class TransactionController {
 
 	// Added By Gaurav
 	@RequestMapping(value = "/ModifyTransaction", method = RequestMethod.POST)
-	public ModelAndView ModifyTransaction(@RequestParam("modifyParamRegularEmployee") String strAmount) {
+	public ModelAndView ModifyTransaction(@RequestParam("modifyParamRegularEmployee") String strAmount,
+			HttpServletRequest request) {
 		System.out.println("Modified amount is: " + strAmount);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("permission-denied");
@@ -854,6 +855,8 @@ public class TransactionController {
 		UserDetails userDetail = (UserDetails) auth.getPrincipal();
 		String loggedInUser = userDetail.getUsername();
 		BankAccount b = new BankAccount();
+
+		String type = request.getParameter("newfield");
 		String errorMsg = "";
 		if (strAmount != null && !strAmount.isEmpty()) {
 
@@ -870,6 +873,11 @@ public class TransactionController {
 				int x1 = Integer.parseInt(y);
 				double x2 = Double.parseDouble(x);
 				System.out.println("actual balance entered is " + x2);
+				if(type.equalsIgnoreCase("Credit")) {
+					String submitCredit = trans.RegularEmployeeModifyTransaction(x1, x2, loggedInUser);
+				}
+				else {
+				
 				balance = bankAccountService.BankBalanceValidateForRegularEmployee(b, x1);
 				System.out.println("balance from database " + x2);
 				if (balance >= x2) {
@@ -877,6 +885,7 @@ public class TransactionController {
 					String submit = trans.RegularEmployeeModifyTransaction(x1, x2, loggedInUser);
 				} else
 					errorMsg = "Insufficient balance.";
+				}
 			} else
 				errorMsg = "Incorrect amount.";
 		} else {

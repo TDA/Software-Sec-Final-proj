@@ -76,7 +76,7 @@
 
 			<form:form method="POST" action="ModifyTransaction"
 				modelAttribute="ApproveForm" autocomplete="off" htmlEscape="true">
-
+				
 				<c:if test="${not empty errorMsg}">
 					<h3>${errorMsg}</h3>
 				</c:if>
@@ -96,6 +96,8 @@
 							<td><c:out value="${transaction.amount}" /></td>
 							<td><input type="text"
 								id="ModifiedAmount_${transaction.transactionID}"></td>
+								<input type="hidden" id="newfield" name="newfield"
+					value="${transaction.transactionType}" />
 							<td><c:out value="${transaction.comments}" /></td>
 							<td><button type="submit" name="modifyParamRegularEmployee"
 									onclick="this.value=document.getElementById('ModifiedAmount_${transaction.transactionID}').value + '_' + ${transaction.transactionID} + '_' + ${transaction.transactionID};" />Submit
@@ -106,7 +108,10 @@
 			</form:form>
 		</div>
 	</sec:authorize>
-<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
-<script>if (top != self) top.location=location</script>
+	<!-- Framebreaker script from OWASP for clickjacking  https://www.owasp.org/index.php/ClickjackFilter_for_Java_EE -->
+	<script>
+		if (top != self)
+			top.location = location
+	</script>
 </body>
 </html>

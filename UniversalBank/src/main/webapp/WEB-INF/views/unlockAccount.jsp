@@ -88,7 +88,7 @@ body {
 					<b>User Name:</b>
 					<FONT color="red"><form:errors path="userName" /></FONT>
 					<input type=text name="userName" id="username" class="form-control"
-						style="color: #999;" />
+						style="color: #999;"  />
 					<br />
 					<br />
 					<b>OTP:</b>
