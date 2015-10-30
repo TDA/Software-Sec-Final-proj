@@ -4,9 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Some random error</title>
 </head>
 <body>
+<h3>If you were lucky enough, you might have actually seen an actual error message.<br>
+ But hey, We are going to tell you one secret: This was a 405, which means, well google it.</h3>
 
 </body>
 </html>
