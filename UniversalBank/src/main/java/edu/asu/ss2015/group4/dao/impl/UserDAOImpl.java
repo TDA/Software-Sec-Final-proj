@@ -433,7 +433,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean enablePiiUserAccount(String username) {
-		String sql = "UPDATE users set piiAccess = true where username =  ?";
+		String sql = "UPDATE users set piiAccess = true where (AccountType = 'Individual' or AccountType = 'Merchant') and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int status = jdbcTemplate.update(sql, new Object[] { username });
 		if (status == 1) {
@@ -443,7 +443,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean disablePiiUserAccount(String username) {
-		String sql = "UPDATE users set piiAccess = false where username =  ?";
+		String sql = "UPDATE users set piiAccess = false where (AccountType = 'Individual' or AccountType = 'Merchant') and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int status = jdbcTemplate.update(sql, new Object[] { username });
 
@@ -484,7 +484,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public void modifyInternalUser(String accountType, String username) {
-		String sql = "UPDATE users set AccountType = ? where username =  ?";
+		String sql = "UPDATE users set AccountType = ? where (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ? ";
 		// String sql1 = "UPDATE user_roles set role = ROLE_? where username =
 		// ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
@@ -518,7 +518,7 @@ public class UserDAOImpl implements UserDAO {
 	public void modifyInternalUser1(String accountType, String username) {
 		// String sql = "UPDATE users set AccountType = ? where username = ?";
 		// System.out.println("Hello "+accountType);
-		String sql1 = "UPDATE user_roles set role = ? where username =  ?";
+		String sql1 = "UPDATE user_roles set role = ? where (role = 'ROLE_MANAGER' or role = 'ROLE_CLERK') and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		// jdbcTemplate.update(sql, new Object[] { accountType,username });
 		jdbcTemplate.update(sql1, new Object[] { accountType, username });
