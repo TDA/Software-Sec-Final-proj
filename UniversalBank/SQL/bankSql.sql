@@ -180,7 +180,11 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES ('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankindiv'),('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankmerchant'),('unibankadmin','2015-10-29','Employee Approval from unibankadmin To unibankmanager'),('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankindiv'),('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankmerchant');
+INSERT INTO `logs` VALUES ('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankindiv'),
+('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankmerchant'),
+('unibankadmin','2015-10-29','Employee Approval from unibankadmin To unibankmanager'),
+('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankindiv'),
+('unibankmanager','2015-10-29','Employee Approval from unibankmanager To unibankmerchant');
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,7 +300,13 @@ CREATE TABLE `user_roles` (
 
 LOCK TABLES `user_roles` WRITE;
 /*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (1,'unibankadmin','ROLE_ADMIN'),(4,'unibankclerk','ROLE_CLERK'),(2,'unibankgov','ROLE_GOV'),(17,'unibankindiv','ROLE_INDIVIDUAL'),(3,'unibankmanager','ROLE_MANAGER'),(18,'unibankmerchant','ROLE_MERCHANT');
+INSERT INTO `user_roles` VALUES 
+(1,'unibankadmin','ROLE_ADMIN'),
+(4,'unibankclerk','ROLE_CLERK'),
+(2,'unibankgov','ROLE_GOV'),
+(17,'unibankindiv','ROLE_INDIVIDUAL'),
+(3,'unibankmanager','ROLE_MANAGER'),
+(18,'unibankmerchant','ROLE_MERCHANT');
 /*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -336,11 +346,13 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES 
-('unibankadmin','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','unibank@Admin.com','111111111',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),
+('unibankadmin','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','baryasom@asu.edu','111111111',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),
+('stevejobs','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','kpbhatt@asu.edu','111111112',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),
+('narendramodi','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','gksrivas@asu.edu','111111113',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),
 ('unibankclerk','$2a$10$e4wkznW/obkqWYsgnZk2bOo0YAoiS5MOdlaLmIlNHcqiQ2IYjn1aK','Unibank','Clerk','Clerk','unbank@clerk.com','444444444',1,1,1,0,'unibankmanager','0','0','4806327887','Tempe, AZ','male'),
-('unibankgov','$2a$10$vr4ol415Bvv1hANMTaJcbOcKOJJtxTWS/OR8pAZILVX/qLkt37cr.','Gov','Gov','Gov','unibank@Gov.com','222222222',1,1,1,0,NULL,'0','0','4809623232','Washington DC','male'),
+('unibankgov','$2a$10$vr4ol415Bvv1hANMTaJcbOcKOJJtxTWS/OR8pAZILVX/qLkt37cr.','Gov','Gov','Gov','aryabhaddy@gmail.com','222222222',1,1,1,0,NULL,'0','0','4809623232','Washington DC','male'),
 ('unibankindiv','$2a$10$/cZIaoRZxa7kya7TXvrRF.Up4xxjGYwXwzt/PPYuj68zZFKXvNc5S','Unibank','Individual','Individual','individual@unibank.com','999999999',1,1,1,0,'unibankclerk','131152','1446148787499','4802589632','Tempe,Az','male'),
-('unibankmanager','$2a$10$HyRLWWLZQq90JyQInaJOJO6uSWuzOZl2dzhJfWFjSB9Ln6MQM37e.','Unibank','Manager','Manager','unibank@manager.com','333333333',1,1,1,0,NULL,'0','0','4802146325','Tempe, AZ','female'),
+('unibankmanager','$2a$10$HyRLWWLZQq90JyQInaJOJO6uSWuzOZl2dzhJfWFjSB9Ln6MQM37e.','Unibank','Manager','Manager','schand31@asu.edu','333333333',1,1,1,0,NULL,'0','0','4802146325','Tempe, AZ','female'),
 ('unibankmerchant','$2a$10$Ri988n1YqNsVO4azmK1HTe6u/mxaaq/EhI0xIIfRKPVx43fRbegye','Unibank','Merchant','Merchant','merchant@unibank.com','963852741',1,1,1,0,'unibankclerk','180194','1446148789905','4801472589','San Diego, CA','male');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -355,4 +367,25 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2015-10-29 13:04:40
+
+
+
+
+INSERT INTO `user_roles` VALUES 
+(21,'stevejobs','ROLE_ADMIN'),
+(22,'narendramodi','ROLE_ADMIN'),
+(23,'saipc987','ROLE_MANAGER'),
+(24,'gaurav786','ROLE_MANAGER');
+
+
+INSERT INTO `users` VALUES 
+('stevejobs','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','kpbhatt@asu.edu','111111112',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),
+('narendramodi','$2a$10$zrPyUWnNUXpGQr0.vRUpeebxygfAh8sHzvryT2c8ceFgF30tZtU/2','Admin','Admin','Admin','gksrivas@asu.edu','111111113',1,1,1,0,NULL,'0','0','4805556666','Tempe, AZ','male'),
+('saipc987','$2a$10$HyRLWWLZQq90JyQInaJOJO6uSWuzOZl2dzhJfWFjSB9Ln6MQM37e.','Unibank','Manager','Manager','schand31@asu.edu','333333333',1,1,1,0,NULL,'0','0','4802146325','Tempe, AZ','female'),
+('gaurav786','$2a$10$HyRLWWLZQq90JyQInaJOJO6uSWuzOZl2dzhJfWFjSB9Ln6MQM37e.','Unibank','Manager','Manager','gaurav1588@gmail.com','333333333',1,1,1,0,NULL,'0','0','4802146325','Tempe, AZ','female');
+
+update users set userLocked=1 , email='baryasom@asu.edu' where username='unibankadmin';
+update users set userLocked=1 , email='schand31@asu.edu' where username='unibankmanager';
+update users set userLocked=1 , email='kenilabcl@gmail.com' where username='unibankclerk';
+update users set userLocked=1 , email='bharadwaj.ks6@gmail.com' where username='unibankmerchant';
 

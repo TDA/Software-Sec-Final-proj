@@ -45,6 +45,8 @@ public class UserDAOImpl implements UserDAO {
 	private static final String SQL_User_Attpts_UPDATE_ATTEMPTS = "UPDATE User_Attpts SET attempts = attempts + 1, lastmodified = now() WHERE username = ?";
 	private static final String SQL_User_Attpts_RESET_ATTEMPTS = "UPDATE User_Attpts SET attempts = 0, lastmodified = now() WHERE username = ?";
 
+	private static final String SQL_User_ROLE = "SELECT role FROM user_roles WHERE username = ?";
+
 	public String registerExternalUser(UserInformation userInfo) throws FileNotFoundException {
 
 		String registerUserQuery = "INSERT into users" + "(username, password, firstname,"
@@ -213,7 +215,10 @@ public class UserDAOImpl implements UserDAO {
 		if (user == null) {
 			if (isUserExists(username)) {
 				// if no record, insert a new
-				jdbcTemplate.update(SQL_User_Attpts_INSERT, new Object[] { username, 1, new Date() });
+				String role = getUserRole(username);
+				if (!role.equals("ROLE_ADMIN") && !role.equals("ROLE_MANAGER")) {
+					jdbcTemplate.update(SQL_User_Attpts_INSERT, new Object[] { username, 1, new Date() });
+				}
 			}
 		} else {
 
@@ -231,6 +236,12 @@ public class UserDAOImpl implements UserDAO {
 
 		}
 
+	}
+
+	public String getUserRole(String username) {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		String role = jdbcTemplate.queryForObject(SQL_User_ROLE, new Object[] { username }, String.class);
+		return role;
 	}
 
 	public DataSource getDataSource() {
