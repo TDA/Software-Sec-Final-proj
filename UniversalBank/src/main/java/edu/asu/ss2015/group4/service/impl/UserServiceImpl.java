@@ -32,6 +32,10 @@ public class UserServiceImpl implements UserService {
 		userDAO.updatePassword(username, password);
 	}
 
+	public String getUserRole(String username) {
+		return userDAO.getUserRole(username);
+	}
+
 	public List<UserInformationDTO> fetchDisabledExternalUserDetails() {
 		return userDAO.retrieveDisabledExternalUserAccounts();
 	}

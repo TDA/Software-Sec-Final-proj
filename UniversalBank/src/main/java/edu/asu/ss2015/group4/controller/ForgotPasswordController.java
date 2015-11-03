@@ -59,19 +59,21 @@ public class ForgotPasswordController {
 			model.addObject("errorMessage", "Invalid Password format!");
 		}
 
-
 		if (userDTO != null && !userDTO.isEmpty() && validateEmailAndUserName(userName, userDTO.get(0).getUserName(),
 				email, userDTO.get(0).getEmailAddress())) {
 
-			if (new_passowrd != null && confirm_new_passowrd != null && new_passowrd.equals(confirm_new_passowrd)) {
+			String role = userService.getUserRole(userName);
+
+			if (role.equals("ROLE_ADMIN") || role.equals("ROLE_MANAGER")) {
+				model.addObject("errorMessage", "Your cannot change password of admin or manager account.");
+			} else
+				if (new_passowrd != null && confirm_new_passowrd != null && new_passowrd.equals(confirm_new_passowrd)) {
 				userService.updatePassword(userName, new_passowrd);
 				model.addObject("successMessage",
 						"Your password has been changed! and account must be unlocked via homepage");
-			}
-			else
+			} else
 				model.addObject("errorMessage", "Password and confirm password don't match.");
 
-			
 		} else {
 			model.addObject("errorMessage", "Sorry, Unable to locate your account.");
 		}

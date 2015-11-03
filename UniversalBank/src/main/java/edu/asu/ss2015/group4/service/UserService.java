@@ -23,6 +23,8 @@ public interface UserService {
 
 	public boolean unlockExternalUserAccount(String username);
 
+	public String getUserRole(String username);
+
 	public void updatePassword(String username, String password);
 
 	public String EditInformation(String username, editProfile addInfo)

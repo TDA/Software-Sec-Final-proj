@@ -455,10 +455,10 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	public boolean deleteInternalUserAccount(String username) {
-		String sql = "INSERT into deletedusers SELECT * from users where username =  ?";
-		String sql1 = "INSERT into delete_user_roles SELECT * from user_roles where username =  ?";
-		String sql2 = "DELETE from user_roles where username =  ?";
-		String sql3 = "DELETE from users where username =  ?";
+		String sql = "INSERT into deletedusers SELECT * from users where (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
+		String sql1 = "INSERT into delete_user_roles SELECT * from user_roles where (role = 'ROLE_MANAGER' or role = 'ROLE_CLERK') and username =  ?";
+		String sql2 = "DELETE from user_roles where (role = 'ROLE_MANAGER' or role = 'ROLE_CLERK') and username =  ?";
+		String sql3 = "DELETE from users where (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.update(sql, new Object[] { username });
 		jdbcTemplate.update(sql1, new Object[] { username });
@@ -470,10 +470,10 @@ public class UserDAOImpl implements UserDAO {
 
 	public boolean addAgainInternalUserAccount(String username) {
 		System.out.println("here");
-		String sql = "INSERT into users SELECT * from deletedusers where username =  ?";
-		String sql1 = "INSERT into user_roles SELECT * from delete_user_roles where username =  ?";
-		String sql2 = "DELETE from delete_user_roles where username =  ?";
-		String sql3 = "DELETE from deletedusers where username =  ?";
+		String sql = "INSERT into users SELECT * from deletedusers where (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
+		String sql1 = "INSERT into user_roles SELECT * from delete_user_roles where (role = 'ROLE_MANAGER' or role = 'ROLE_CLERK') and username =  ?";
+		String sql2 = "DELETE from delete_user_roles where (role = 'ROLE_MANAGER' or role = 'ROLE_CLERK') and username =  ?";
+		String sql3 = "DELETE from deletedusers where (AccountType = 'Manager' or AccountType = 'Clerk') and username =  ?";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.update(sql, new Object[] { username });
 		jdbcTemplate.update(sql1, new Object[] { username });
