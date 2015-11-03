@@ -123,16 +123,11 @@ body {
 
 	</div>
 	<!-- /.container -->
-
-	<!-- jQuery Version 1.11.0 -->
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script
 		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-		<!-- jQuery Version 1.11.0 -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
 
 
 	<script
@@ -143,7 +138,7 @@ body {
 	<script>if (top != self) top.location=location</script>
 	<script>
 	
-		$('input[type=text][name=username]').tooltip({
+		$('input[type=text][name=userName]').tooltip({
 			placement : "left",
 			trigger : "focus"
 		});
