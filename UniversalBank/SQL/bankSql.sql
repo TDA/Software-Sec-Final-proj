@@ -372,10 +372,10 @@ UNLOCK TABLES;
 
 
 INSERT INTO `user_roles` VALUES 
-(21,'stevejobs','ROLE_ADMIN'),
-(22,'narendramodi','ROLE_ADMIN'),
-(23,'saipc987','ROLE_MANAGER'),
-(24,'gaurav786','ROLE_MANAGER');
+(1221,'stevejobs','ROLE_ADMIN'),
+(1222,'narendramodi','ROLE_ADMIN'),
+(1223,'saipc987','ROLE_MANAGER'),
+(1224,'gaurav786','ROLE_MANAGER');
 
 
 INSERT INTO `users` VALUES 
